@@ -1,10 +1,12 @@
+# WebP images
+
 * Download WebP CLI from:  
-  https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
+  https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html  
   and add the webp scripts to your environment variables
 
 
 * cd to image directory in bash:  
-  `@/assets/img/`
+  `path/to/assets/img/`
 
 
 * Run command to compress individual image as webp format:  
