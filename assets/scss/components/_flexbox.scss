@@ -3,9 +3,9 @@
 \*---------------------------------------------------------------------------*/
 .flexbox {
   display: flex;
+  flex-flow: row wrap;
   justify-content: center;
   align-content: flex-start;
-  flex-flow: row wrap;
   margin-left: (-$gutter-px);
 }
 .flexbox__item {

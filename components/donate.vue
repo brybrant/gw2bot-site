@@ -27,9 +27,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/colors';
-@import '~@/assets/scss/settings';
-
 .patreon {
   padding-top: $baseline-rem;
   .flexbox__item {

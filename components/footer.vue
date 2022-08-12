@@ -17,9 +17,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/colors';
-@import '~@/assets/scss/settings';
-
 footer {
   position: relative;
   margin: ($baseline-rem * 2) 0 0 0;

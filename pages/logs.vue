@@ -193,6 +193,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: 'Encounter Browser | GW2Bot'
+    }
+  },
   async mounted () {
     document.getElementById('encounter-instances').selectedIndex = 0
     await this.fetchAccountName(this.$auth.user.id)
@@ -209,46 +214,34 @@ export default {
   },
   methods: {
     async fetchAccountName () {
-      try {
-        const user = await this.$axios.$get('api/user')
-        this.user = user.cogs.GuildWars2.key.account_name
-      } catch (err) {
-        throw err
-      }
+      const user = await this.$axios.$get('api/user')
+      this.user = user.cogs.GuildWars2.key.account_name
     },
     async fetchEncounters (success, dateEnd, dateStart) {
       if (!success) { success = null }
       if (!dateEnd) { dateEnd = null }
       if (!dateStart) { dateStart = null }
 
-      try {
-        this.encounters = await this.$axios.$get('api/encounters', {
-          params: {
-            success,
-            dateStart,
-            dateEnd
-          }
-        })
-      } catch (err) {
-        throw err
-      }
+      this.encounters = await this.$axios.$get('api/encounters', {
+        params: {
+          success,
+          dateStart,
+          dateEnd
+        }
+      })
     },
     fetchEncountersDetail () {
-      try {
-        this.detailedEncounters = []
+      this.detailedEncounters = []
 
-        this.encounters.forEach(async (element) => {
-          const encounterJson = await fetch(
-            `https://dps.report/getJson?permalink=${element.permalink}`
-          ).then(response => response.json())
-          encounterJson.permalink = element.permalink
-          const encounterTime = encounterJson.timeEnd.split(' ')
-          encounterJson.time = new Date(`${encounterTime[0]}T${encounterTime[1]}`).toLocaleString()
-          this.detailedEncounters.push(encounterJson)
-        })
-      } catch (err) {
-        throw err
-      }
+      this.encounters.forEach(async (element) => {
+        const encounterJson = await fetch(
+          `https://dps.report/getJson?permalink=${element.permalink}`
+        ).then(response => response.json())
+        encounterJson.permalink = element.permalink
+        const encounterTime = encounterJson.timeEnd.split(' ')
+        encounterJson.time = new Date(`${encounterTime[0]}T${encounterTime[1]}`).toLocaleString()
+        this.detailedEncounters.push(encounterJson)
+      })
     },
     applyFilters () {
       clearTimeout(this.filterDebounce)
@@ -307,10 +300,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/functions';
-@import '~@/assets/scss/colors';
-@import '~@/assets/scss/settings';
-
 @import '~@/assets/scss/situational/forms';
 
 .encounter-select {

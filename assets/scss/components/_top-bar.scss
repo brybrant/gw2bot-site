@@ -74,7 +74,7 @@
   display: flex;
   flex-flow: row nowrap;
   margin-left: (-($gutter-px * .5));
-  @include media-query('gt-mobile') {
+  @include media-query('gt-600') {
     right: $gutter-px;
   }
 }
@@ -83,7 +83,7 @@
   padding-left: ($gutter-px * .5);
 }
 .top-bar__toggle--navigation {
-  @include media-query('gt-tablet') {
+  @include media-query('gt-800') {
     display: none;
   }
 }
@@ -126,11 +126,9 @@
   width: $nav-logo-height;
   height: $nav-logo-height;
   border: 0;
-  //border: 1px solid $grey-700;
   border-radius: 50%;
   background: transparent;
   color: $grey-400;
-  //box-shadow: $button-shadow;
   &:active {
     background: $grey-1200;
   }

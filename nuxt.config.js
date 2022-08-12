@@ -1,5 +1,4 @@
 export default {
-  mode: 'universal',
   /*
   ** Headers of the page
   */
@@ -26,7 +25,6 @@ export default {
       { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/manifest.json' },
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#b40000' },
-      { rel: 'preconnect', href: 'https://cdnjs.cloudflare.com'},
       { rel: 'preconnect', href: 'https://fonts.googleapis.com'},
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'crossorigin'},
       { rel: 'preload', href: 'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap', as: 'style', crossorigin: 'crossorigin' },
@@ -41,14 +39,14 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/assets/scss/main.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '~/plugins/globalVariables',
-    '~/plugins/filters',
-    '~/plugins/loadScript'
+    '~/plugins/filters'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -56,8 +54,17 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxtjs/style-resources'
   ],
+  styleResources: {
+    scss: [
+      '~/assets/scss/_functions.scss',
+      '~/assets/scss/_silent-classes.scss',
+      '~/assets/scss/_colors.scss',
+      '~/assets/scss/_settings.scss'
+    ]
+  },
   /*
   ** Nuxt.js modules
   */
@@ -84,7 +91,7 @@ export default {
         _scheme: 'oauth2',
         authorization_endpoint: 'https://discord.com/api/oauth2/authorize',
         userinfo_endpoint: 'https://discord.com/api/users/@me',
-        client_id: 'YOUR_CLIENT_ID',
+        client_id: '990938371004182528',
         scope: ['identify'],
         response_type: 'token',
         token_type: 'Bearer',
@@ -100,7 +107,6 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-    },
-    transpile: ['vue-plugin-load-script']
+    }
   }
 }

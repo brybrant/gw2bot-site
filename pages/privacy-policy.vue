@@ -76,14 +76,16 @@
 
 <script>
 export default {
-  name: 'PrivacyPolicyPage'
+  name: 'PrivacyPolicyPage',
+  head () {
+    return {
+      title: 'Privacy Policy | GW2Bot'
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/colors';
-@import '~@/assets/scss/settings';
-
 h2.anchor {
   margin-top: -$nav-height;
   padding-top: $nav-height + $h2-margin-px;

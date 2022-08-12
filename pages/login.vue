@@ -16,6 +16,18 @@ export default {
   components: {
     LoadingInlineSVG
   },
-  middleware: 'auth'
+  middleware: 'auth',
+  head () {
+    return {
+      title: 'Logging In...'
+    }
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+h1 .inline-svg {
+  width: $h1-line-rem;
+  height: $h1-line-rem;
+}
+</style>

@@ -4,9 +4,6 @@ img {
   width: 100%;
   max-width: 100%;
 }
-/* path, polygon, rect, circle, text {
-  fill: currentColor;
-} */
 .lazyload, .lazyloading {
   filter: blur(5px);
 }
@@ -14,6 +11,3 @@ img {
   filter: none;
   transition: filter .2s ease-in;
 }
-/*svg {
-  display: block;
-}*/

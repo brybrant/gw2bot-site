@@ -1,8 +1,7 @@
-@use 'sass:color';
 /*---------------------------------------------------------------------------*\
     Buttons Global
 \*---------------------------------------------------------------------------*/
-button {// Taken from Normalise.css
+button {// Taken from Normalize.css
   margin: 0;
   font-family: inherit;
   font-size: 100%;
@@ -42,7 +41,6 @@ button {// Taken from Normalise.css
   outline: 0;
   &:hover {
     background: $red-700;
-    //color: $white;
   }
   &:active {
     padding: 7px 18px 5px 18px;
@@ -51,7 +49,7 @@ button {// Taken from Normalise.css
   }
   img, &:before {
     display: inline-block;
-    margin: 0 4px 0 (-8px);
+    margin: 0 4px 0 (-10px);
     width: $p-font-px;
     height: $p-font-px;
     vertical-align: top;
@@ -65,15 +63,6 @@ button {// Taken from Normalise.css
 /*---------------------------------------------------------------------------*\
     Button Sizes
 \*---------------------------------------------------------------------------*/
-// Tiny Button
-/*.button--tiny {  padding: 2px 5px;
-  &:active {         padding: 3px 5px 1px 5px;}
-}*/
-// Small Button
-/*.button--small { padding: 4px 10px;
-  &:active {         padding: 5px 10px 3px 10px;}
-}*/
-// Large Button
 .button--large { padding: 9px 24px;
   &:active {     padding: 10px 24px 8px 24px;}
   border-radius: ($h5-line-px + 18px) * .5;
@@ -84,7 +73,6 @@ button {// Taken from Normalise.css
     height: $h5-line-px;
   }
 }
-// Giant Button
 .button--giant { padding: 11px 32px;
   &:active {     padding: 12px 32px 10px 32px;}
   border-radius: ($h4-line-px + 22px) * .5;
@@ -99,7 +87,6 @@ button {// Taken from Normalise.css
 /*---------------------------------------------------------------------------*\
     Button Styles
 \*---------------------------------------------------------------------------*/
-// Patreon Button
 .button--patreon {
   background: color.scale($patreon-fiery-coral, $saturation: (-4%), $lightness: (-8%));
   &:hover {
@@ -113,8 +100,6 @@ button {// Taken from Normalise.css
     background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><g fill='#{$white}'><circle cx='366.87' cy='249.94' r='149.94'/><rect x='100' y='100' width='73.25' height='400'/></g></svg>") no-repeat 50% 50%/100% 100%;
   }
 }
-
-// PayPal Button
 .button--paypal {
   background: $paypal-pal-blue;
   &:hover {

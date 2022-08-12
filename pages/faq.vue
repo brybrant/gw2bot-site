@@ -76,14 +76,16 @@
 
 <script>
 export default {
-  name: 'FaqPage'
+  name: 'FaqPage',
+  head () {
+    return {
+      title: 'F.A.Q | GW2Bot'
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/colors';
-@import '~@/assets/scss/settings';
-
 .question {
   margin: $baseline-rem 0 0 0;
   padding: $baseline-rem ($gutter-px * .5) $baseline-rem ($gutter-px * .5);

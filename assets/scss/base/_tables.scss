@@ -10,10 +10,6 @@ table {
   font-size: $p-font-rem;
   line-height: $p-line-rem;
   text-align: left;
-  /*color: $grey-200;
-  .dark-mode & {
-    color: $white;
-  }*/
   th {
     @extend %header-font-family;
   }
@@ -24,11 +20,6 @@ table {
       border-color: $grey-200;
     }
   }
-  /*tr {
-    th~th, th~td, td~td {
-      text-align: center;
-    }
-  }*/
   thead {
     th, td {
       font-weight: 700;
@@ -39,11 +30,4 @@ table {
       font-weight: 700;
     }
   }
-  /*caption {
-    margin: ($baseline-rem * .5) 0 0 0;
-    font-size: $small-font-rem;
-    line-height: $small-line-rem;
-    text-align: left;
-    caption-side: bottom;
-  }*/
 }

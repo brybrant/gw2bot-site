@@ -14,9 +14,9 @@
           <div class="top-bar__toggle">
             <button
               class="dark-mode-button"
-              :class="($colorMode.value=='dark')?'active':''"
-              :title="($colorMode.value=='dark')?'Switch to light mode':'Switch to dark mode'"
-              @click="($colorMode.value=='dark')?($colorMode.preference='light'):($colorMode.preference='dark')"
+              :class="$colorMode.value=='dark' ? 'active' : ''"
+              :title="$colorMode.value=='dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+              @click="$colorMode.value=='dark' ? ($colorMode.preference='light') : ($colorMode.preference='dark')"
             />
           </div>
 
@@ -24,7 +24,7 @@
             <button
               class="main-nav-button"
               :class="{active: navActive}"
-              :title="navActive?'Hide navigation':'Show navigation'"
+              :title="navActive ? 'Hide navigation' : 'Show navigation'"
               @click="toggleNavigation()"
             >
               <div />
@@ -34,7 +34,11 @@
       </div>
     </div>
 
-    <div class="mobile-navigation-cover" :class="{active: navActive}" @click="hideNavigation()" />
+    <div
+      class="mobile-navigation-cover"
+      :class="{active: navActive}"
+      @click="hideNavigation()"
+    />
 
     <div class="page-width">
       <div class="main-nav__container" :class="{active: navActive}">
@@ -59,7 +63,7 @@
             <span class="main-nav__link-name">Support</span>
           </a>
           <a v-if="!$auth.loggedIn" href="#" class="main-nav__link" @click="$auth.loginWith('discord')">
-            <span class="main-nav__link-name">Login<LoginInlineSVG /></span>
+            <span class="main-nav__link-name">Login</span>
           </a>
           <div v-if="$auth.loggedIn" class="main-nav__group" :class="{active: userMenuActive}">
             <button class="main-nav__link" :class="{active: userMenuActive}" @click="toggleUserMenu()">
@@ -88,15 +92,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { set } from 'vue'
 import DropdownInlineSVG from '@/components/inline-svgs/dropdown'
-import LoginInlineSVG from '@/components/inline-svgs/login'
 
 export default {
   name: 'HeaderComponent',
   components: {
-    DropdownInlineSVG,
-    LoginInlineSVG
+    DropdownInlineSVG
   },
   data () {
     return {
@@ -107,23 +109,23 @@ export default {
   methods: {
     toggleNavigation () {
       if (this.navActive) {
-        Vue.set(this, 'navActive', false)
+        set(this, 'navActive', false)
       } else {
-        Vue.set(this, 'navActive', true)
+        set(this, 'navActive', true)
       }
     },
     hideNavigation () {
-      Vue.set(this, 'navActive', false)
+      set(this, 'navActive', false)
     },
     toggleUserMenu () {
       if (this.userMenuActive) {
         this.userMenuActive = false
       } else {
-        Vue.set(this, 'userMenuActive', true)
+        set(this, 'userMenuActive', true)
       }
     },
     hideUserMenu () {
-      Vue.set(this, 'userMenuActive', false)
+      set(this, 'userMenuActive', false)
     }
   }
 }

@@ -58,12 +58,9 @@ $h1-margin-px:      ($baseline-px * 4) - $h1-line-px;
 /*---------------------------------------------------------------------------*\
     Component Sizes
 \*---------------------------------------------------------------------------*/
-$header-height:       312px;
-//$header-logo-height:  $header-height - ($full-px * 2);        // 96px
-
 $nav-height:          84px;
 $nav-mobile-width:    200px;
-$nav-item-padding:    ($nav-height - $baseline-px) * .5;
+
 $nav-logo-height:     60px;
 $nav-logo-padding:    ($nav-height - $nav-logo-height) *.5;
 
@@ -73,25 +70,25 @@ $page-width:          980px;
     Breakpoints
 \*---------------------------------------------------------------------------*/
 $breakpoints: (
-  'lt-mobile'  '(max-width: 600px)',
-  'gt-mobile'  '(min-width: 601px)',
-  'lt-tablet'  '(max-width: 800px)',
-  'gt-tablet'  '(min-width: 801px)',
-  'lt-desktop' '(max-width: 1044px',
-  'gt-desktop' '(min-width: 1045px)'
+  'lt-600'  '(max-width: 600px)',
+  'gt-600'  '(min-width: 601px)',
+  'lt-800'  '(max-width: 800px)',
+  'gt-800'  '(min-width: 801px)',
+  'lt-1044' '(max-width: 1044px',
+  'gt-1044' '(min-width: 1045px)'
 );
 
 /*---------------------------------------------------------------------------*\
     Material Shadows
 \*---------------------------------------------------------------------------*/
 $top-bar-shadow:
-  0 (-7px) 4px 10px rgba($black,.04),
-  0 (-6px) 6px 10px rgba($black,.08),
+  0 (-7px) 4px  10px rgba($black,.04),
+  0 (-6px) 6px  10px rgba($black,.08),
   0 (-5px) 10px 10px rgba($black,.16)
 ;
 $top-bar-shadow--dark:
-  0 (-7px) 4px 10px rgba($black,.06),
-  0 (-6px) 6px 10px rgba($black,.12),
+  0 (-7px) 4px  10px rgba($black,.06),
+  0 (-6px) 6px  10px rgba($black,.12),
   0 (-5px) 10px 10px rgba($black,.24)
 ;
 
@@ -107,45 +104,49 @@ $navigation-drawer-shadow--dark:
 ;
 
 $navigation-submenu-shadow:
-  0 1px 4px rgba($black,.08),
-  0 2px 6px rgba($black,.16),
-  0 4px 12px rgba($black,.32)
+  0 2px 18px (-4px) rgba($black,.24),
+  0 2px 6px         rgba($black,.24),
+  0 1px 6px    1px  rgba($black,.12),
+  0 2px 8px         rgba($black,.06)
 ;
 $navigation-submenu-shadow--dark:
-  0 1px 4px rgba($black,.11),
-  0 2px 6px rgba($black,.22),
-  0 4px 12px rgba($black,.44)
+  0 2px 18px (-4px) rgba($black,.36),
+  0 2px 6px         rgba($black,.36),
+  0 1px 6px    1px  rgba($black,.18),
+  0 2px 8px         rgba($black,.09)
 ;
 
 $tooltip-shadow:
-  0 2px 4px rgba($black,.32),
-  0 1px 4px 1px rgba($black,.16),
-  0 0 5px rgba($black,.08)
+  0 1px 12px (-3px) rgba($black,.2),
+  0 2px 4px         rgba($black,.2),
+  0 1px 4px    1px  rgba($black,.1),
+  0 0   5px         rgba($black,.05)
 ;
 $tooltip-shadow--dark:
-  0 2px 4px rgba($black,.44),
-  0 1px 4px 1px rgba($black,.22),
-  0 0 5px rgba($black,.11)
+  0 1px 12px (-3px) rgba($black,.32),
+  0 2px 4px         rgba($black,.32),
+  0 1px 4px    1px  rgba($black,.16),
+  0 0   5px         rgba($black,.08)
 ;
 
 $button-shadow:
-  0 1px 3px rgba($black,.16),
-  0 1px 4px rgba($black,.08),
-  0 0 5px rgba($black,.04)
+  0 1px 3px rgba($black,.12),
+  0 1px 4px rgba($black,.06),
+  0 0   5px rgba($black,.03)
 ;
 $button-shadow--dark:
-  0 1px 3px rgba($black,.24),
-  0 1px 4px rgba($black,.12),
-  0 0 5px rgba($black,.06)
+  0 1px 3px rgba($black,.2),
+  0 1px 4px rgba($black,.1),
+  0 0   5px rgba($black,.05)
 ;
 
 $card-shadow:
   0 1px 3px (-1px) rgba($black,.16),
-  0 1px 3px rgba($black,.08),
-  0 0 4px 1px rgba($black,.04)
+  0 1px 3px        rgba($black,.08),
+  0 0   4px   1px  rgba($black,.04)
 ;
 $card-shadow--dark:
   0 1px 3px (-1px) rgba($black,.36),
-  0 1px 3px rgba($black,.18),
-  0 0 4px 1px rgba($black,.09)
+  0 1px 3px        rgba($black,.18),
+  0 0   4px   1px  rgba($black,.09)
 ;

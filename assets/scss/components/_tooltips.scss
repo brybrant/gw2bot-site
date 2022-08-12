@@ -30,7 +30,7 @@
   }
   &:before {
     margin-left: (-10px);
-    border-top: 10px solid $grey-900;
+    border-top: 10px solid $grey-1000;
     border-right: 10px solid transparent;
     border-left: 10px solid transparent;
   }
@@ -54,15 +54,15 @@
 }
 .tooltip__close {
   position: absolute;
-  top: 3px;
-  right: 4px;
+  top: 2px;
+  right: 2px;
   padding: 0;
-  width: $p-line-rem;
-  height: $p-line-rem;
+  width: 28px;
+  height: 28px;
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: $grey-400;
+  color: $grey-900;
   &:before, &:after {
     @extend %psuedo-element;
     position: absolute;
@@ -78,15 +78,22 @@
   &:after {
     transform: translate(-50%,-50%) rotate(135deg);
   }
+  &:hover {
+    color: $grey-600;
+  }
   &:active {
-    background: $grey-1200;
+    color: $grey-600;
+    background: $grey-1150;
     &:before, &:after {
       top: calc(50% + 1px);
     }
   }
   .dark-mode & {
-    color: $grey-1200;
+    &:hover {
+      color: $grey-1100;
+    }
     &:active {
+      color: $grey-1100;
       background: $grey-300;
     }
   }

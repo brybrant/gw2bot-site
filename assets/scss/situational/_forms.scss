@@ -1,5 +1,9 @@
+/*---------------------------------------------------------------------------*\
+    Forms
+    (Many of these style rules are inspired by Bootstrap form styles)
+\*---------------------------------------------------------------------------*/
 // Taken from Normalise.css
-input/*, optgroup*/, select/*, textarea*/ {
+input, optgroup, select {
   font-family: inherit;
   margin: 0;
 }
@@ -25,56 +29,13 @@ select {
 // Tab Focus
 @mixin tab-focus() {
   outline: thin dotted;// Default
-  outline: 5px auto -webkit-focus-ring-color;// WebKit
+  outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 
 /*---------------------------------------------------------------------------*\
     Normalize non-controls
 \*---------------------------------------------------------------------------*/
-// Restyle and baseline non-control form elements.
-/*fieldset {
-  position: relative;
-  padding: $baseline-rem ($baseline-px * .5) 0 ($baseline-px * .5);
-  margin: 0 0 $baseline-rem 0;
-  border: 1px solid $grey-1100;
-  border-radius: 4px;
-  text-align: center;
-  background: $white;
-  min-width: 0;
-  .dark-mode & {
-    border-color: $grey-400;
-  }
-}*/
-
-/*legend {
-  @extend %header-font-family;
-  display: block;
-  margin: 0 auto;
-  width: auto;
-  max-width: 100%;// Taken from Normalise.css
-  padding: 4px 10px;
-  font-size: $p-font-rem;
-  line-height: $p-line-rem;
-  color: $grey-400;
-  border: 1px solid $grey-1100;
-  border-radius: 4px;
-  background: $white;
-  white-space: normal;// Taken from Normalise.css
-  .dark-mode & {
-    border-color: $grey-400;
-  }
-}*/
-
-/*fieldset > legend {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  //margin-top: -($p-line-base + $quarter-base + $thick-border-base) * 0.5;
-  transform: translate(-50%,-50%);
-}*/
-
-
 label {
   display: inline-block;
   max-width: 100%;
@@ -86,20 +47,6 @@ label {
 /*---------------------------------------------------------------------------*\
     Normalize form controls
 \*---------------------------------------------------------------------------*/
-// While most of our form styles require extra classes, some basic normalization
-// is required to ensure optimum display with or without those classes to better
-// address browser inconsistencies.
-/*input[type="search"] {
-  // Override content-box in Normalize (* isn't specific enough)
-  box-sizing: border-box;
-  // This overrides the extra rounded corners on search inputs in iOS so that our
-  // `.form__control` class can properly style them. Note that this cannot simply
-  // be added to `.form__control` as it's not specific enough. For details, see
-  // https://github.com/twbs/bootstrap/issues/11586.
-  -webkit-appearance: none;
-}*/
-
-// Position radios and checkboxes better
 input[type="radio"], input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
@@ -132,32 +79,12 @@ input[type="checkbox"] {
   }
 }
 
-// Set the height of file controls to match text inputs
-/*input[type="file"] {
-  display: block;
-}*/
-
-// Make range inputs behave like textual form controls
-/*input[type="range"] {
-  display: block;
-  width: 100%;
-}*/
-
-/*select[multiple], select[size] {
-  height: auto;// Make multiple select elements height not fixed
-}*/
-
-/*textarea {
-  max-width: 100%;
-  overflow: auto;
-}*/
-
-input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus {
-  @include tab-focus;// Focus for file, radio, and checkbox
+/*input[type="file"]:focus, input[type="radio"]:focus, */input[type="checkbox"]:focus {
+  @include tab-focus;
 }
 
 /*---------------------------------------------------------------------------*\
-    Forms
+    Form wrapper element
 \*---------------------------------------------------------------------------*/
 .form {
   padding: 0 ($baseline-px * .5) $baseline-rem ($baseline-px * .5);
@@ -168,7 +95,7 @@ input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focu
     background: $grey-350;
     box-shadow: $card-shadow--dark;
   }
-  @include media-query('gt-mobile') {
+  @include media-query('gt-600') {
     padding: 0 $baseline-px $baseline-rem $baseline-px;
   }
 }
@@ -176,8 +103,6 @@ input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focu
 /*---------------------------------------------------------------------------*\
     Form Groups
 \*---------------------------------------------------------------------------*/
-// Designed to help with the organization and spacing of vertical forms. For
-// horizontal forms, use flexbox classes.
 .form__group {
   position: relative;
   margin: $baseline-rem 0 0 0;
@@ -200,10 +125,9 @@ input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focu
 $form__height:        $p-line-rem + 0.75rem;/*36px*/
 
 .form__control {
-  //@extend %body-font-family;
   display: block;
   width: 100%;
-  height: $form__height; // Height of buttons (+border)
+  height: $form__height;
   padding: (($form__height - $baseline-rem) * .5) 8px;
   font-size: $p-font-rem;
   line-height: $p-line-rem;
@@ -226,23 +150,6 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
     @include placeholder($grey-500);
   }
 }
-/*textarea.form__control {
-  height: auto;// Reset height for textareas
-}*/
-
-// Static form control text
-//
-// Apply class to a `p` element to make any string of text align with labels in
-// a horizontal form layout.
-/*.form__control--static {
-  // Size it appropriately next to real form controls
-  padding-top: ($quarter-base + $thin-border-base);
-  padding-bottom: ($quarter-base + $thin-border-base);
-  // Remove default margin from `p`
-  margin: 0;
-  min-height: ($full-base + $small-font-base);
-}*/
-
 
 /*---------------------------------------------------------------------------*\
     Checkboxes and Radios
@@ -266,22 +173,8 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
   &:last-child {margin: (-$full-base) 0 0 0;}
 }*/
 
-// Radios and checkboxes on same line (used directly on <label>s)
-/*.form__radio--inline, .form__checkbox--inline {
-  position: relative;
-  display: inline-block;
-  padding-left: $full-px;
-  vertical-align: middle;
-  cursor: pointer;
-  & ~ .form__radio--inline, & ~ .form__checkbox--inline {
-    margin-left: $half-px; // space out consecutive inline controls
-  }
-}*/
 // This is the <input> element inside of the .form__radio / .form__checkbox etc.
-.form__radio input[type="radio"], .form__radio--inline input[type="radio"],
-.form__checkbox input[type="checkbox"], .form__checkbox--inline input[type="checkbox"] {
-  //position: absolute;
-  //right: 0;
+.form__radio input[type="radio"], .form__checkbox input[type="checkbox"] {
   margin: 0.25rem 0 0 4px;
 }
 
@@ -296,7 +189,7 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
   }
 }
 
-.form__control[disabled], .form__control[readonly], fieldset[disabled] .form__control {
+.form__control[disabled], .form__control[readonly] {
   color: $grey-700;
   background-color: $grey-1100;
   opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
@@ -311,36 +204,14 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
     }
   }
 }
-.form__control[disabled], fieldset[disabled] .form__control {
+.form__control[disabled] {
   cursor: not-allowed;
 }
 // Apply same disabled cursor tweak as for inputs
 // Note: Neither radios nor checkboxes can be readonly.
 input[type="radio"], input[type="checkbox"] {
-  &[disabled], .disabled &, fieldset[disabled] & {
+  &[disabled], .disabled & {
     cursor: not-allowed;
-  }
-}
-
-.form__radio--inline, .form__checkbox--inline {
-  .disabled &, fieldset[disabled] & {
-    color: $grey-700;
-    cursor: not-allowed;
-    .dark-mode & {
-      color: $grey-900;
-    }
-  }
-}
-// These classes are used on elements with <label> descendants
-.form__radio, .form__checkbox {
-  .disabled &, fieldset[disabled] & {
-    label {
-      color: $grey-700;
-      cursor: not-allowed;
-      .dark-mode & {
-        color: $grey-900;
-      }
-    }
   }
 }*/
 /*---------------------------------------------------------------------------*\
@@ -368,8 +239,6 @@ input[type="radio"], input[type="checkbox"] {
       padding-right: 4px;
       vertical-align: middle;
     }
-    // Remove default margin on radios/checkboxes that were used for stacking, and
-    // then undo the floating of radios and checkboxes to match.
     .form__radio, .form__checkbox {
       display: inline-block;
       padding: (($form__height - $baseline-rem) * .5) 0;

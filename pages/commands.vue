@@ -69,6 +69,11 @@ export default {
       commands
     }
   },
+  head () {
+    return {
+      title: 'Commands | GW2Bot'
+    }
+  },
   methods: {
     columnOne (commands) {
       return commands.filter(function (command, index) {
@@ -85,13 +90,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/functions';
-@import '~@/assets/scss/colors';
-@import '~@/assets/scss/settings';
-
 .commands-column {
   width: 100%;
-  @include media-query('gt-tablet') {
+  @include media-query('gt-800') {
     width: 50%;
   }
 }

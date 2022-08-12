@@ -34,6 +34,11 @@ export default {
       type: Object,
       default: null
     }
+  },
+  head () {
+    return {
+      title: `${this.error.statusCode}`
+    }
   }
 }
 </script>

@@ -1,4 +1,3 @@
-@use 'sass:math';
 /*---------------------------------------------------------------------------*\
     Typography
 \*---------------------------------------------------------------------------*/
@@ -52,12 +51,6 @@ code {
     background: $grey-500;
   }
 }
-/*q {
-  font-style: italic;
-  &:before, &:after {// No quotes
-    display: none;
-  }
-}*/
 h1, h2, .h2, h3, .h3, h4, .h4,/* h5, h6*/ {
   @extend %header-font-family;
   position: relative;
@@ -98,7 +91,7 @@ h6 {
   font-size: $p-font-rem;
   line-height: $p-line-rem;
 }*/
-p, .paragraph, li/*, figcaption, dl*/ {
+p, .paragraph, li {
   @extend %body-font-family;
   margin: $p-margin-rem 0 0 0;
   font-size: $p-font-rem;
@@ -134,9 +127,14 @@ ul, ol {
 li {
   width: 100%;
 }
-/*table ul, table ol {
-  margin: (-$baseline-rem) 0 $baseline-rem 0;
-}*/
 .bold-text {
   font-weight: 700;
+}
+.italic-text {
+  font-style: italic;
+}
+em, .italic-text {
+  a.external:after {
+    transform: skew(-14deg) translate(1px);
+  }
 }

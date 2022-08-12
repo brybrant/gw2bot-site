@@ -1,3 +1,5 @@
+@use 'sass:color';
+@use 'sass:math';
 /*---------------------------------------------------------------------------*\
     Functions
 \*---------------------------------------------------------------------------*/
@@ -12,6 +14,7 @@
 }
 // URL ENCODER FOR INLINE SVGS
 // Encodes dangerous characters for maximum compatability (down to IE9)
+// https://codepen.io/kevinweber/pen/dXWoRw
 @function url-encode($string) {
   $map: (
     "%": "%25",
