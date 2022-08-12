@@ -60,7 +60,7 @@ export default {
         june: 'dragon-bash',
         july: 'summer',
         august: 'festival-of-the-four-winds',
-        september: 'laying-to-rest',
+        september: 'steppe',
         october: 'halloween',
         november: 'autumn',
         december: 'wintersday'
