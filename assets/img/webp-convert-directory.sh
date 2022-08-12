@@ -1,3 +1,6 @@
+# convert all image files (jpe?g|tif|png) to .webp format in current working directory
+# credit: https://gist.github.com/tabrindle/ed9f77b4e96f4c98b49b
+# refer to README.md for instructions
 #!/bin/bash
 
 PARAMS=('-q 75 -m 6 -mt -af -progress')
