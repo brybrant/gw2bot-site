@@ -8,8 +8,18 @@
       </header>
 
       <picture>
-        <source srcset="@/assets/img/error-quaggan.webp" type="image/webp">
-        <img src="@/assets/img/error-quaggan.png" alt="">
+        <source
+          :srcset="error.statusCode===404 ?
+            require('@/assets/img/404-quaggan.webp') :
+            require('@/assets/img/error-quaggan.webp')"
+          type="image/webp"
+        >
+        <img
+          :src="error.statusCode===404 ?
+            require('@/assets/img/404-quaggan.png') :
+            require('@/assets/img/error-quaggan.png')"
+          alt=""
+        >
       </picture>
 
       <p v-if="error.statusCode!=404">
