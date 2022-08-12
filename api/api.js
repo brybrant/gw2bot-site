@@ -3,7 +3,7 @@ const express = require('express')
 const mongodb = require('mongodb')
 const cors = require('cors')
 const { check, validationResult } = require('express-validator')
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
 const { Long } = require('bson')
 
 const server = express()
