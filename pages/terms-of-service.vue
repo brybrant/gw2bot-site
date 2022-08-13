@@ -11,7 +11,7 @@
       <p v-html="$botDescription" />
       <!-- eslint-enable -->
 
-      <p>These Terms of Service (&ldquo;Terms&rdquo;) are a binding contract between GW2Bot (&ldquo;I&rdquo;, &ldquo;We&rdquo;, &ldquo;Us&rdquo; and &ldquo;Our&rdquo;) and You as the user of Our Website or GW2Bot (Our &ldquo;Services&rdquo;). By using Our Services, You agree to be bound by these Terms and Our <nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link>, which You should also&nbsp;read. If You do not accept all of these Terms, then You may not use Our&nbsp;Services.</p>
+      <p>These Terms of Service (&ldquo;Terms&rdquo;) are a binding contract between GW2Bot (&ldquo;We&rdquo;, &ldquo;Us&rdquo; and &ldquo;Our&rdquo;) and You as the user of Our Website or GW2Bot (Our &ldquo;Services&rdquo;). By using Our Services, You agree to be bound by these Terms and Our <nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link>, which You should also&nbsp;read. If You do not accept all of these Terms, then You may not use Our&nbsp;Services.</p>
 
       <p>We may modify these Terms for any reason at any time by posting a new version on Our Website; these changes do not affect rights and obligations that applied prior to such&nbsp;changes. Your continued use of Our Services following the posting of modified Terms will be subject to the Terms in effect at the time of Your&nbsp;use. Please review these Terms periodically for&nbsp;changes. If You object to any provision of these Terms, or any subsequent modifications to these Terms, or become dissatisfied with Our Services in any way, Your only recourse is to immediately terminate Your usage of Our&nbsp;Services.</p>
 
@@ -21,13 +21,13 @@
 
       <p>We are also free to terminate (or suspend access to) Your use of Our Services for any reason in Our discretion, including Your breach of these&nbsp;Terms. We have the sole right to decide whether You are in violation of any of the restrictions set forth in these&nbsp;Terms. Termination of Our Services will result in the destruction of any data associated with Your Discord account, as per <a class="external" href="https://gdpr-info.eu/">GDPR guidelines</a> and our <nuxt-link to="/privacy-policy">Privacy&nbsp;Policy</nuxt-link>.</p>
 
-      <p>If a dispute occurs between users of Our Services, or between users and any third party, We are under no obligation to become&nbsp;involved. In the event that You have a dispute with one or more other users, you release Us from claims, demands, and damages of every kind or nature, known or unknown, suspected or unsuspected, disclosed or undisclosed, arising out of or in any way related to such disputes and/or Our&nbsp;Services.</p>
+      <p>If a dispute occurs between users of Our Services, or between users and any third party, We are under no obligation to become&nbsp;involved. In the event that You have a dispute with any third party or other users, You release Us from any and all claims, demands, and damages arising out of or in any way related to such disputes and/or Our&nbsp;Services.</p>
 
       <h2>External Services</h2>
 
       <p>Our Services contain links and connections to third-party websites and services (&ldquo;External Services&rdquo;) that are not owned or controlled by&nbsp;Us. When You access External Services, You accept that there are risks in doing so, and that We are not responsible for such&nbsp;risks. We have no control over, and assume no responsibility for the content, policies, practices, or opinions of any third party that You interact with through Our&nbsp;Services. In addition, We cannot and will not monitor, verify, censor or edit the content of any External&nbsp;Services. We encourage You to be aware when You leave Our Services and to read the terms and conditions and policies of each External Service that You visit or&nbsp;utilise. By using Our Services, You hold Us harmless to any and all liability arising from Your use of any External&nbsp;Services.</p>
 
-      <p>Your interactions with External Services found via Our Services, including payment and delivery of goods or services, and any other terms, conditions, warranties or representations associated with such dealings, are solely between You and such External&nbsp;Services. You should investigate as necessary before proceeding with any transaction with any of these External&nbsp;Services. You agree that We shall not be responsible or liable for any loss or damage of any sort incurred as the result of any such&nbsp;dealings.</p>
+      <p>Your interactions with External Services found via Our Services are solely between You and such External&nbsp;Services. You should investigate as necessary before proceeding with any transaction with any of these External&nbsp;Services. You agree that We shall not be responsible or liable for any loss or damage incurred as a result of any such&nbsp;dealings.</p>
 
       <h2>Disclaimer</h2>
 
@@ -39,7 +39,7 @@
 
       <!--<h2>Governing Law</h2>
 
-      <p>Any claim related to Our Services shall be governed by the laws of X without regards to its conflict of law provisions.</p>-->
+      <p>Any claim related to Our Services shall be governed by the laws of Poland without regards to its conflict of law provisions.</p>-->
     </div>
   </main>
 </template>
