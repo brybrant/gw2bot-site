@@ -16,7 +16,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'vue/singleline-html-element-content-newline': ['warn', {
-      'ignores': ['nuxt-link', 'a', 'abbr']
+      'ignores': ['nuxt-link', 'a', 'abbr', 'span']
     }]
   }
 }
