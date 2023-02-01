@@ -136,7 +136,7 @@ const bosses = {
         },
         {
           ids: [19651, 19844],
-          icon: 'https://wiki.guildwars2.com/images/2/28/Lidless_Eye.png',
+          icon: 'https://i.imgur.com/Rr8ToDY.png',
           name: 'Eye of Fate and Eye of Judgement',
           api_name: 'statues_of_grenth'
         },
@@ -206,7 +206,7 @@ const bosses = {
         },
         {
           ids: [17028],
-          icon: 'https://i.imgur.com/5C60cQb.png',
+          icon: 'https://wiki.guildwars2.com/images/d/d0/Mini_Toxic_Warlock.png',
           name: 'Siax the Corrupted'
         },
         {
@@ -263,7 +263,7 @@ const bosses = {
       encounters: [
         {
           ids: [22343, 22481, 22315],
-          icon: 'https://i.imgur.com/4wR8S7r.png',
+          icon: 'https://i.imgur.com/ENCeHIg.png',
           name: 'The Voice and The Claw'
         }
       ]
@@ -313,7 +313,7 @@ const bosses = {
       encounters: [
         {
           ids: [23957],
-          icon: 'https://i.imgur.com/3OQwlpP.png',
+          icon: 'https://i.imgur.com/PhChXQ4.png',
           name: 'Ankka'
         }
       ]
@@ -323,7 +323,7 @@ const bosses = {
       encounters: [
         {
           ids: [24485, 24266],
-          icon: 'https://i.imgur.com/2nPBLcp.png',
+          icon: 'https://i.imgur.com/9qzjr9H.png',
           name: 'Minister Li'
         }
       ]
@@ -332,9 +332,29 @@ const bosses = {
       name: 'Harvest Temple',
       encounters: [
         {
-          ids: [43488, 1378],
+          ids: [43488, 1378, 24375],
           icon: 'https://i.imgur.com/wwJk2AG.png',
           name: 'The Dragonvoid'
+        }
+      ]
+    },
+    {
+      name: 'Old Lion\'s Court',
+      encounters: [
+        {
+          ids: [25413, 25415, 25419],
+          icon: 'https://i.imgur.com/4PWffRa.png',
+          name: 'Watchknight Triumvirate'
+        }
+      ]
+    },
+    {
+      name: 'Secret Lair of the Snowmen',
+      encounters: [
+        {
+          ids: [21333],
+          icon: 'https://wiki.guildwars2.com/images/d/d9/Mini_Freezie.png',
+          name: 'Freezie'
         }
       ]
     }
