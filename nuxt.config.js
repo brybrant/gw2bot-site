@@ -16,7 +16,7 @@ export default {
       { property: 'og:description', content: 'GW2Bot is a powerful Guild Wars 2 bot for Discord!' },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://gw2bot.info' },
-      { property: 'og:image', content: 'https://gw2bot.info/og-image.png' },
+      { property: 'og:image', content: 'https://gw2bot.info/og-image.png' }
     ],
     link: [
       { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
@@ -25,8 +25,8 @@ export default {
       { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/manifest.json' },
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#b40000' },
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com'},
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'crossorigin'},
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'crossorigin' },
       { rel: 'preload', href: 'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap', as: 'style', crossorigin: 'crossorigin' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;600&display=swap', media: 'print', onload: 'this.onload=null;this.removeAttribute("media")' }
     ]
