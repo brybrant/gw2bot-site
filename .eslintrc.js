@@ -1,22 +1,25 @@
 module.exports = {
-  root: true,
-  env: {
+  'root': true,
+  'env': {
     browser: true,
     node: true
   },
-  parser: 'vue-eslint-parser',
-  parserOptions: {
+  'parser': 'vue-eslint-parser',
+  'parserOptions': {
     parser: '@babel/eslint-parser',
     requireConfigFile: false
   },
-  extends: [
-    '@nuxtjs',
+  'extends': [
+    '@nuxtjs/eslint-config',
     'plugin:nuxt/recommended'
   ],
   // add your custom rules here
-  rules: {
+  'rules': {
+    'quote-props': ['warn', 'consistent', {
+      keywords: true
+    }],
     'vue/singleline-html-element-content-newline': ['warn', {
-      'ignores': ['nuxt-link', 'a', 'abbr', 'span']
+      ignores: ['nuxt-link', 'a', 'abbr', 'span']
     }]
   }
 }
