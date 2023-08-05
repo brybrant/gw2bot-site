@@ -26,7 +26,9 @@
             <div class="flexbox">
               <div class="flexbox__item">
                 <div class="form__group">
-                  <label for="encounter-instances" class="form__label">Instance:</label>
+                  <label for="encounter-instances" class="form__label">
+                    Instance:
+                  </label>
                   <select id="encounter-instances" class="form__control">
                     <option selected @click="selectInstance($event)" />
                     <optgroup v-for="(category, key) in bosses" :key="key" :label="key">
@@ -45,7 +47,9 @@
 
               <div v-if="selectedInstance" class="flexbox__item">
                 <div class="form__group">
-                  <label for="encounter-bosses" class="form__label">Boss:</label>
+                  <label for="encounter-bosses" class="form__label">
+                    Boss:
+                  </label>
                   <select id="encounter-bosses" class="form__control">
                     <option selected @click="selectBoss($event)" />
                     <option
@@ -69,21 +73,27 @@
             <div class="flexbox">
               <div class="flexbox__item">
                 <div class="form__checkbox">
-                  <label for="result" class="form__label">Successful Only?</label>
+                  <label for="result" class="form__label">
+                    Successful Only?
+                  </label>
                   <input id="result" v-model="filters.success" type="checkbox" @change="applyFilters">
                 </div>
               </div>
 
               <div class="flexbox__item">
                 <div class="form__group">
-                  <label for="date-start" class="form__label">Date Start:</label>
+                  <label for="date-start" class="form__label">
+                    Date Start:
+                  </label>
                   <input id="date-start" v-model="filters.dateStart" class="form__control" type="date" @change="applyFilters">
                 </div>
               </div>
 
               <div class="flexbox__item">
                 <div class="form__group">
-                  <label for="date-end" class="form__label">Date End:</label>
+                  <label for="date-end" class="form__label">
+                    Date End:
+                  </label>
                   <input id="date-end" v-model="filters.dateEnd" class="form__control" type="date" @change="applyFilters">
                 </div>
               </div>
