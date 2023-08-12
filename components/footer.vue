@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="footer-width page-padding">
-      <p><small>GW2Bot created by&nbsp;Maselkov#2365, website created by&nbsp;Penemue#8514 and maintained by&nbsp;Mattt#7551<br>If you want to contribute, see <a class="external" href="https://github.com/Maselkov/GW2Bot" target="_blank">here for the bot</a> and <a class="external" href="https://github.com/brybrant/gw2bot-site" target="_blank">here for the&nbsp;website</a>. Thanks to all&nbsp;contributors.</small></p>
+      <p><small>GW2Bot created by&nbsp;@maselkov<br>Website created by&nbsp;@penemue. and&nbsp;@matt_bryant<br>Want to contribute? See <a class="external" href="https://github.com/Maselkov/GW2Bot" target="_blank">here for the bot</a> and <a class="external" href="https://github.com/brybrant/gw2bot-site" target="_blank">here for the&nbsp;website</a>. Thanks to all&nbsp;contributors<LoveheartInlineSVG /></small></p>
 
       <p><small>Please read our <nuxt-link to="/terms-of-service">Terms of Service</nuxt-link> and our <nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link> before using&nbsp;GW2Bot.<br>Join the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord Server</a> for further&nbsp;support.</small></p>
 
@@ -11,8 +11,13 @@
 </template>
 
 <script>
+import LoveheartInlineSVG from '@/components/inline-svgs/loveheart'
+
 export default {
-  name: 'FooterComponent'
+  name: 'FooterComponent',
+  components: {
+    LoveheartInlineSVG
+  }
 }
 </script>
 

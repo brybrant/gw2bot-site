@@ -29,9 +29,6 @@ a {
   width: $p-line-rem;
   height: $p-line-rem;
   vertical-align: top;
-  path, polygon, rect, circle {
-    fill: currentColor;
-  }
 }
 dfn {
   font-style: normal;
