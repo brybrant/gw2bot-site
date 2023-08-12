@@ -29,6 +29,9 @@ a {
   width: $p-line-rem;
   height: $p-line-rem;
   vertical-align: top;
+  path, polygon, rect, circle {
+    fill: currentColor;
+  }
 }
 dfn {
   font-style: normal;
@@ -103,6 +106,10 @@ small, .small-text {
   vertical-align: top;
   a.external:after {
     width: math.div($small-line-rem, 1.5);
+    height: $small-line-rem;
+  }
+  .inline-svg {
+    width: $small-line-rem;
     height: $small-line-rem;
   }
 }
