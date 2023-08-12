@@ -55,7 +55,7 @@ h1, h2, .h2, h3, .h3, h4, .h4,/* h5, h6*/ {
   @extend %header-font-family;
   position: relative;
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   color: $grey-250;
   .dark-mode & {
     color: $grey-1150;
