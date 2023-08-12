@@ -27,8 +27,7 @@ export default {
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#b40000' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'crossorigin' },
-      { rel: 'preload', href: 'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap', as: 'style', crossorigin: 'crossorigin' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;600&display=swap', media: 'print', onload: 'this.onload=null;this.removeAttribute("media")' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;600&display=swap', media: 'print', onload: 'this.onload=null;this.removeAttribute("media")' }
     ]
   },
   /*
