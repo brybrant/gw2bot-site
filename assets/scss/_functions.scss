@@ -82,6 +82,15 @@
       .5px    .5px  .5px rgba($color,$opacity),
        0      .5px  .5px rgba($color,$opacity),
     (-.5px)   .5px  .5px rgba($color,$opacity),
+       0    (-.5px) .5px rgba($color,$opacity),
+
+    (-.5px) (-.5px) .5px rgba($color,$opacity),
+       0    (-.5px) .5px rgba($color,$opacity),
+      .5px  (-.5px) .5px rgba($color,$opacity),
+      .5px     0    .5px rgba($color,$opacity),
+      .5px    .5px  .5px rgba($color,$opacity),
+       0      .5px  .5px rgba($color,$opacity),
+    (-.5px)   .5px  .5px rgba($color,$opacity),
        0    (-.5px) .5px rgba($color,$opacity);
 }
 
