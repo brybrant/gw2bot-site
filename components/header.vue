@@ -155,7 +155,7 @@ export default {
   data () {
     return {
       navActive: false,
-      topBarBackgroundOpacity: 0.67,
+      topBarBackgroundOpacity: 1,
       topBarHover: false,
       userMenuActive: false
     }
