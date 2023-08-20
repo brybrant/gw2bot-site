@@ -91,7 +91,7 @@ export default {
         _scheme: 'oauth2',
         authorization_endpoint: 'https://discord.com/api/oauth2/authorize',
         userinfo_endpoint: 'https://discord.com/api/users/@me',
-        client_id: '990938371004182528',
+        client_id: 'YOUR_BOT_ID',
         scope: ['identify'],
         response_type: 'token',
         token_type: 'Bearer',
