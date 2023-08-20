@@ -81,7 +81,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    credentials: true
+    credentials: true,
+    debug: process.env.NODE_ENV === 'development'
   },
 
   auth: {
