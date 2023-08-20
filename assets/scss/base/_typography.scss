@@ -13,7 +13,7 @@ a {
     color: $link-dark;
   }
   &.external:after {
-    @extend %psuedo-element;
+    @extend %Psuedo-element;
     display: inline-block;
     width: math.div($p-line-rem, 1.5);
     height: $p-line-rem;
@@ -42,7 +42,7 @@ abbr[title] {
   }
 }
 code {
-  @extend %code-font-family;
+  @extend %Code-font-family;
   padding: 1px 3px;
   background: $grey-1100;
   border-radius: 3px;
@@ -51,11 +51,10 @@ code {
     background: $grey-500;
   }
 }
-h1, h2, .h2, h3, .h3, h4, .h4,/* h5, h6*/ {
-  @extend %header-font-family;
+h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  @extend %Header-font-family;
   position: relative;
   display: block;
-  font-weight: 700;
   color: $grey-250;
   .dark-mode & {
     color: $grey-1150;
@@ -65,34 +64,44 @@ h1 {
   margin: $h1-margin-rem 0 0 0;
   font-size: $h1-font-rem;
   line-height: $h1-line-rem;
+  font-weight: 700;
 }
 h2, .h2 {
   margin: $h2-margin-rem 0 0 0;
   font-size: $h2-font-rem;
   line-height: $h2-line-rem;
+  font-weight: 700;
 }
 h3, .h3 {
   margin: $h3-margin-rem 0 0 0;
   font-size: $h3-font-rem;
   line-height: $h3-line-rem;
+  font-weight: 700;
 }
 h4, .h4 {
   margin: $h4-margin-rem 0 0 0;
   font-size: $h4-font-rem;
   line-height: $h4-line-rem;
+  font-weight: 700;
 }
-/*h5 {
+h5, .h5 {
   margin: $h5-margin-rem 0 0 0;
   font-size: $h5-font-rem;
   line-height: $h5-line-rem;
+  font-weight: 700;
+  color: $grey-350;
+  .dark-mode & {
+    color: $grey-1100;
+  }
 }
-h6 {
+h6, .h6 {
   margin: $p-margin-rem 0 0 0;
   font-size: $p-font-rem;
   line-height: $p-line-rem;
-}*/
+  font-weight: 400;
+}
 p, .paragraph, li {
-  @extend %body-font-family;
+  @extend %Body-font-family;
   margin: $p-margin-rem 0 0 0;
   font-size: $p-font-rem;
   line-height: $p-line-rem;

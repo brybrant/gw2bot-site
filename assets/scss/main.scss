@@ -5,7 +5,7 @@
 // 2. Set the global `box-sizing` state to `border-box`.
 // 3. Prevent adjustments of font size after orientation changes in iOS.
 html {
-  @extend %body-font-family;
+  @extend %Body-font-family;
   min-height: 100%; /* [1] */
   box-sizing: border-box; /* [2] */
   -webkit-text-size-adjust: 100%; /* [3] */
@@ -64,6 +64,10 @@ main {
 
 a, button {
   cursor: pointer;
+}
+
+.gutter-top-margin {
+  margin-top: $gutter-rem;
 }
 
 .page {

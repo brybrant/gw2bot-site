@@ -20,7 +20,7 @@
     transition: bottom .15s ease-out, opacity .15s ease-out;
   }
   &:before, &:after {
-    @extend %psuedo-element;
+    @extend %Psuedo-element;
     position: absolute;
     top: 100%;
     left: 50%;
@@ -64,7 +64,7 @@
   background: transparent;
   color: $grey-900;
   &:before, &:after {
-    @extend %psuedo-element;
+    @extend %Psuedo-element;
     position: absolute;
     top: 50%;
     left: 50%;

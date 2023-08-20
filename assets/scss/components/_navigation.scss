@@ -24,6 +24,7 @@
     left: auto;
     width: auto;
     height: $nav-height;
+    background: none;
     float: right;
     z-index: 3;
     transition: none;
@@ -39,6 +40,9 @@
       @include media-query('gt-800') {
         box-shadow: none;
       }
+    }
+    @include media-query('gt-800') {
+      background: none;
     }
   }
 }
@@ -128,7 +132,7 @@
   pointer-events: none;
   overflow: hidden;
   &:after {
-    @extend %psuedo-element;
+    @extend %Psuedo-element;
     position: absolute;
     bottom: 0;
     left: 0;

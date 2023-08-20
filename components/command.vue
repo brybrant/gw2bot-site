@@ -174,7 +174,7 @@ export default {
   }
 }
 .command__name {
-  @extend %code-font-family;
+  @extend %Code-font-family;
   margin: 0;
   color: $grey-200;
   font-size: $h4-font-rem;
@@ -287,7 +287,7 @@ export default {
   }
 }
 .subcommand__name {
-  @extend %code-font-family;
+  @extend %Code-font-family;
   line-height: $baseline-px;
   font-weight: 600;
   letter-spacing: -0.3px;

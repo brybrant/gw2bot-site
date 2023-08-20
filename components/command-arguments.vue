@@ -54,7 +54,7 @@ export default {
   }
 }
 .arg__name {
-  @extend %code-font-family;
+  @extend %Code-font-family;
   line-height: $baseline-px;
   font-weight: 600;
   white-space: nowrap;

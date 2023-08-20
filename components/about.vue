@@ -1,0 +1,103 @@
+<template>
+  <section>
+    <div class="page-width page-padding">
+      <picture>
+        <source srcset="@/assets/img/logo.webp" type="image/webp">
+        <img
+          data-sizes="auto"
+          class="lazyload"
+          :src="require(`@/assets/img/logo--low.png`)"
+          :data-src="require(`@/assets/img/logo.png`)"
+          alt="GW2Bot Logo"
+        >
+      </picture>
+
+      <h2 class="h3">
+        About GW2Bot
+      </h2>
+
+      <p class="h5">
+        GW2Bot is an open source Discord&nbsp;bot for Guild&nbsp;Wars&nbsp;2&nbsp;players,<br>
+        offering robust features for both individuals and large&nbsp;communities
+      </p>
+
+      <div class="flexbox">
+        <div class="flexbox__item">
+          <NuxtLink class="button button--large" to="/commands"><CommandInlineSVG />Commands</NuxtLink>
+        </div>
+
+        <div class="flexbox__item">
+          <a
+            class="button button--large button--discord"
+            :href="$supportServerLink"
+            target="_blank"
+          ><DiscordInlineSVG />Support Server</a>
+        </div>
+
+        <div class="flexbox__item">
+          <a
+            class="button button--large button--github"
+            href="https://github.com/Maselkov/GW2Bot"
+            target="_blank"
+          ><GitHubInlineSVG />GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import CommandInlineSVG from '@/components/inline-svgs/command'
+import DiscordInlineSVG from '@/components/inline-svgs/discord'
+import GitHubInlineSVG from '@/components/inline-svgs/github'
+
+export default {
+  name: 'AboutComponent',
+  components: {
+    CommandInlineSVG,
+    DiscordInlineSVG,
+    GitHubInlineSVG
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.flexbox__item {
+  margin-top: $baseline-rem;
+}
+img {
+  margin: 0 auto;
+  padding: 0 0 0 10px;
+  width: 100px;
+  height: 130px;
+}
+h2 {
+  margin-top: $baseline-rem;
+}
+
+.button--github {
+  background: $github-grey;
+  &:hover {
+    background: color.scale($github-grey, $lightness: 5%);
+  }
+  &:active {
+    background: color.scale($github-grey, $lightness: (-9%));
+  }
+  svg {
+    margin: 0 6px 0 (-10px);
+  }
+}
+
+.button--discord {
+  background: color.scale($discord-blurple, $lightness: (-8%));
+  &:hover {
+    background: color.scale($discord-blurple, $lightness: (-3%));
+  }
+  &:active {
+    background: color.scale($discord-blurple, $saturation: (-12%), $lightness: (-15%));
+  }
+  svg {
+    margin: 0 7px 0 (-9px);
+  }
+}
+</style>

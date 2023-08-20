@@ -47,7 +47,7 @@ button {// Taken from Normalize.css
     background: $red-100;
     &, .dark-mode & {color: $grey-1150;}
   }
-  img, &:before {
+  svg, &:before {
     display: inline-block;
     margin: 0 4px 0 (-10px);
     width: $p-font-px;
@@ -68,7 +68,7 @@ button {// Taken from Normalize.css
   border-radius: ($h5-line-px + 18px) * .5;
   font-size: $h5-font-rem;
   line-height: $h5-line-px;
-  img, &:before {
+  svg, &:before {
     width: $h5-line-px;
     height: $h5-line-px;
   }
@@ -78,52 +78,8 @@ button {// Taken from Normalize.css
   border-radius: ($h4-line-px + 22px) * .5;
   font-size: $h4-font-rem;
   line-height: $h4-line-px;
-  img, &:before {
+  svg, &:before {
     width: $h4-line-px;
     height: $h4-line-px;
-  }
-}
-
-/*---------------------------------------------------------------------------*\
-    Button Styles
-\*---------------------------------------------------------------------------*/
-.button--patreon {
-  background: color.scale($patreon-fiery-coral, $saturation: (-4%), $lightness: (-8%));
-  &:hover {
-    background: $patreon-fiery-coral;
-  }
-  &:active {
-    background: color.scale($patreon-fiery-coral, $saturation: (-25%), $lightness: (-20%));
-  }
-  &:before {
-    @extend %psuedo-element;
-    background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><g fill='#{$white}'><circle cx='366.87' cy='249.94' r='149.94'/><rect x='100' y='100' width='73.25' height='400'/></g></svg>") no-repeat 50% 50%/100% 100%;
-  }
-}
-.button--paypal {
-  background: $paypal-pal-blue;
-  &:hover {
-    background: color.scale($paypal-pal-blue, $lightness: 12%);
-  }
-  &:active {
-    background: color.scale($paypal-pal-blue, $lightness: (-20%));
-  }
-  &:before {
-    @extend %psuedo-element;
-    background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><g fill='#{$white}'><path d='M442.94,207.38c-12.74,76.24-63.94,123.45-134.28,123.45h-55.7c-2.43,0-6.49,0-9.07,13.02l-22.12,140.03h0c-1.74,11.03,.63,16.12,7.28,16.12h61.64c4.38-.39,7.29-3.65,8.13-9.19l12.92-85.28c2.22-14.69,7.73-20.09,15.9-20.09h30.12c59.65,0,104.63-41.13,110.44-115.52,2.14-27.39-5.44-49.44-25.26-62.55Z'/><path d='M427.38,186.56c-3.17,39.42-16.29,71.94-37.96,94.03-20.67,21.09-48.6,32.23-80.76,32.23h-55.7c-14.91,0-24.11,10.4-27.33,30.9l-15.76,100.28c-1.01,6.42-3.79,10.2-8.87,10.65h-60.46c-7.72,0-10.46-5.9-8.44-18.7L182.19,118.76c2.01-12.71,8.96-18.76,22.78-18.76h103.92c31.81,0,69.54,1.03,94.78,23.29,16.7,14.73,25.54,38.11,23.72,63.27Z'/></g></svg>") no-repeat 50% 50%/100% 100%;
-  }
-}
-.button--kofi {
-  background: $kofi-grey;
-  &:hover {
-    background: color.scale($kofi-grey, $lightness: 10%);
-  }
-  &:active {
-    background: color.scale($kofi-grey, $lightness: (-5%));
-  }
-  &:before {
-    @extend %psuedo-element;
-    margin: 0 8px 0 (-8px);
-    background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'><path fill='#{$white}' d='M446,125H45c-11.05,0-19,9.95-19,21V415c0,36,27.97,60,60,60H342c52,0,81-32,81-86h10c82,0,143-54,143-134h0c0-71.8-58.2-130-130-130Zm-23,198V192h23c34.24,0,62,22,62,60,0,85.32-78.39,69.13-85,71Z'/><path fill='#ff5e5b' d='M224,233.86c-37.99-41.9-113-32.97-113,27.14,0,32.67,16,51,32,68,9.57,10.17,59.58,56.41,76.93,72.41,2.3,2.12,5.83,2.12,8.13,0,17.36-16.01,67.36-62.24,76.93-72.41,16-17,32-35.33,32-68,0-59.9-74.82-69.26-113-27.14Z'/></svg>")
   }
 }

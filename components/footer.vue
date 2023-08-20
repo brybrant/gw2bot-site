@@ -3,9 +3,9 @@
     <div class="footer-width page-padding">
       <p><small>GW2Bot created by&nbsp;@maselkov<br>Website created by&nbsp;@penemue. and&nbsp;@matt_bryant<br>Want to contribute? See <a class="external" href="https://github.com/Maselkov/GW2Bot" target="_blank">here for the bot</a> and <a class="external" href="https://github.com/brybrant/gw2bot-site" target="_blank">here for the&nbsp;website</a>. Thanks to all&nbsp;contributors<LoveheartInlineSVG /></small></p>
 
-      <p><small>Please read our <nuxt-link to="/terms-of-service">Terms of Service</nuxt-link> and our <nuxt-link to="/privacy-policy">Privacy Policy</nuxt-link> before using&nbsp;GW2Bot.<br>Join the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord Server</a> for further&nbsp;support.</small></p>
+      <p><small>Please read our <NuxtLink to="/terms-of-service">Terms&nbsp;of Service</NuxtLink> and our <NuxtLink to="/privacy-policy">Privacy&nbsp;Policy</NuxtLink> before using&nbsp;GW2Bot.<br>Join the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot&nbsp;Discord Server</a> for further&nbsp;support.</small></p>
 
-      <p><small>NCSOFT, ArenaNet, Guild Wars, Guild Wars&nbsp;2, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT&nbsp;Corporation.</small></p>
+      <p><small>NCSOFT, ArenaNet, Guild&nbsp;Wars, Guild&nbsp;Wars&nbsp;2, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT&nbsp;Corporation.</small></p>
     </div>
   </footer>
 </template>
