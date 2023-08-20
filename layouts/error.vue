@@ -15,6 +15,7 @@
           type="image/webp"
         >
         <img
+          :class="error.statusCode===404 ? 'notfound-quaggan' : 'error-quaggan'"
           :src="error.statusCode===404 ?
             require('@/assets/img/404-quaggan.png') :
             require('@/assets/img/error-quaggan.png')"
@@ -23,14 +24,14 @@
       </picture>
 
       <p v-if="error.statusCode!=404">
-        If this problem persists, please report it in the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord&nbsp;Server</a>.
+        If this problem persists, please <a class="external" href="https://github.com/brybrant/gw2bot-site/issues" target="_blank">submit an issue on GitHub</a> or report it in the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord&nbsp;Server</a>.
       </p>
 
       <br>
 
-      <nuxt-link class="button button--large" to="/">
+      <NuxtLink class="button button--large" to="/">
         Back to Home Page
-      </nuxt-link>
+      </NuxtLink>
     </div>
   </main>
 </template>
@@ -47,18 +48,25 @@ export default {
   },
   head () {
     return {
-      title: `${this.error.statusCode}`
+      title: `${this.error.statusCode} | GW2Bot`
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   display: inline-block;
   width: 100%;
-  max-width: 336px;
-  max-height: 336px;
   vertical-align: top;
+}
+.notfound-quaggan {
+  margin: 0 0 $baseline-rem 48px;
+  width: 356px;
+  height: 370px;
+}
+.error-quaggan {
+  width: 308px;
+  height: 313px;
 }
 </style>
