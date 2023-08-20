@@ -4,13 +4,13 @@
       v-if="command.args"
       :id="`${command.name}-tooltip`"
       class="tooltip"
-      :class="{active: command.active}"
+      :class="{active: commandActive}"
     >
       <button
         class="tooltip__close"
         :aria-controls="`${command.name}-tooltip`"
         title="Close"
-        @click="hideTooltip(command)"
+        @click="commandActive = false"
       />
       <CommandArgumentsComponent :command="command" />
     </div>
@@ -21,11 +21,11 @@
         <button
           v-if="command.args"
           class="command__button command__button--args"
-          :class="{active: command.active}"
+          :class="{active: commandActive}"
           :aria-controls="`${command.name}-tooltip`"
-          :aria-expanded="command.active ? 'true' : 'false'"
-          :title="command.active ? 'Hide command arguments' : 'Show command arguments'"
-          @click="toggleActive(command)"
+          :aria-expanded="commandActive ? 'true' : 'false'"
+          :title="commandActive ? 'Hide command arguments' : 'Show command arguments'"
+          @click="commandActive = !commandActive"
         >
           {{ `+${command.args.length}` }}
         </button>
@@ -33,11 +33,11 @@
       <template v-else-if="command.subcommands">
         <button
           class="command__button command__button--subcommands"
-          :class="{active: command.active}"
+          :class="{active: commandActive}"
           :aria-controls="`${command.name}-subcommands`"
-          :aria-expanded="command.active ? 'true' : 'false'"
-          :title="command.active ? 'Hide subcommands' : 'Show subcommands'"
-          @click="toggleActive(command)"
+          :aria-expanded="commandActive ? 'true' : 'false'"
+          :title="commandActive ? 'Hide subcommands' : 'Show subcommands'"
+          @click="commandActive = !commandActive"
         >
           <span>{{ command.name }}</span>
         </button>
@@ -62,7 +62,7 @@
 
     <ul
       v-if="command.subcommands"
-      v-show="command.active"
+      v-show="commandActive"
       :id="`${command.name}-subcommands`"
       class="subcommand-list"
     >
@@ -81,7 +81,7 @@
             class="tooltip__close"
             :aria-controls="`${command.name}-${subcommand.name}-tooltip`"
             title="Close"
-            @click="hideTooltip(subcommand)"
+            @click="subcommand.active = false"
           />
           <CommandArgumentsComponent :command="subcommand" />
         </div>
@@ -95,7 +95,7 @@
             :aria-controls="`${command.name}-${subcommand.name}-tooltip`"
             :aria-expanded="subcommand.active ? 'true' : 'false'"
             :title="subcommand.active ? 'Hide command arguments' : 'Show command arguments'"
-            @click="toggleActive(subcommand)"
+            @click="subcommand.active = !subcommand.active"
           >
             {{ `+${subcommand.args.length}` }}
           </button>
@@ -122,7 +122,6 @@
 </template>
 
 <script>
-import { set } from 'vue'
 import CommandArgumentsComponent from '@/components/command-arguments'
 
 export default {
@@ -136,16 +135,9 @@ export default {
       required: true
     }
   },
-  methods: {
-    toggleActive (thing) {
-      if (thing.active) {
-        thing.active = false
-      } else if (!thing.active) {
-        set(thing, 'active', true)
-      }
-    },
-    hideTooltip (thing) {
-      thing.active = false
+  data () {
+    return {
+      commandActive: false
     }
   }
 }
