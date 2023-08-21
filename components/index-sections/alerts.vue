@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <section class="feature-section">
     <div class="page-width page-padding">
-      <h2>Stay Connected and Informed</h2>
+      <h2>Stay Connected and&nbsp;Informed</h2>
 
       <picture>
         <source
@@ -48,18 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-  text-align: left;
-}
-h2 {
-  margin: 0;
-}
-a {
-  margin: $baseline-rem 0 (-$gutter-rem * 0.25) 0;
-}
 img {
-  float: right;
-  margin: $baseline-rem 0 0 $baseline-rem;
   width: 303px;
   height: 340px;
 }

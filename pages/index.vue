@@ -38,20 +38,6 @@
         >Add To Your Server!</a>
       </div>
     </div>
-    <!--<div class="page-width page-padding">
-      <h2>GW2Bot Demo</h2>
-
-      <div class="bot-demo">
-        <video id="demo" autoplay loop muted playsinline>
-          <source src="@/assets/img/demo.webm" type="video/webm">
-          <source src="@/assets/img/demo.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <NuxtLink to="/commands" class="button button--giant">
-        View all Commands
-      </NuxtLink>
-    </div>-->
 
     <AboutComponent />
 
@@ -71,6 +57,8 @@
 import '@/node_modules/lazysizes/lazysizes.min.js'
 import Rellax from '@/node_modules/rellax/rellax.min.js'
 
+import featureImages from '@/static/featureImages'
+
 import AboutComponent from '@/components/about'
 import SetupSection from '@/components/index-sections/setup'
 import FeaturesSection from '@/components/index-sections/features'
@@ -89,74 +77,6 @@ const yearStart = new Date(currentYear, 0, 1) // 24 * 60 * 60 * 1000 = 864e5
 const daysSinceYearStart = Math.floor((now - yearStart) / 864e5) + 1
 const currentWeek = Math.ceil(daysSinceYearStart / 7) - 1
 
-const featureMedia = [
-  /* january @ 0 */
-  'divinity-reach-winter', // (0) 0-7
-  'garden-orrery', // (1) 8-14
-  'divinity-reach', // (2) 15-21
-  'lunar-new-year', // (3) 22-28
-  /* february @ 31 */
-  'orr-city-collapse', // (4) 29-35
-  'bloodtide-coast-drm', // (5) 36-42
-  'darkrime-delves', // (6) 43-49
-  'aurenes-sanctuary', // (7) 50-56
-  /* march @ 59 */
-  'wall-ascalon', // (8) 57-63
-  'yong-reactor', // (9) 64-70
-  'spring', // (10) 71-77
-  'pegodas', // (11) 78-84
-  /* april @ 90 */
-  'spring3', // (12) 85-91
-  'orrery', // (13) 92-98
-  'mossed', // (14) 99-105
-  'vigil-castle', // (15) 106-112
-  'guild-initiative-headquarters', // (16) 113-119
-  /* may @ 120 */
-  'fractals-of-the-mists', // (17) 120-126
-  'echovald-skiffs', // (18) 127-133
-  'bramble-walls', // (19) 134-140
-  'flower-of-death', // (20) 141-147
-  /* june @ 151 */
-  'lions-arch', // (21) 148-154
-  'dragon-bash', // (22) 155-161
-  'dragon-bash2', // (23) 162-168
-  'summer', // (24) 169-175
-  /* july @ 181 */
-  'a-shattered-nation', // (25) 176-182
-  'divinity-reach-street-view', // (26) 183-189
-  'catacomb', // (27) 190-196
-  'festival-of-the-four-winds', // (28) 197-203
-  'kite-city', // (29) 204-210
-  /* august @ 212 */
-  'sylvari-canopy', // (30) 211-217
-  'regrown-aqueduct-ruins', // (31) 218-224
-  'wizards-tower', // (32) 225-231
-  'secrets-of-the-obscure', // (33) 232-238
-  /* september @ 243 */
-  'travel-room', // (34) 239-245
-  'steppe', // (35) 246-252
-  'laying-to-rest', // (36) 253-259
-  'echovald-forest', // (37) 260-266
-  /* october @ 273 */
-  'autumn', // (38) 267-273
-  'victory-or-death', // (39) 274-280
-  'halloween', // (40) 281-287
-  'halloween2', // (41) 288-294
-  'riel-candles', // (42) 295-301
-  /* november @ 304 */
-  'battle-of-kyhlo', // (43) 302-308
-  'heart-of-the-mists', // (44) 309-315
-  'night-garden', // (45) 316-322
-  'sunqua-peak', // (46) 323-329
-  /* december @ 334 */
-  'airships', // (47) 330-336
-  'temple-of-the-silent-storm', // (48) 337-343
-  'wintersday-night', // (49) 344-350
-  'infinirarium', // (50) 351-357
-  'wintersday', // (51) 358-364
-  'wintersday' // (52) 365+
-][currentWeek]
-
 export default {
   name: 'IndexPage',
   components: {
@@ -171,7 +91,7 @@ export default {
     return {
       anniversary: currentMonth === 8 && currentDay > 8 && currentDay < 24,
       botAge: currentYear - botBirthday.getFullYear(),
-      featureMedia: `img/feature-images/${featureMedia}`
+      featureMedia: `img/feature-images/${featureImages[currentWeek]}`
     }
   },
   mounted () {
@@ -268,30 +188,40 @@ export default {
   max-height: 394px;
   vertical-align: top;
 }
+</style>
 
-section {
+<style lang="scss">
+.feature-section {
   padding: ($baseline-rem * 1.5) 0 ($baseline-rem * 2) 0;
-  &:nth-child(2n+1) {
+  h2 {
+    margin: 0;
+  }
+  img {
+    display: none;
+    margin: $baseline-rem $baseline-rem 0 0;
+    float: left;
+    @include media-query('gt-800') {
+      display: block;
+    }
+  }
+  .button {
+    margin: $baseline-rem 0 (-$gutter-rem * 0.25) 0;
+  }
+  @include media-query('gt-800') {
+    text-align: right;
+    &:nth-child(odd) {
+      text-align: left;
+    }
+  }
+  &:nth-child(odd) {
     background: $white;
     .dark-mode & {
       background: $grey-350;
     }
+    img {
+      margin: $baseline-rem 0 0 $baseline-rem;
+      float: right;
+    }
   }
 }
-
-// .bot-demo {
-//   margin: $baseline-rem 0;
-//   video {
-//     display: inline-block;
-//     border-radius: 8px;
-//     width: 100%;
-//     max-width: 687px;
-//     max-height: 543px;
-//     vertical-align: top;
-//     box-shadow: $card-shadow;
-//     .dark-mode & {
-//       box-shadow: $card-shadow--dark;
-//     }
-//   }
-// }
 </style>
