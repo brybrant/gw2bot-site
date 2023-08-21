@@ -56,8 +56,19 @@ export default {
 <style lang="scss" scoped>
 .patreon {
   padding-top: $baseline-rem;
-  .flexbox__item {
-    margin-top: $baseline-rem;
+}
+
+.flexbox {
+  @include media-query('lt-600') {
+    flex-flow: column nowrap;
+  }
+}
+.flexbox__item {
+  margin-top: $baseline-rem;
+  & ~ .flexbox__item {
+    @include media-query('lt-600') {
+      margin-top: $baseline-rem * 0.5;
+    }
   }
 }
 

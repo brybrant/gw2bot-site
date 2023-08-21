@@ -31,7 +31,7 @@
             class="button button--large button--discord"
             :href="$supportServerLink"
             target="_blank"
-          ><DiscordInlineSVG />Support Server</a>
+          ><DiscordInlineSVG />Discord</a>
         </div>
 
         <div class="flexbox__item">
@@ -62,17 +62,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+section {
+  padding: ($baseline-rem * 1.5) 0 ($baseline-rem * 2) 0;
+}
+
+.flexbox {
+  @include media-query('lt-600') {
+    flex-flow: column nowrap;
+  }
+}
 .flexbox__item {
   margin-top: $baseline-rem;
+  & ~ .flexbox__item {
+    @include media-query('lt-600') {
+      margin-top: $baseline-rem * 0.5;
+    }
+  }
 }
+
 img {
   margin: 0 auto;
   padding: 0 0 0 10px;
   width: 100px;
   height: 130px;
 }
+
 h2 {
   margin-top: $baseline-rem;
+}
+
+br {
+  display: none;
+  @include media-query('gt-800') {
+    display: inline;
+  }
 }
 
 .button--github {
