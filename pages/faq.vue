@@ -9,7 +9,7 @@
         <h2 class="h3">
           How do I use the bot?
         </h2>
-        <p>After the bot has been added to the server using <a class="external" :href="$inviteLink">this invite link</a>, you can access the commands by using the <code>/</code> prefix.</p>
+        <p>After the bot has been added to the server using <ExternalLink :href="$inviteLink">this invite link</ExternalLink>, you can access the commands by using the <code>/</code> prefix.</p>
         <p><strong>Type <code>/</code> for a full list of commands.</strong></p>
       </div>
 
@@ -17,9 +17,9 @@
         <h2 class="h3">
           How do I link my Guild Wars 2 account to&nbsp;GW2Bot?
         </h2>
-        <p>Follow the text instructions below or <a class="external" href="https://www.youtube.com/watch?v=OHyP0xQmgjw" target="_blank">watch this video guide</a>.</p>
+        <p>Follow the text instructions below or <ExternalLink href="https://www.youtube.com/watch?v=OHyP0xQmgjw">watch this video guide</ExternalLink>.</p>
         <ol>
-          <li>Login to ArenaNet's website at <a class="external" href="https://account.arena.net/" target="_blank">https://account.arena.net/</a> with your Guild Wars 2 username and password, then go to the Applications tab and click the "New Key" button.</li>
+          <li>Login to ArenaNet's website at <ExternalLink href="https://account.arena.net/">https://account.arena.net/</ExternalLink> with your Guild Wars 2 username and password, then go to the Applications tab and click the "New Key" button.</li>
           <li>Input a name for the new API key and select the permissions you wish to grant GW2Bot, then click "Create API Key". <em>Note: some commands will not work unless you select the appropriate permissions.</em></li>
           <li>Copy the new API key, then send a direct message on Discord to <code>GW2Bot#2251</code> with the following command to add a new API key: <code>/key&nbsp;add&nbsp;(your&nbsp;API&nbsp;key)</code></li>
         </ol>
@@ -68,7 +68,7 @@
         <h2 class="h3">
           The bot is not working! What should I&nbsp;do?
         </h2>
-        <p>For further help and guidance with GW2Bot, please <a class="external" :href="$supportServerLink" target="_blank">join the support server</a>!</p>
+        <p>For further help and guidance with GW2Bot, please <ExternalLink :href="$supportServerLink">join the support server</ExternalLink>!</p>
       </div>
     </div>
   </main>

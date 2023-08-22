@@ -24,7 +24,7 @@
       </picture>
 
       <p v-if="error.statusCode!=404">
-        If this problem persists, please <a class="external" href="https://github.com/brybrant/gw2bot-site/issues" target="_blank">submit an issue on GitHub</a> or report it in the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord&nbsp;Server</a>.
+        If this problem persists, please <ExternalLink href="https://github.com/brybrant/gw2bot-site/issues">submit an issue on GitHub</ExternalLink> or report it in the <ExternalLink :href="$supportServerLink">GW2Bot Discord&nbsp;Server</ExternalLink>.
       </p>
 
       <br>

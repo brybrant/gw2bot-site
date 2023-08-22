@@ -44,8 +44,9 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/globalVariables',
-    '~/plugins/filters'
+    '~/plugins/filters',
+    '~/plugins/globalComponents',
+    '~/plugins/globalVariables'
   ],
   /*
   ** Nuxt.js dev-modules

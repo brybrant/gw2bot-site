@@ -21,19 +21,19 @@
       </p>
 
       <p class="h6 gutter-top-margin">
-        By default, GW2Bot will respond to <a class="external" href="https://wiki.guildwars2.com/wiki/Chat_link_format#Link_type_details" target="_blank">chat&nbsp;links</a>. This can be disabled with&nbsp;<code>/server&nbsp;preview_chat_links</code>
+        By default, GW2Bot will respond to Guild&nbsp;Wars&nbsp;2 <ExternalLink href="https://wiki.guildwars2.com/wiki/Chat_link_format#Link_type_details">chat&nbsp;links</ExternalLink>. This behavior can be disabled with the <code>/server&nbsp;preview_chat_links</code>&nbsp;command
       </p>
 
       <p class="h6">
-        Process EVTC log files from arcdps with&nbsp;<code>/evtc</code> or explore automation options with&nbsp;<code>/evtc_automation</code>
+        Process EVTC log files from arcdps with&nbsp;<code>/evtc</code> or explore automatic processing options with&nbsp;<code>/evtc_automation</code>
       </p>
 
       <p class="h6">
-        Automatically change all server member names to Guild&nbsp;Wars&nbsp;2 account names with <code>/server&nbsp;force_account_names</code>
+        Automatically change all server member names to Guild&nbsp;Wars&nbsp;2 account names by using the <code>/server&nbsp;force_account_names</code>&nbsp;command
       </p>
 
       <p class="h6">
-        <small>*GW2Bot does not record your message contents. Read the <NuxtLink to="/privacy-policy">privacy policy</NuxtLink> for more information</small>
+        <small>*GW2Bot does not record your message contents. Read the <NuxtLink to="/privacy-policy">privacy policy</NuxtLink> for more&nbsp;information</small>
       </p>
     </div>
   </section>

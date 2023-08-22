@@ -7,17 +7,15 @@
         <p>Last Updated: August 13, 2022</p>
       </header>
 
-      <!-- eslint-disable vue/no-v-html -->
-      <p v-html="$botDescription" />
-      <!-- eslint-enable -->
+      <BotDescription />
 
       <p>We are committed to protecting your&nbsp;privacy. We understand that you do not want the data you provide to GW2Bot to be distributed indiscriminately and this privacy policy explains how we collect data, what we do with it and what controls you have over&nbsp;it. All of the data we acquire from you is collected and processed in accordance with General Data Protection Regulations&nbsp;(GDPR). <strong>We don&rsquo;t share or sell any of your data to anyone and we&nbsp;never&nbsp;will.</strong></p>
 
       <p>By using GW2Bot, you consent to the collection of data about your usage of GW2Bot in accordance with this privacy&nbsp;policy. If you use GW2Bot features that require authentication via <dfn><abbr title="Guild Wars 2">GW2</abbr></dfn> access token <em>(hereafter referred to as an&nbsp;&ldquo;<abbr>API</abbr>&nbsp;key&rdquo;),</em> then you also consent to the collection and use of your <abbr>GW2</abbr>&nbsp;gaming data in accordance with this privacy&nbsp;policy. If you do not agree with the use of your data as described in this privacy policy, or the <NuxtLink to="/terms-of-service">Terms of Service</NuxtLink>, please do not use&nbsp;GW2Bot. If you do not agree with the use of your <abbr>GW2</abbr> gaming data as described in this privacy policy, please do not use GW2Bot features that require authentication. <strong>We do not collect any personal data about you such as your name, your age, pictures of your cat, or any other personally identifiable&nbsp;information.</strong></p>
 
-      <p>GW2Bot requires access to Discord message content to enable <a class="external" href="https://wiki.guildwars2.com/wiki/Chat_link_format" target="_blank"><abbr>GW2</abbr> chat link</a> functionality within&nbsp;Discord. This means that GW2Bot can see your messages, but it cannot <em>&ldquo;read&rdquo;</em> or understand your messages; GW2Bot only searches new messages for a&nbsp;valid <abbr>GW2</abbr> chat link and then responds with the appropriate <abbr>GW2</abbr> game element if one is found, otherwise the message is disregarded. You can disable this feature by using the <code>/server preview_chat_links</code> command. <strong>GW2Bot does not record your message content and never&nbsp;will.</strong></p>
+      <p>GW2Bot requires access to Discord message content to enable <ExternalLink href="https://wiki.guildwars2.com/wiki/Chat_link_format"><abbr>GW2</abbr> chat link</ExternalLink> functionality within&nbsp;Discord. This means that GW2Bot can see your messages, but it cannot <em>&ldquo;read&rdquo;</em> or understand your messages; GW2Bot only searches new messages for a&nbsp;valid <abbr>GW2</abbr> chat link and then responds with the appropriate <abbr>GW2</abbr> game element if one is found, otherwise the message is disregarded. You can disable this feature by using the <code>/server preview_chat_links</code> command. <strong>GW2Bot does not record your message content and never&nbsp;will.</strong></p>
 
-      <p>We reserve the right to change this privacy policy from time to&nbsp;time. If we make any changes to this privacy policy, we will notify you by means of an announcement on the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord Server</a> prior to the changes becoming effective, which will give you the opportunity to review the changes before you choose to continue using&nbsp;GW2Bot. You will also receive a direct message about the changes from GW2Bot when you first interact with GW2Bot after this privacy policy is&nbsp;updated. You can always find a link to this privacy policy in the footer of every page on this website, or by using GW2Bot&rsquo;s <code>/help</code>&nbsp;command.</p>
+      <p>We reserve the right to change this privacy policy from time to&nbsp;time. If we make any changes to this privacy policy, we will notify you by means of an announcement on the <ExternalLink :href="$supportServerLink">GW2Bot Discord Server</ExternalLink> prior to the changes becoming effective, which will give you the opportunity to review the changes before you choose to continue using&nbsp;GW2Bot. You will also receive a direct message about the changes from GW2Bot when you first interact with GW2Bot after this privacy policy is&nbsp;updated. You can always find a link to this privacy policy in the footer of every page on this website, or by using GW2Bot&rsquo;s <code>/help</code>&nbsp;command.</p>
 
       <h2 id="what-data-do-we-collect" class="anchor">
         What Data Do We&nbsp;Collect?
@@ -36,7 +34,7 @@
       <ul>
         <li><strong>To improve GW2Bot:</strong> We may use your error logs and general usage data to help in debugging, fixing errors, and making improvements to&nbsp;GW2Bot.</li>
 
-        <li><strong>To provide a personalised experience:</strong> We may use your <abbr>GW2</abbr> <abbr>API</abbr>&nbsp;key to fetch data from <a class="external" href="https://wiki.guildwars2.com/wiki/API:Main#Authentication" target="_blank">authenticated <abbr>GW2</abbr> <abbr>API</abbr> endpoints</a> to provide an experience that is unique and relevant to&nbsp;you. Some examples include searching for an item on your <abbr>GW2</abbr> account, checking your weekly raid progression, and synchronizing your in-game Guild&nbsp;Ranks with Roles in your Discord&nbsp;Server.</li>
+        <li><strong>To provide a personalised experience:</strong> We may use your <abbr>GW2</abbr> <abbr>API</abbr>&nbsp;key to fetch data from <ExternalLink href="https://wiki.guildwars2.com/wiki/API:Main#Authentication">authenticated <abbr>GW2</abbr> <abbr>API</abbr> endpoints</ExternalLink> to provide an experience that is unique and relevant to&nbsp;you. Some examples include searching for an item on your <abbr>GW2</abbr> account, checking your weekly raid progression, and synchronizing your in-game Guild&nbsp;Ranks with Roles in your Discord&nbsp;Server.</li>
 
         <li><strong>To provide convenience and quality of life&nbsp;features:</strong> We may store your GW2Bot preferences to provide convenience and quality of life features such as sending you opt-in notifications for game events, gem price changes, and other special occurrences such as Daily Mystic&nbsp;Forger.</li>
       </ul>
@@ -69,14 +67,19 @@
         <li><strong>The right to data portability:</strong> You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.</li>
       </ul>
 
-      <p>If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us via the <a class="external" :href="$supportServerLink" target="_blank">GW2Bot Discord&nbsp;Server</a>.</p>
+      <p>If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us via the <ExternalLink :href="$supportServerLink">GW2Bot Discord&nbsp;Server</ExternalLink>.</p>
     </div>
   </main>
 </template>
 
 <script>
+import BotDescription from '@/components/bot-description'
+
 export default {
   name: 'PrivacyPolicyPage',
+  components: {
+    BotDescription
+  },
   head () {
     return {
       title: 'Privacy Policy | GW2Bot'
