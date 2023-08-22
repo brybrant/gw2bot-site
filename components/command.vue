@@ -66,67 +66,24 @@
       :id="`${command.name}-subcommands`"
       class="subcommand-list"
     >
-      <li
+      <SubcommandComponent
         v-for="(subcommand, index) in command.subcommands"
         :key="`subcommand-${index}`"
-        class="subcommand"
-      >
-        <div
-          v-if="subcommand.args"
-          :id="`${command.name}-${subcommand.name}-tooltip`"
-          class="tooltip"
-          :class="{active: subcommand.active}"
-        >
-          <button
-            class="tooltip__close"
-            :aria-controls="`${command.name}-${subcommand.name}-tooltip`"
-            title="Close"
-            @click="subcommand.active = false"
-          />
-          <CommandArgumentsComponent :command="subcommand" />
-        </div>
-
-        <p class="subcommand__name">
-          <span>{{ command.name }}</span> {{ subcommand.name }}
-          <button
-            v-if="subcommand.args"
-            class="command__button command__button--args"
-            :class="{active: subcommand.active}"
-            :aria-controls="`${command.name}-${subcommand.name}-tooltip`"
-            :aria-expanded="subcommand.active ? 'true' : 'false'"
-            :title="subcommand.active ? 'Hide command arguments' : 'Show command arguments'"
-            @click="subcommand.active = !subcommand.active"
-          >
-            {{ `+${subcommand.args.length}` }}
-          </button>
-        </p>
-        <p class="subcommand__desc small-text">
-          {{ subcommand.desc | twoOrphans }}
-        </p>
-
-        <div v-if="subcommand.permissions" class="permissions">
-          <p class="small-text">
-            {{ `Required API key permission${subcommand.permissions.length>1 ? 's:' : ':'}` }}<br>
-            <code
-              v-for="(permission, index2) in subcommand.permissions"
-              :key="`permission-${index2}`"
-              class="smaller"
-            >
-              {{ permission }}
-            </code>
-          </p>
-        </div>
-      </li>
+        :command="command"
+        :subcommand="subcommand"
+      />
     </ul>
   </li>
 </template>
 
 <script>
+import SubcommandComponent from '@/components/subcommand'
 import CommandArgumentsComponent from '@/components/command-arguments'
 
 export default {
   name: 'CommandComponent',
   components: {
+    SubcommandComponent,
     CommandArgumentsComponent
   },
   props: {
@@ -143,7 +100,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .command {
   position: relative;
   padding: ($baseline-px * .25) 8px ($baseline-px * .5) 8px;
@@ -152,9 +109,6 @@ export default {
   box-shadow: $card-shadow;
   & ~ .command {
     margin-top: $baseline-rem;
-  }
-  p {
-    margin: 0;
   }
   .tooltip {
     right: (-8px);
@@ -165,6 +119,7 @@ export default {
     box-shadow: $card-shadow--dark;
   }
 }
+
 .command__name {
   @extend %Code-font-family;
   margin: 0;
@@ -186,6 +141,7 @@ export default {
     color: $white;
   }
 }
+
 .command__desc {
   margin: 2px 0 10px 0;
   padding: 0 4px;
@@ -195,6 +151,36 @@ export default {
     color: $grey-1200;
   }
 }
+
+.command__button--subcommands {
+  border-radius: 20px;
+  padding: 1px 14px;
+  &:active {
+    padding: 2px 14px 0 14px;
+  }
+  &:after {
+    content: '';
+    display: inline-block;
+    width: ($baseline-px * 2) - 12px;
+    height: ($baseline-px * 2) - 12px;
+    background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' fill='#{$grey-800}'><circle cx='200' cy='300' r='30'/><circle cx='325' cy='300' r='30'/><circle cx='450' cy='300' r='30'/></svg>") 50% 50%/100% 100%;
+    vertical-align: top;
+  }
+}
+
+.subcommand-list {
+  margin: 12px 0 (-12px) 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+</style>
+
+<style lang="scss">
+.command p {
+  margin: 0;
+}
+
 .command__button {
   display: inline-block;
   border: 1px solid $grey-1000;
@@ -233,68 +219,12 @@ export default {
     }
   }
 }
-.command__button--subcommands {
-  border-radius: 20px;
-  padding: 1px 14px;
-  &:active {
-    padding: 2px 14px 0 14px;
-  }
-  &:after {
-    content: '';
-    display: inline-block;
-    width: ($baseline-px * 2) - 12px;
-    height: ($baseline-px * 2) - 12px;
-    background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500' fill='#{$grey-800}'><circle cx='200' cy='300' r='30'/><circle cx='325' cy='300' r='30'/><circle cx='450' cy='300' r='30'/></svg>") 50% 50%/100% 100%;
-    vertical-align: top;
-  }
-}
 .command__button--args {
   border-radius: 8px;
   padding: 1px 6px;
   &:active {
     padding: 2px 6px 0 6px;
   }
-}
-
-.subcommand-list {
-  margin: 12px 0 (-12px) 0;
-  padding: 0;
-  list-style: none;
-  text-align: center;
-}
-.subcommand {
-  position: relative;
-  margin: 12px 0 0 0;
-  padding: 12px 0;
-  border-top: 1px solid $grey-1000;
-  & ~ .subcommand {
-    margin: 0;
-  }
-  .tooltip {
-    right: (-16px);
-    left: (-16px);
-  }
-  .dark-mode & {
-    border-top-color: $grey-200;
-  }
-}
-.subcommand__name {
-  @extend %Code-font-family;
-  line-height: $baseline-px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
-  button {
-    line-height: $baseline-px - 4px;
-  }
-  span {
-    color: $grey-800;
-    &:before {
-      content: '\002F';// Forward slash
-    }
-  }
-}
-.subcommand__desc {
-  padding: 0 4px;
 }
 
 .permissions {
