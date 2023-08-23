@@ -44,6 +44,7 @@ h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   @extend %Header-font-family;
   position: relative;
   display: block;
+  font-variant-ligatures: discretionary-ligatures;
   color: $grey-250;
   .dark-mode & {
     color: $grey-1150;
