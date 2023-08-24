@@ -71,6 +71,8 @@ $footer-width:        780px;
     Breakpoints
 \*---------------------------------------------------------------------------*/
 $breakpoints: (
+  'lt-480'  '(max-width: 480px)',
+  'gt-480'  '(min-width: 481px)',
   'lt-600'  '(max-width: 600px)',
   'gt-600'  '(min-width: 601px)',
   'lt-800'  '(max-width: 800px)',

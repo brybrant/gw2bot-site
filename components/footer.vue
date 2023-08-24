@@ -4,28 +4,36 @@
       <div class="flexbox-container">
         <div class="flexbox">
           <div class="flexbox__item">
-            <a class="github-link" href="https://github.com/Maselkov/GW2Bot" target="_blank">
-              <GitHubInlineSVG fit />
-            </a>
-            <small>
-              GW2Bot created by<br><span class="bold-text">@maselkov</span>
-            </small>
+            <div class="flexbox">
+              <a class="github-link" href="https://github.com/Maselkov/GW2Bot" target="_blank">
+                <GitHubInlineSVG fit />
+              </a>
+              <small>
+                GW2Bot created by<br><span class="bold-text">@maselkov</span>
+              </small>
+            </div>
           </div>
 
           <div class="flexbox__item">
-            <a class="github-link" href="https://github.com/brybrant/gw2bot-site" target="_blank">
-              <GitHubInlineSVG fit />
-            </a>
-            <small>
-              Website created by <span class="bold-text">@penemue.</span>&nbsp;and&nbsp;<span class="bold-text">@matt_bryant</span>
-            </small>
+            <div class="flexbox">
+              <a class="github-link" href="https://github.com/brybrant/gw2bot-site" target="_blank">
+                <GitHubInlineSVG fit />
+              </a>
+              <small>
+                Website created by<br><span class="bold-text">@penemue.</span>&nbsp;and&nbsp;<span class="bold-text">@matt_bryant</span>
+              </small>
+            </div>
           </div>
         </div>
       </div>
 
-      <p class="small-text"><small>Thanks to all contributors<LoveheartInlineSVG /><br>Please read our <NuxtLink to="/terms-of-service">Terms&nbsp;of Service</NuxtLink> and our <NuxtLink to="/privacy-policy">Privacy&nbsp;Policy</NuxtLink> before using&nbsp;GW2Bot.<br>Join the <ExternalLink :href="$supportServerLink">GW2Bot Discord Server</ExternalLink> for further&nbsp;support.</small></p>
+      <p class="small-text">
+        <small>Thanks to all contributors<LoveheartInlineSVG /><br>Please read our <NuxtLink to="/terms-of-service">Terms&nbsp;of Service</NuxtLink> and our <NuxtLink to="/privacy-policy">Privacy&nbsp;Policy</NuxtLink> before using&nbsp;GW2Bot.<br>Join the <ExternalLink :href="$supportServerLink">GW2Bot Discord Server</ExternalLink> for further&nbsp;support.</small>
+      </p>
 
-      <p class="small-text"><small>NCSOFT, ArenaNet, Guild&nbsp;Wars, Guild&nbsp;Wars&nbsp;2, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT&nbsp;Corporation.</small></p>
+      <p class="small-text">
+        <small>NCSOFT, ArenaNet, Guild&nbsp;Wars, Guild&nbsp;Wars&nbsp;2, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT&nbsp;Corporation.</small>
+      </p>
     </div>
   </footer>
 </template>
@@ -47,7 +55,7 @@ export default {
 footer {
   position: relative;
   margin: ($baseline-rem * 2) 0 0 0;
-  padding: $baseline-rem 0 ($baseline-rem * 2) 0;
+  padding: 0 0 ($baseline-rem * 2) 0;
   text-align: center;
   width: 100%;
   background: $grey-1100;
@@ -64,20 +72,34 @@ footer {
 }
 .flexbox {
   margin-left: 0;
-}
-.flexbox__item {
-  padding-left: 0;
-  width: 50%;
   small {
     display: block;
+    width: 200px;
     line-height: 1.25rem;
+    text-align: left;
+    @include media-query('gt-480') {
+      text-align: center;
+    }
+  }
+}
+.flexbox__item {
+  margin-top: $baseline-rem;
+  padding-left: 0;
+  width: 100%;
+  @include media-query('gt-480') {
+    width: 50%;
+  }
+  .flexbox {
+    @include media-query('gt-480') {
+      flex-flow: column nowrap;
+    }
   }
 }
 
 .github-link {
   display: block;
-  margin: 4px auto;
-  border-radius: 18px;
+  margin: auto ($baseline-px * 0.5) auto 0;
+  border-radius: 50%;
   width: 36px;
   height: 36px;
   color: $grey-300;
@@ -95,6 +117,9 @@ footer {
     &:active {
       color: $grey-900;
     }
+  }
+  @include media-query('gt-480') {
+    margin: auto;
   }
 }
 </style>
