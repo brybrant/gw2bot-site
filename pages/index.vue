@@ -192,6 +192,7 @@ export default {
 
 <style lang="scss">
 .feature-section {
+  position: relative;
   padding: ($baseline-rem * 1.5) 0 ($baseline-rem * 2) 0;
   h2 {
     margin: 0;
@@ -218,10 +219,50 @@ export default {
     .dark-mode & {
       background: $grey-350;
     }
+    .feature-background:after {
+      background-position: 0% 50%;
+    }
     img {
       margin: $baseline-rem 0 0 $baseline-rem;
       float: right;
     }
+  }
+}
+
+.feature-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  background: $white;
+  .dark-mode & {
+    background: $grey-300;
+  }
+  @supports (mix-blend-mode: overlay) {
+    display: block;
+  }
+  &:before, &:after {
+    @extend %Psuedo-element;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  &:before {
+    background: url-encode("<svg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'><filter id='f'><feFlood flood-color='#808080' result='a'/><feTurbulence type='fractalNoise' baseFrequency='100' numOctaves='3' stitchTiles='stitch' result='b'/><feComposite in='a' in2='b' operator='in'/></filter><rect width='1' height='1' filter='url(#f)'/></svg>") 50% 50%/200px 200px;
+    opacity: 0.5;
+    .dark-mode & {
+      opacity: 0.25;
+    }
+  }
+  &:after {
+    background-position: 100% 50%;
+    background-size: calc(200% + 200px) 200%;
+    background-repeat: no-repeat;
+    mix-blend-mode: overlay;
   }
 }
 </style>
