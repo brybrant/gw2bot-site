@@ -154,7 +154,7 @@
                   </tr>
                 </table>
                 <p>
-                  <a class="external" :href="encounter.permalink" target="_blank">View full encounter details</a>
+                  <ExternalLink :href="encounter.permalink">View full encounter details</ExternalLink>
                 </p>
               </li>
             </ol>
