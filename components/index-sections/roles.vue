@@ -48,15 +48,15 @@ export default {
 <style lang="scss" scoped>
 .feature-background:after {
   background-image: conic-gradient(
-    hsl(245, 65%, 72%) 2deg,
-    hsl(240, 50%, 90%) 90deg,
-    hsl(235, 50%, 69%) 178deg
+    hsl(245, 100%, 74%) 2deg,
+    hsl(240, 20%, 86%) 90deg,
+    hsl(235, 100%, 76%) 178deg
   );
   .dark-mode & {
     background-image: conic-gradient(
-      hsl(245, 44%, 63%) 2deg,
-      hsl(240, 12%, 52%) 90deg,
-      hsl(235, 26%, 56%) 178deg
+      hsl(245, 22%, 49%) 2deg,
+      hsl(240, 4%, 42%) 90deg,
+      hsl(235, 12%, 44%) 178deg
     );
   }
 }
