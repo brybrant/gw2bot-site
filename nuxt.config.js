@@ -25,6 +25,7 @@ export default {
       { rel: 'icon', sizes: '16x16', type: 'image/png', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/manifest.json' },
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#b40000' },
+      { rel: 'preload', href: '/fonts/TrebuchetMS-Bold.woff2', as: 'font', type: 'font/woff2' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'crossorigin' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap', media: 'print', onload: 'this.onload=null;this.removeAttribute("media")' }

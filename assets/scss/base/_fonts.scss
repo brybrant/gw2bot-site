@@ -4,9 +4,9 @@
 @font-face {
   font-family: 'Trebuchet MS';
   src: // local('Trebuchet MS'), local('Trebuchet MS Regular'),
-    url('~assets/fonts/TrebuchetMS.woff2') format('woff2'),
-    url('~assets/fonts/TrebuchetMS.woff') format('woff'),
-    url('~assets/fonts/TrebuchetMS.ttf') format('truetype');
+    url('/fonts/TrebuchetMS.woff2') format('woff2'),
+    url('/fonts/TrebuchetMS.woff') format('woff'),
+    url('/fonts/TrebuchetMS.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,9 +16,9 @@
 @font-face {
   font-family: 'Trebuchet MS';
   src: // local('Trebuchet MS Italic'),
-    url('~assets/fonts/TrebuchetMS-Italic.woff2') format('woff2'),
-    url('~assets/fonts/TrebuchetMS-Italic.woff') format('woff'),
-    url('~assets/fonts/TrebuchetMS-Italic.ttf') format('truetype');
+    url('/fonts/TrebuchetMS-Italic.woff2') format('woff2'),
+    url('/fonts/TrebuchetMS-Italic.woff') format('woff'),
+    url('/fonts/TrebuchetMS-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
   font-display: swap;
@@ -28,9 +28,9 @@
 @font-face {
   font-family: 'Trebuchet MS';
   src: // local('Trebuchet MS Bold'),
-    url('~assets/fonts/TrebuchetMS-Bold.woff2') format('woff2'),
-    url('~assets/fonts/TrebuchetMS-Bold.woff') format('woff'),
-    url('~assets/fonts/TrebuchetMS-Bold.ttf') format('truetype');
+    url('/fonts/TrebuchetMS-Bold.woff2') format('woff2'),
+    url('/fonts/TrebuchetMS-Bold.woff') format('woff'),
+    url('/fonts/TrebuchetMS-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -40,9 +40,9 @@
 @font-face {
   font-family: 'Trebuchet MS';
   src: // local('Trebuchet MS Bold Italic'),
-    url('~assets/fonts/TrebuchetMS-BoldItalic.woff2') format('woff2'),
-    url('~assets/fonts/TrebuchetMS-BoldItalic.woff') format('woff'),
-    url('~assets/fonts/TrebuchetMS-BoldItalic.ttf') format('truetype');
+    url('/fonts/TrebuchetMS-BoldItalic.woff2') format('woff2'),
+    url('/fonts/TrebuchetMS-BoldItalic.woff') format('woff'),
+    url('/fonts/TrebuchetMS-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
   font-display: swap;
