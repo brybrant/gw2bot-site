@@ -58,7 +58,6 @@ export default {
   line-height: $baseline-px;
   font-weight: 600;
   white-space: nowrap;
-  letter-spacing: -0.3px;
   span {
     font-size: $small-font-rem;
     color: $grey-800;

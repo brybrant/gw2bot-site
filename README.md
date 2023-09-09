@@ -23,7 +23,17 @@ npm run dev
 npm run build
 ```
 
-> You'll need a Discord bot's Client ID and add it a Redirect URI to use authentication. Replace the variables in `nuxt.config.js` file.
+> You must replace `YOUR_BOT_ID` in the file `./nuxt.config.js` with your Discord bot's Client ID for authentication.
+> In development, make sure your local mongodb service is running when you try to view the logs page. The website connects to the same database used by GW2Bot.
+> If the connection to the database times out, you may need to edit your [mongod configuration file](https://www.mongodb.com/docs/manual/reference/configuration-options/#configuration-file-options) to enable IPV6 connection to localhost:
+
+``` yaml
+# path/to/mongod.cfg
+net:
+  port: 27017
+  bindIp: localhost,127.0.0.1
+  ipv6: true
+```
 
 ## Contribution
 

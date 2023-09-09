@@ -128,7 +128,6 @@ export default {
   line-height: ($baseline-px * 2);
   font-weight: 400;
   white-space: nowrap;
-  letter-spacing: -0.8px;
   .command__button {
     margin: 4px 0;
     line-height: ($baseline-px * 2) - 12px;

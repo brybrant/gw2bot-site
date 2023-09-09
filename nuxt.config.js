@@ -27,7 +27,7 @@ export default {
       { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#b40000' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'crossorigin' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;600&display=swap', media: 'print', onload: 'this.onload=null;this.removeAttribute("media")' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap', media: 'print', onload: 'this.onload=null;this.removeAttribute("media")' }
     ]
   },
   /*
@@ -44,6 +44,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/axios',
     '~/plugins/filters',
     '~/plugins/globalComponents',
     '~/plugins/globalVariables'

@@ -30,12 +30,13 @@ abbr[title] {
     border: 0;
   }
 }
-code {
+code, pre {
   @extend %Code-font-family;
   padding: 1px 3px;
   background: $grey-1100;
   border-radius: 3px;
-  font-size: 80%;
+  font-size: 95%;
+  font-variant-ligatures: no-discretionary-ligatures;
   .dark-mode & {
     background: $grey-500;
   }

@@ -5,6 +5,8 @@
         <h1>Error {{ error.statusCode }}</h1>
 
         <p>{{ error.message }}.</p>
+
+        <pre v-if="error.cause">{{ error.cause }}.</pre>
       </header>
 
       <picture>
@@ -68,5 +70,11 @@ img {
 .error-quaggan {
   width: 308px;
   height: 313px;
+}
+pre {
+  display: inline-block;
+  vertical-align: top;
+  margin: $baseline-rem 0 0 0;
+  padding: 1px 5px;
 }
 </style>

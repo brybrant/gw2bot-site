@@ -1,14 +1,14 @@
 /*
   Boss IDs:
-https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/GW2EIEvtcParser/ParserHelpers/ArcDPSEnums.cs#L728
+https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/GW2EIEvtcParser/ParserHelpers/ArcDPSEnums.cs#L1013
 
   Boss Icons:
-https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/GW2EIEvtcParser/ParserHelpers/ParserHelper.cs#L642
+https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/GW2EIEvtcParser/ParserHelpers/ParserIcons.cs#L100
 
 https://wiki.guildwars2.com/index.php?title=Category:Miniature_icons
 */
 const bosses = {
-  Raids: [
+  'Raids': [
     {
       name: 'Spirit Vale',
       encounters: [
@@ -152,7 +152,7 @@ const bosses = {
       name: 'Mythwright Gambit',
       encounters: [
         {
-          ids: [43974],
+          ids: [43974, 44885],
           icon: 'https://wiki.guildwars2.com/images/1/19/Bronze_Conjured_Amalgamate_Trophy.png',
           name: 'Conjured Amalgamate',
           api_name: 'conjured_amalgamate'
@@ -207,12 +207,12 @@ const bosses = {
         {
           ids: [17028],
           icon: 'https://wiki.guildwars2.com/images/d/d0/Mini_Toxic_Warlock.png',
-          name: 'Siax the Corrupted'
+          name: 'Siax'
         },
         {
           ids: [16948],
           icon: 'https://wiki.guildwars2.com/images/5/5e/Mini_Toxic_Hybrid.png',
-          name: 'Ensolyss of the Endless Torment'
+          name: 'Ensolyss'
         }
       ]
     },
@@ -243,6 +243,16 @@ const bosses = {
           ids: [23254],
           icon: 'https://i.imgur.com/R5w3sXS.png',
           name: 'Ai, Keeper of the Peak'
+        }
+      ]
+    },
+    {
+      name: 'Silent Surf',
+      encounters: [
+        {
+          ids: [25572, 25577],
+          icon: 'https://wiki.guildwars2.com/images/3/31/Mini_Kanaxai.png',
+          name: 'Kanaxai, Scythe of House Aurkus'
         }
       ]
     }
@@ -349,6 +359,26 @@ const bosses = {
       ]
     },
     {
+      name: 'Cosmic Observatory',
+      encounters: [
+        {
+          ids: [25705],
+          icon: 'https://wiki.guildwars2.com/images/5/52/Mini_Dagda.png',
+          name: 'Dagda'
+        }
+      ]
+    },
+    {
+      name: 'Temple of Febe',
+      encounters: [
+        {
+          ids: [25989],
+          icon: 'https://wiki.guildwars2.com/images/e/e0/Mini_Cerus.png',
+          name: 'Cerus'
+        }
+      ]
+    },
+    {
       name: 'Secret Lair of the Snowmen',
       encounters: [
         {
@@ -359,7 +389,7 @@ const bosses = {
       ]
     }
   ],
-  Other: [
+  'Other': [
     {
       name: 'Training Golems',
       encounters: [
@@ -393,6 +423,18 @@ const bosses = {
           ids: [16198],
           icon: 'https://wiki.guildwars2.com/images/3/33/Mini_Snuggles.png',
           name: 'Vital Kitty Golem'
+        }
+      ]
+    }
+  ],
+  'WvW': [
+    {
+      name: 'World vs World',
+      encounters: [
+        {
+          ids: [1],
+          icon: 'https://wiki.guildwars2.com/images/4/40/Mini_Chest_of_the_Mists.png',
+          name: 'World vs World'
         }
       ]
     }

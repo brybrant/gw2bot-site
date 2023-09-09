@@ -2,24 +2,27 @@
   <main>
     <div class="page-width page-padding">
       <header>
-        <h1>Encounter Browser</h1>
-        <p v-if="user">
-          Currently viewing encounters of <strong>{{ user }}</strong>
-        </p>
+        <template v-if="user">
+          <template v-if="Array.isArray(encounters)">
+            <p v-if="encounters.length > 0">
+              Currently viewing encounters of&nbsp;<strong>{{ user }}</strong>
+            </p>
+            <p v-else>
+              No Encounter Logs Found for&nbsp;<strong>{{ user }}</strong><br>
+              <br>
+              Add your encounter logs to GW2Bot by using the <code>/evtc</code> command in Discord.
+            </p>
+          </template>
+          <p v-else>
+            Loading Encounters... <LoadingInlineSVG />
+          </p>
+        </template>
         <p v-else>
           Loading User... <LoadingInlineSVG />
         </p>
       </header>
 
-      <template v-if="state===0">
-        <p class="h3">
-          No Encounter Logs Found for&nbsp;{{ user }}
-        </p>
-        <p>
-          Add your encounter logs to GW2Bot by using the <code>/evtc</code> command in Discord.
-        </p>
-      </template>
-      <template v-else>
+      <template v-if="Array.isArray(encounters) && encounters.length > 0">
         <!-- ENCOUNTER SELECT -->
         <div class="form form--inline">
           <div class="encounter-select">
@@ -30,13 +33,17 @@
                     Instance:
                   </label>
                   <select id="encounter-instances" class="form__control">
-                    <option selected @click="selectInstance($event)" />
-                    <optgroup v-for="(category, key) in bosses" :key="key" :label="key">
+                    <option selected @click="selectedInstance = null" />
+                    <optgroup
+                      v-for="(instances, category) in bosses"
+                      :key="category"
+                      :label="category"
+                    >
                       <option
-                        v-for="(instance, index) in category"
+                        v-for="(instance, index) in instances"
                         :key="index"
                         :data-index="index"
-                        @click="selectInstance($event)"
+                        @click="selectedInstance = instance.encounters"
                       >
                         {{ instance.name }}
                       </option>
@@ -45,20 +52,20 @@
                 </div>
               </div>
 
-              <div v-if="selectedInstance" class="flexbox__item">
+              <div v-if="selectedInstance !== null" class="flexbox__item">
                 <div class="form__group">
                   <label for="encounter-bosses" class="form__label">
                     Boss:
                   </label>
                   <select id="encounter-bosses" class="form__control">
-                    <option selected @click="selectBoss($event)" />
+                    <option selected @click="selectedEncounter = null" />
                     <option
-                      v-for="(boss, index) in selectedInstance.encounters"
+                      v-for="(encounter, index) in selectedInstance"
                       :key="index"
-                      :data-value="boss.ids"
-                      @click="selectBoss($event)"
+                      :data-value="encounter.ids"
+                      @click="selectedEncounter = encounter; applyFilters()"
                     >
-                      {{ boss.name }}
+                      {{ encounter.name }}
                     </option>
                   </select>
                 </div>
@@ -66,35 +73,50 @@
             </div>
           </div>
 
-          <hr>
+          <hr v-if="selectedEncounter !== null">
 
           <!-- ENCOUNTER FILTERS -->
-          <div class="encounter-filters">
+          <div v-if="selectedEncounter !== null" class="encounter-filters">
             <div class="flexbox">
               <div class="flexbox__item">
                 <div class="form__checkbox">
                   <label for="result" class="form__label">
                     Successful Only?
                   </label>
-                  <input id="result" v-model="filters.success" type="checkbox" @change="applyFilters">
+                  <input
+                    id="result"
+                    v-model="filters.success"
+                    type="checkbox"
+                    @change="applyFilters"
+                  >
                 </div>
               </div>
 
               <div class="flexbox__item">
                 <div class="form__group">
-                  <label for="date-start" class="form__label">
+                  <label for="dateStart" class="form__label">
                     Date Start:
                   </label>
-                  <input id="date-start" v-model="filters.dateStart" class="form__control" type="date" @change="applyFilters">
+                  <input
+                    id="dateStart"
+                    class="form__control"
+                    type="date"
+                    @change="setDateFilter"
+                  >
                 </div>
               </div>
 
               <div class="flexbox__item">
                 <div class="form__group">
-                  <label for="date-end" class="form__label">
+                  <label for="dateEnd" class="form__label">
                     Date End:
                   </label>
-                  <input id="date-end" v-model="filters.dateEnd" class="form__control" type="date" @change="applyFilters">
+                  <input
+                    id="dateEnd"
+                    class="form__control"
+                    type="date"
+                    @change="setDateFilter"
+                  >
                 </div>
               </div>
             </div>
@@ -103,27 +125,33 @@
 
         <!-- ENCOUNTER DISPLAY -->
         <div v-if="user" class="encounter-display">
-          <p v-if="state==='loading'" class="h4">
-            Loading Encounters... <LoadingInlineSVG />
-          </p>
-          <template v-else-if="state==='ready'">
-            <template v-if="selectedBoss">
-              <p class="h3">
-                <img :src="selectedBoss.icon" alt="">{{ selectedBoss.name | twoOrphans }}
-              </p>
-
-              <p v-if="(activeLogs<1)&&(encounters.length>0)&&(encounters.length==detailedEncounters.length)">
-                Cannot find any <strong>{{ selectedBoss.name | twoOrphans }}</strong> encounter logs associated with&nbsp;<strong>{{ user }}</strong>
-              </p>
-            </template>
-            <template v-else-if="!selectedBoss">
+          <template v-if="Array.isArray(encounters)">
+            <template v-if="selectedEncounter === null">
               <p>Start browsing your encounter logs by selecting an instance, then selecting a boss from the dropdown menus&nbsp;above.</p>
             </template>
-            <ol v-if="detailedEncounters.length" class="encounter-list">
-              <li v-for="encounter in detailedEncounters" :key="encounter.id" :data-value="encounter.triggerID" class="encounter" :class="{ active: selectedBoss.ids==encounter.triggerID }">
+            <template v-else>
+              <p class="h3">
+                <img :src="selectedEncounter.icon" alt="">{{ selectedEncounter.name | twoOrphans }}
+              </p>
+
+              <p v-if="activeEncounters.length === 0">
+                Cannot find any <strong>{{ selectedEncounter.name | twoOrphans }}</strong> encounter logs associated with&nbsp;<strong>{{ user }}</strong>
+              </p>
+            </template>
+            <ol v-if="activeEncounters.length > 0" class="encounter-list">
+              <li
+                v-for="encounter in activeEncounters"
+                :key="encounter._id"
+                :data-value="encounter.triggerID"
+                class="encounter"
+              >
                 <div class="encounter__info small-text">
-                  <span><strong>Date:</strong> {{ encounter.time }}</span>
-                  <span><strong>Duration:</strong> {{ encounter.duration }}</span>
+                  <span>
+                    <strong>Date:</strong> {{ encounter.dateString }}
+                  </span>
+                  <span>
+                    <strong>Duration:</strong> {{ encounter.duration }}
+                  </span>
                   <span>
                     <strong>Result:</strong> {{ encounter.success?'Success':'Failure' }}
                   </span>
@@ -135,8 +163,12 @@
                     <th>Character</th>
                     <th>DPS</th>
                   </tr>
-                  <tr v-for="player in encounter.players" :key="player.id" :class="{ me: encounter.recordedBy==player.name }">
-                    <td>{{ player.account }}</td>
+                  <tr
+                    v-for="(player, accountName) in encounter.details"
+                    :key="accountName"
+                    :class="{ me: user === accountName }"
+                  >
+                    <td>{{ accountName }}</td>
                     <td>
                       <picture>
                         <source :srcset="require(`@/assets/img/professions/${player.profession.toLowerCase()}_icon.webp`)" type="image/webp">
@@ -149,7 +181,7 @@
                       </picture>{{ player.name }}
                     </td>
                     <td>
-                      {{ player.dpsTargets[0][0].dps }}
+                      {{ player.damage }} ({{ player.dps }} dps)
                     </td>
                   </tr>
                 </table>
@@ -158,7 +190,7 @@
                 </p>
               </li>
             </ol>
-            <template v-if="encounters.length > detailedEncounters.length">
+            <!-- <template v-if="encounters.length > detailedEncounters.length">
               <p class="h4">
                 Loading Encounters... <LoadingInlineSVG />
               </p>
@@ -166,8 +198,11 @@
               <div class="progressbar">
                 <div :style="{'width': `${detailedEncounters.length / encounters.length * 100}%`}" />
               </div>
-            </template>
+            </template> -->
           </template>
+          <p v-else class="h4">
+            Loading Encounters... <LoadingInlineSVG />
+          </p>
         </div>
       </template>
     </div>
@@ -188,18 +223,15 @@ export default {
     return {
       user: null,
       bosses,
-      updateDebounce: null,
       filterDebounce: null,
-      state: 'loading',
-      selectedInstance: '',
-      selectedBoss: '',
+      selectedInstance: null,
+      selectedEncounter: null,
       encounters: [],
-      detailedEncounters: [],
-      activeLogs: 0,
+      activeEncounters: [],
       filters: {
-        success: null,
-        dateStart: null,
-        dateEnd: null
+        success: false,
+        dateStart: -Infinity,
+        dateEnd: Infinity
       }
     }
   },
@@ -209,101 +241,85 @@ export default {
     }
   },
   async mounted () {
-    document.getElementById('encounter-instances').selectedIndex = 0
-    await this.fetchAccountName(this.$auth.user.id)
-    await this.fetchEncounters(null, null, null)
-    await this.fetchEncountersDetail()
-    this.encounters.length ? (this.state = 'ready') : (this.state = 0)
-  },
-  updated () {
-    clearTimeout(this.updateDebounce)
+    // document.getElementById('encounter-instances').selectedIndex = 0
 
-    this.updateDebounce = setTimeout((instance) => {
-      instance.activeLogs = document.querySelectorAll('.encounter.active').length
-    }, 500, this)
+    this.user = await this.$axios.$get('api/user')
+
+    if (!this.user) { return }
+
+    this.encounters = await this.$axios.$get('api/encounters')
+
+    if (!Array.isArray(this.encounters)) { return }
+
+    for (const encounter of this.encounters) {
+      encounter.date = new Date(encounter.date)
+      encounter.dateString = encounter.date.toLocaleString()
+
+      if (encounter.details !== undefined) { continue }
+
+      const details = await fetch(
+        `https://dps.report/getJson?permalink=${encounter.permalink}`
+      ).then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        return 0
+      }).catch((error) => {
+        console.error(error)
+        return 0
+      })
+
+      if (details === 0) { continue }
+
+      encounter.details = {}
+
+      for (const player of details.players) {
+        encounter.details[player.account] = {
+          name: player.name,
+          profession: player.profession,
+          damage: player.dpsTargets[0][0].damage,
+          dps: player.dpsTargets[0][0].dps
+        }
+      }
+
+      await this.$axios.post(
+        `api/encounters/${encounter._id}`,
+        encounter.details
+      )
+    }
   },
   methods: {
-    async fetchAccountName () {
-      const user = await this.$axios.$get('api/user')
-      this.user = user.cogs.GuildWars2.key.account_name
-    },
-    async fetchEncounters (success, dateEnd, dateStart) {
-      if (!success) { success = null }
-      if (!dateEnd) { dateEnd = null }
-      if (!dateStart) { dateStart = null }
+    encounterFilter (encounter) {
+      if (!this.selectedEncounter.ids.includes(encounter.boss_id)) {
+        return false
+      }
 
-      this.encounters = await this.$axios.$get('api/encounters', {
-        params: {
-          success,
-          dateStart,
-          dateEnd
-        }
-      })
-    },
-    fetchEncountersDetail () {
-      this.detailedEncounters = []
+      if (this.filters.success === true && encounter.success !== true) {
+        return false
+      }
 
-      this.encounters.forEach(async (element) => {
-        const encounterJson = await fetch(
-          `https://dps.report/getJson?permalink=${element.permalink}`
-        ).then(response => response.json())
-        encounterJson.permalink = element.permalink
-        const encounterTime = encounterJson.timeEnd.split(' ')
-        encounterJson.time = new Date(`${encounterTime[0]}T${encounterTime[1]}`).toLocaleString()
-        this.detailedEncounters.push(encounterJson)
-      })
+      if (this.filters.dateStart >= encounter.date) {
+        return false
+      }
+
+      if (this.filters.dateEnd <= encounter.date) {
+        return false
+      }
+
+      return true
     },
     applyFilters () {
       clearTimeout(this.filterDebounce)
 
-      this.filterDebounce = setTimeout(async (instance) => {
-        if (instance.state === 'ready') { instance.state = 'loading' }
-        await instance.fetchEncounters(instance.filters.success, instance.filters.dateEnd, instance.filters.dateStart)
-        await instance.fetchEncountersDetail()
-        if (instance.state === 'loading') { instance.state = 'ready' }
+      this.filterDebounce = setTimeout((nuxt) => {
+        nuxt.activeEncounters = nuxt.encounters.filter(nuxt.encounterFilter)
       }, 500, this)
     },
-    selectInstance (event) {
-      if (event.target.index > 0) {
-        const category = event.target.parentElement.label
-        const instance = event.target.dataset.index
-        this.selectedInstance = this.bosses[category][instance]
-      } else {
-        this.selectedInstance = ''
-      }
-
-      const bossSelect = document.getElementById('encounter-bosses')
-
-      if (bossSelect) {
-        bossSelect.selectedIndex = 0
-        /* this.selectBoss({
-          target: bossSelect.options[0]
-        }) */
-      }
-    },
-    selectBoss (event) {
-      const encounters = document.querySelectorAll('.encounter')
-
-      if (event.target.index > 0) {
-        const boss = event.target.index - 1
-        this.selectedBoss = this.selectedInstance.encounters[boss]
-        this.activeLogs = 0
-      } else {
-        this.selectedBoss = ''
-      }
-
-      encounters.forEach((encounter) => {
-        if (
-          encounter.dataset.value.includes(
-            event.target.getAttribute('data-value')
-          )
-        ) {
-          encounter.classList.add('active')
-          ++this.activeLogs
-        } else {
-          encounter.classList.remove('active')
-        }
-      })
+    setDateFilter (event) {
+      this.filters[event.target.id] = event.target.valueAsDate || (
+        event.target.id === 'dateStart' ? -Infinity : Infinity
+      )
+      this.applyFilters()
     }
   }
 }
@@ -350,15 +366,11 @@ export default {
   text-align: center;
 }
 .encounter {
-  display: none;
   margin: $baseline-rem 0 0 0;
   padding: ($baseline-px * .5);
   border-radius: 6px;
   background: $white;
   box-shadow: $card-shadow;
-  &.active {
-    display: block;
-  }
   .dark-mode & {
     background: $grey-350;
     box-shadow: $card-shadow--dark;

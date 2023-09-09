@@ -1,111 +1,142 @@
 /* eslint-disable no-console */
-const express = require('express')
-const mongodb = require('mongodb')
-const cors = require('cors')
-const { check, validationResult } = require('express-validator')
+import express from 'express'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import fetch from 'node-fetch'
-const { Long } = require('bson')
+import { Long, ObjectID } from 'mongodb'
+
+import * as database from './database'
+import { authenticate } from './authenticate'
 
 const server = express()
 
-server.use(cors())
+server.disable('x-powered-by')
 
-server.get('/encounters', [
-  check('dateStart', 'dateEnd').optional().isISO8601()
-], async (req, res) => {
-  const errors = validationResult(req)
+server.use(
+  cors({
+    ...(process.env.NODE_ENV === 'production' && {
+      origin: /https:\/\/(www\.)?gw2bot\.info/
+    })
+  })
+)
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() })
-  }
+server.use(cookieParser())
 
-  const token = getToken(req, res)
-  const dbUser = await authorizeUserId(res, token)
+server.use('/encounters', authenticate)
 
-  const encounters = await getCollection('gw2.encounters')
-  const filter = { 'players': dbUser.cogs.GuildWars2.key.account_name }
-
-  if (req.query.success && (req.query.DateStart && req.query.dateEnd)) {
-    filter.success = true
-    filter.date = { '$gte': new Date(req.query.dateStart), '$lte': new Date(req.query.dateEnd) }
-  }
-
-  if (req.query.dateStart && req.query.dateEnd) {
-    filter.date = { '$gte': new Date(req.query.dateStart), '$lte': new Date(req.query.dateEnd) }
-  }
-
-  if (req.query.dateStart && !req.query.dateEnd) {
-    filter.date = { '$gte': new Date(req.query.dateStart) }
-  }
-
-  if (req.query.dateEnd && !req.query.dateStart) {
-    filter.date = { '$lte': new Date(req.query.dateEnd) }
-  }
-
-  if (req.query.success) {
-    filter.success = true
-  }
-
-  res.send(await encounters.find(filter).toArray())
-})
+const cookieOptions = {
+  httpOnly: true,
+  sameSite: 'strict'
+}
 
 server.get('/user', async (req, res) => {
-  const token = getToken(req, res)
-  res.send(await authorizeUserId(res, token))
+  const discordToken = req.header('Authorization')
+
+  if (!discordToken) {
+    res.status(401).send({ message: 'Unauthorized' })
+    return
+  }
+
+  const discordUser = await fetch('https://discord.com/api/users/@me', {
+    headers: {
+      authorization: discordToken
+    }
+  }).then((response) => {
+    if (response.ok) {
+      return response.json()
+    }
+
+    console.error(
+      `Received error ${response.status} from Discord API.\nToken: "${discordToken}"`
+    )
+    res.status(response.status).send({
+      message: response.statusText
+    })
+    return 0
+  }).catch((error) => {
+    console.error(error)
+    return 0
+  })
+
+  if (discordUser === 0) { return }
+
+  const userID = Long(discordUser.id)
+  const user = await database.getUser(userID, res)
+
+  if (user === 0) { return }
+
+  if (!userID.equals(user._id)) {
+    res.status(401).send({ message: 'Unauthorized' })
+    return
+  }
+
+  // accountName is from user's active API key (changes with /key switch)
+  const accountName = user.cogs.GuildWars2.key.account_name
+  const dpsToken = user.cogs.GuildWars2.dpsreport_token
+
+  res.cookie('userID', discordUser.id, cookieOptions)
+    .cookie('accountName', accountName, cookieOptions)
+    .cookie('dpsToken', dpsToken, cookieOptions)
+    .send(accountName)
 })
 
-function getToken (req, res) {
-  const token = req.header('Authorization')
+server.get('/encounters', async (req, res) => {
+  const gw2AccountName = req.cookies.accountName
 
-  if (!token) {
-    res.status(401).json({ 401: 'Unauthorized' })
-    return false
+  if (!gw2AccountName) {
+    res.status(400).send({
+      message: 'Bad Request',
+      cause: 'Invalid account name'
+    })
+    return
   }
 
-  return token
-}
+  const encounters = await database.getCollection('gw2.encounters', res)
 
-async function fetchDiscordUser (token) {
-  const user = await fetch('https://discord.com/api/users/@me', {
-    headers: {
-      authorization: `${token[0]} ${token[1]}`
+  if (encounters === 0) { return }
+
+  try {
+    const userEncounters = await encounters.find({
+      players: gw2AccountName
+    }, {
+      projection: {
+        start_date: 0,
+        players: 0
+      }
+    }).toArray()
+
+    res.send(userEncounters)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({
+      message: 'Internal Server Error',
+      cause: error.message
+    })
+  }
+})
+
+server.post('/encounters/:id', express.json(), async (req, res) => {
+  const encounterId = new ObjectID(req.params.id)
+
+  const encounters = await database.getCollection('gw2.encounters', res)
+
+  if (encounters === 0) { return }
+
+  const result = await encounters.updateOne({ _id: encounterId }, {
+    $set: {
+      details: req.body
     }
   })
-    .then(res => res.json())
-    .then((user) => { return user })
 
-  return user
-}
-
-async function fetchDbUser (user) {
-  const users = await getCollection('users')
-  return users.findOne({ '_id': new Long.fromString(user.id, 10) })
-}
-
-async function authorizeUserId (res, token) {
-  const splitToken = token.split(' ')
-  const user = await fetchDiscordUser(splitToken)
-  const dbUser = await fetchDbUser(user)
-
-  if (parseInt(user.id) !== parseInt(dbUser._id)) {
-    res.status(401).json({ 401: 'Unauthorized' })
-    return false
+  if (result.modifiedCount === 1) {
+    console.log(`Added details to encounter "${req.params.id}"`)
+    res.send('Success')
+    return
   }
 
-  return dbUser
-}
-
-async function getCollection (collection) {
-  const client = await mongodb.MongoClient.connect(
-    process.env.MONGO_URL || 'mongodb://localhost:27017',
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser: true
-    }
-  )
-
-  return client.db(process.env.MONGO_DB || 'toothy').collection(collection)
-};
+  console.log(`Error adding details to encounter "${req.params.id}"`)
+  res.send('Failure')
+})
 
 export default {
   path: '/api',

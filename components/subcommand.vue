@@ -95,7 +95,6 @@ export default {
   @extend %Code-font-family;
   line-height: $baseline-px;
   font-weight: 600;
-  letter-spacing: -0.3px;
   button {
     line-height: $baseline-px - 4px;
   }
