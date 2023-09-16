@@ -1,28 +1,26 @@
 <template>
   <footer>
     <div class="footer-width page-padding">
-      <div class="flexbox-container">
-        <div class="flexbox">
-          <div class="flexbox__item">
-            <div class="flexbox">
-              <a class="github-link" href="https://github.com/Maselkov/GW2Bot" target="_blank">
-                <GitHubInlineSVG fit />
-              </a>
-              <small>
-                GW2Bot created by<br><span class="bold-text">@maselkov</span>
-              </small>
-            </div>
+      <div class="flexbox">
+        <div class="flexbox__item">
+          <div class="flexbox">
+            <a class="github-link" href="https://github.com/Maselkov/GW2Bot" target="_blank">
+              <GitHubInlineSVG fit />
+            </a>
+            <small>
+              GW2Bot created by<br><span class="bold-text">@maselkov</span>
+            </small>
           </div>
+        </div>
 
-          <div class="flexbox__item">
-            <div class="flexbox">
-              <a class="github-link" href="https://github.com/brybrant/gw2bot-site" target="_blank">
-                <GitHubInlineSVG fit />
-              </a>
-              <small>
-                Website created by<br><span class="bold-text">@penemue.</span>&nbsp;and&nbsp;<span class="bold-text">@matt_bryant</span>
-              </small>
-            </div>
+        <div class="flexbox__item">
+          <div class="flexbox">
+            <a class="github-link" href="https://github.com/brybrant/gw2bot-site" target="_blank">
+              <GitHubInlineSVG fit />
+            </a>
+            <small>
+              Website created by<br><span class="bold-text">@penemue.</span>&nbsp;and&nbsp;<span class="bold-text">@matt_bryant</span>
+            </small>
           </div>
         </div>
       </div>
@@ -66,11 +64,8 @@ footer {
   }
 }
 
-.flexbox-container {
-  display: inline-block;
-  vertical-align: top;
-}
 .flexbox {
+  display: inline-flex;
   margin-left: 0;
   small {
     display: block;
