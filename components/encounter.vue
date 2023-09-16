@@ -1,8 +1,5 @@
 <template>
-  <li
-    class="encounter"
-    :class="`encounter--${encounter.success ? 'success': 'failure'}`"
-  >
+  <li class="encounter">
     <div class="encounter__info small-text">
       <div class="encounter__info-cell">
         <span class="encounter__info-label">Date:</span>
@@ -33,7 +30,11 @@
       </div>
     </div>
 
-    <div v-if="details" class="table-container">
+    <div
+      v-if="details"
+      class="table-container"
+      :class="encounter.success ? 'success' : 'failure'"
+    >
       <table class="encounter__table">
         <tr>
           <th
@@ -249,21 +250,10 @@ export default {
   }
 }
 
-.button {
-  position: absolute;
-  top: 2px;
-  right: $baseline-px * .5;
-  // .inline-svg {
-  //   margin: 0;
-  //   width: $small-line-px;
-  //   height: $small-line-px;
-  // }
-}
-
 .encounter__info {
   display: inline-flex;
   flex-flow: column nowrap;
-  margin-left: (-$baseline-px);
+  margin-left: -$baseline-px;
   @include media-query('gt-1044') {
     flex-flow: row nowrap;
   }
@@ -336,10 +326,10 @@ export default {
   margin-top: 6px;
   border-top: 4px solid gray;
   overflow-x: scroll;
-  .encounter--success & {
+  &.success {
     border-top-color: green;
   }
-  .encounter--failure & {
+  &.failure {
     border-top-color: firebrick;
   }
 }
@@ -347,12 +337,12 @@ export default {
   margin: 0;
   white-space: nowrap;
   min-width: 890px;
-  .me {
-    background: $white;
-    font-weight: 700;
-    .dark-mode & {
-      background: $grey-350;
-    }
+}
+.me {
+  background: $white;
+  font-weight: 700;
+  .dark-mode & {
+    background: $grey-350;
   }
 }
 th {
