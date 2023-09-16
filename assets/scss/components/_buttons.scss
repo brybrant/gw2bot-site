@@ -23,11 +23,11 @@ button {// Taken from Normalize.css
   position: relative;
   display: inline-block;
   margin: 0 auto;
+  border: 0;
+  border-radius: ($p-line-px + 12px) * .5;
   padding: 6px 18px;
   width: auto;
   background: $red-400;
-  border: 0;
-  border-radius: ($p-line-px + 12px) * .5;
   box-shadow: $button-shadow;
   text-decoration: none;
   vertical-align: top;
@@ -47,7 +47,7 @@ button {// Taken from Normalize.css
     background: $red-100;
     &, .dark-mode & {color: $grey-1150;}
   }
-  svg, &:before {
+  svg {
     display: inline-block;
     margin: 0 4px 0 (-10px);
     width: $p-font-px;
@@ -68,7 +68,7 @@ button {// Taken from Normalize.css
   border-radius: ($h5-line-px + 18px) * .5;
   font-size: $h5-font-rem;
   line-height: $h5-line-px;
-  svg, &:before {
+  svg {
     width: $h5-line-px;
     height: $h5-line-px;
   }
@@ -78,7 +78,7 @@ button {// Taken from Normalize.css
   border-radius: ($h4-line-px + 22px) * .5;
   font-size: $h4-font-rem;
   line-height: $h4-line-px;
-  svg, &:before {
+  svg {
     width: $h4-line-px;
     height: $h4-line-px;
   }
