@@ -105,7 +105,11 @@ input[type="checkbox"] {
 \*---------------------------------------------------------------------------*/
 .form__group {
   position: relative;
-  margin: $baseline-rem 0 0 0;
+  display: flex;
+  flex-flow: column nowrap;
+  & ~ .form__group {
+    margin: $baseline-rem 0 0 0;
+  }
 }
 
 .form__label {
@@ -157,9 +161,9 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
 // To be used instead of '.form__group' for radio and checkbox inputs
 .form__radio, .form__checkbox {
   position: relative;
-  display: block;
+  display: flex;
+  flex-flow: row nowrap;
   margin: $baseline-rem 0 0 0;
-  min-height: $form__height;
   padding: 0;
   text-align: left;
   label {
@@ -173,9 +177,8 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
   &:last-child {margin: (-$full-base) 0 0 0;}
 }*/
 
-// This is the <input> element inside of the .form__radio / .form__checkbox etc.
 .form__radio input[type="radio"], .form__checkbox input[type="checkbox"] {
-  margin: 0.25rem 0 0 4px;
+  margin: 0 0 0 6px;
 }
 
 /*---------------------------------------------------------------------------*\
@@ -238,18 +241,6 @@ input[type="radio"], input[type="checkbox"] {
       display: inline-block;
       padding-right: 4px;
       vertical-align: middle;
-    }
-    .form__radio, .form__checkbox {
-      display: inline-block;
-      padding: (($form__height - $baseline-rem) * .5) 0;
-      label {
-        display: inline-block;
-        padding-right: 4px;
-        vertical-align: top;
-      }
-      input[type="radio"], input[type="checkbox"] {
-        margin: 0;
-      }
     }
   }
 }
