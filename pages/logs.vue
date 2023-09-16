@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="encounter-filterer">
+    <div class="encounter-menu">
       <div v-if="Array.isArray(encounters)" class="filters">
         <!-- ENCOUNTER SELECT -->
         <div class="form__group">
@@ -28,13 +28,13 @@
           </select>
         </div>
 
-        <div v-if="selectedInstance !== null" class="form__group">
+        <div v-if="selectedInstance" class="form__group">
           <label for="encounter-bosses" class="form__label">
             Encounter:
           </label>
           <select id="encounter-bosses" class="form__control">
             <option
-              v-if="selectedInstance && selectedInstance.encounters.length > 1"
+              v-if="selectedInstance.encounters.length > 1"
               selected
               @click="selectEncounter(null)"
             />
@@ -374,7 +374,7 @@ main {
   }
 }
 
-.encounter-filterer {
+.encounter-menu {
   position: absolute;
   top: 0;
   left: 0;
@@ -396,31 +396,6 @@ main {
   bottom: 0;
   padding: $baseline-rem 0;
   text-align: left;
-}
-
-// .form__checkbox {
-//   display: inline-block;
-//   padding: (($form__height - $baseline-rem) * .5) 0;
-//   label {
-//     display: inline-block;
-//     padding-right: 4px;
-//     vertical-align: top;
-//   }
-//   input[type="checkbox"] {
-//     margin: 0;
-//   }
-// }
-
-.encounter-select {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.encounter-filters {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .h3 {
