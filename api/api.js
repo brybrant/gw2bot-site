@@ -102,7 +102,10 @@ server.get('/encounters', async (req, res) => {
       projection: {
         start_date: 0,
         players: 0
-      }
+      },
+      sort: [
+        ['date', -1]
+      ]
     }).toArray()
 
     res.send(userEncounters)
