@@ -7,6 +7,7 @@ import { Long, ObjectID } from 'mongodb'
 
 import * as database from './database'
 import { authenticate } from './authenticate'
+import { generateEncounters } from './generateEncounters'
 
 const server = express()
 
@@ -103,6 +104,59 @@ server.get('/encounters', async (req, res) => {
         start_date: 0,
         players: 0
       },
+      sort: [
+        ['date', -1]
+      ]
+    }).toArray()
+
+    res.send(userEncounters)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({
+      message: 'Internal Server Error',
+      cause: error.message
+    })
+  }
+})
+
+server.get('/encounters/test', async (req, res) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.send([])
+    return
+  }
+
+  const gw2AccountName = req.cookies.accountName
+
+  if (!gw2AccountName) {
+    res.status(400).send({
+      message: 'Bad Request',
+      cause: 'Invalid account name'
+    })
+    return
+  }
+
+  const encounters = await database.getCollection('gw2.encounters_test', res)
+
+  if (encounters === 0) { return }
+
+  const documentCount = await encounters.countDocuments()
+
+  if (documentCount === 0) {
+    const generatedEncounters = generateEncounters(90, gw2AccountName)
+
+    const result = await encounters.bulkWrite(generatedEncounters)
+
+    if (result.ok) {
+      console.log(`Created ${result.nInserted} test encounters`)
+    } else {
+      res.status(500).send({
+        message: 'Internal Server Error'
+      })
+    }
+  }
+
+  try {
+    const userEncounters = await encounters.find({}, {
       sort: [
         ['date', -1]
       ]

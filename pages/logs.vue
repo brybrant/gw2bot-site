@@ -53,7 +53,10 @@
         <template v-if="selectedEncounter !== null">
           <hr>
 
-          <div class="form__checkbox">
+          <div
+            v-if="selectedEncounter.name !== 'World vs World'"
+            class="form__checkbox"
+          >
             <label for="result" class="form__label">
               Successful Only?
             </label>
@@ -131,7 +134,14 @@
       </p>
     </header>
 
-    <!-- ENCOUNTER DISPLAY -->
+    <div v-if="totalPages > 1" class="page-width page-padding">
+      <PaginationComponent
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        @paginate="paginateEncounters"
+      />
+    </div>
+
     <ol
       v-if="activeEncounters.length > 0"
       class="encounter-list"
@@ -139,32 +149,17 @@
       <EncounterComponent
         v-for="encounter in activeEncounters"
         :key="encounter._id"
-        :details="encounter.details"
         :encounter="encounter"
         :user="user"
       />
     </ol>
 
-    <div v-if="filteredEncounters.length > 10" class="flexbox">
-      <div class="flexbox__item">
-        <button
-          class="button"
-          :disabled="encounterPage === 1"
-          @click="paginateEncounters(--encounterPage)"
-        >
-          Previous
-        </button>
-      </div>
-
-      <div class="flexbox__item">
-        <button
-          class="button"
-          :disabled="encounterPages <= encounterPage"
-          @click="paginateEncounters(++encounterPage)"
-        >
-          Next
-        </button>
-      </div>
+    <div v-if="totalPages > 1" class="page-width page-padding">
+      <PaginationComponent
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        @paginate="paginateEncounters"
+      />
     </div>
   </main>
 </template>
@@ -173,6 +168,7 @@
 import bosses from '@/static/bossesData'
 import LoadingInlineSVG from '@/components/inline-svgs/loading'
 import EncounterComponent from '@/components/encounter'
+import PaginationComponent from '@/components/pagination'
 
 const boonIDs = {
   30328: 'alacrity',
@@ -184,19 +180,31 @@ const boonIDs = {
   726: 'vigor'
 }
 
+// https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/EncounterIDs.md
+const wvwMaps = {
+  460544: 'Armistice Bastion',
+  459520: 'Blue Alpine Borderlands',
+  460288: 'Edge of the Mists',
+  459008: 'Eternal Battlegrounds',
+  459264: 'Green Alpine Borderlands',
+  460032: 'Obsidian Sanctum',
+  459776: 'Red Desert Borderlands'
+}
+
 export default {
   name: 'LogsPage',
   components: {
     LoadingInlineSVG,
-    EncounterComponent
+    EncounterComponent,
+    PaginationComponent
   },
   middleware: 'auth',
   data () {
     return {
       user: null,
       bosses,
-      encounterPage: 1,
-      encounterPages: 1,
+      currentPage: 1,
+      totalPages: 1,
       filterDebounce: null,
       filteredEncounters: [null],
       selectedInstance: null,
@@ -210,6 +218,16 @@ export default {
       }
     }
   },
+  // computed: {
+  //   middlePages () {
+  //     const middlePage = Math.min(Math.max(this.currentPage, 4), this.totalPages - 3)
+  //     return [
+  //       middlePage - 1,
+  //       middlePage,
+  //       middlePage + 1
+  //     ]
+  //   }
+  // },
   head () {
     return {
       title: 'Encounter Browser | GW2Bot'
@@ -220,11 +238,12 @@ export default {
 
     if (!this.user) { return }
 
-    this.encounters = await this.$axios.$get('api/encounters')
+    this.encounters = await this.$axios.$get('api/encounters/test')
   },
   methods: {
     selectInstance (instance) {
       this.activeEncounters.splice(0)
+      this.filteredEncounters.splice(0)
 
       this.selectedEncounter = null
 
@@ -240,6 +259,7 @@ export default {
     },
     selectEncounter (encounter) {
       this.activeEncounters.splice(0)
+      this.filteredEncounters.splice(0)
 
       this.selectedEncounter = encounter
 
@@ -274,7 +294,12 @@ export default {
 
         const details = {
           dps: 0,
-          boss_health: 100 - dpsReport.targets[0].healthPercentBurned,
+          ...(encounter.boss_id === 1 && {
+            wvw_map: wvwMaps[dpsReport.eiEncounterID]
+          }),
+          ...(encounter.boss_id !== 1 && {
+            boss_health: 100 - dpsReport.targets[0].healthPercentBurned
+          }),
           players: []
         }
 
@@ -313,8 +338,10 @@ export default {
       }
     },
     paginateEncounters (page) {
+      this.currentPage = Math.min(Math.max(page, 1), this.totalPages)
+
       this.activeEncounters = this.filteredEncounters.slice(
-        (page * 10) * (page - 1), (page * 10) * page
+        (page - 1) * 10, page * 10
       )
 
       this.fetchDetails(this.filterDebounce)
@@ -344,11 +371,9 @@ export default {
       this.filterDebounce = setTimeout((nuxt) => {
         nuxt.filteredEncounters = nuxt.encounters.filter(nuxt.encounterFilter)
 
-        nuxt.encounterPage = 1
+        nuxt.totalPages = Math.ceil(nuxt.filteredEncounters.length / 10)
 
-        nuxt.encounterPages = Math.ceil(nuxt.filteredEncounters / 10)
-
-        nuxt.paginateEncounters(1)
+        nuxt.paginateEncounters(nuxt.currentPage = 1)
       }, 50, this)
     },
     setDateFilter (event) {
@@ -404,7 +429,7 @@ main {
   white-space: nowrap;
   img {
     display: inline-block;
-    margin-right: ($baseline-px * .5);
+    margin-right: $baseline-px * .5;
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -417,4 +442,77 @@ main {
   list-style: none;
   text-align: center;
 }
+
+// .button[disabled] {
+//   &, &:hover, &:active {
+//     background: $grey-500;
+//   }
+//   &, &:active, .dark-mode &:active {
+//     color: $grey-1150;
+//   }
+// }
+
+// .pagination-buttons {
+//   display: inline-flex;
+//   flex-flow: row nowrap;
+//   // margin-left: -($baseline-px * .5);
+//   padding: $baseline-rem 0;
+//   .button {
+//     // margin-left: $baseline-px * .5;
+//     border-radius: 0;
+//     width: 8px + $p-line-px;
+//     height: 8px + $p-line-px;
+//     font-size: $small-font-rem;
+//     &, .dark-mode & {
+//       box-shadow: none;
+//     }
+//     &, &[disabled]:active {
+//       padding: 4px 0;
+//     }
+//     &:active {
+//       padding: 5px 0 3px 0;
+//     }
+//   }
+// }
+
+// .pagination-ellipsis {
+//   position: relative;
+//   margin: (2px + ($p-line-px * .5)) 14px 0 (/*($baseline-px * .5) + */14px);
+//   &, &:before, &:after {
+//     width: 4px;
+//     height: 4px;
+//     background: currentColor;
+//     // border-radius: 2px;
+//   }
+//   &:before, &:after {
+//     @extend %Psuedo-element;
+//     position: absolute;
+//     top: 0;
+//     display: block;
+//   }
+//   &:before {
+//     left: -7px;
+//   }
+//   &:after {
+//     right: -7px;
+//   }
+// }
+
+// .button--prev:after, .button--next:after {
+//   @extend %Psuedo-element;
+//   position: relative;
+//   display: block;
+//   width: 0;
+//   height: 0;
+//   border-top: 6px solid transparent;
+//   border-bottom: 6px solid transparent;
+// }
+// .button--prev:after {
+//   left: 6px;
+//   border-right: 8px solid currentColor;
+// }
+// .button--next:after {
+//   left: 9px;
+//   border-left: 8px solid currentColor;
+// }
 </style>
