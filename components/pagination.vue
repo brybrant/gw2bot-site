@@ -36,7 +36,7 @@
         @clicked="paginate"
       />
 
-      <template v-if="totalPages > 6">
+      <template v-if="totalPages > 7">
         <PaginationButtonComponent
           v-for="index in middlePages"
           :key="`Pagination button ${index}`"
@@ -65,7 +65,7 @@
         <div />
       </div>
       <PaginationButtonComponent
-        v-else-if="totalPages > 6"
+        v-else-if="totalPages > 7"
         :current-page="currentPage"
         :page="totalPages - 1"
         @clicked="paginate"
