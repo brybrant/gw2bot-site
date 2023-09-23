@@ -1,10 +1,10 @@
 <template>
   <button
-    class="button button--pagination-button"
-    :disabled="currentPage === page"
+    class="button"
+    :class="{ active: currentPage === page }"
     :title="`Page ${page}`"
     :aria-label="`${currentPage === page ? 'Current page,' : 'Go to'} page ${page}`"
-    :aria-current="currentPage === page ? true : null"
+    :aria-current="currentPage === page"
     @click="$emit('clicked', page)"
   >{{ page }}</button>
 </template>

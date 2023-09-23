@@ -1,75 +1,92 @@
 <template>
-  <nav
-    role="navigation"
-    aria-label="Pagination navigation"
-    class="pagination-buttons"
-  >
-    <button
-      class="button button--prev"
-      :disabled="currentPage === 1"
-      title="Previous page"
-      @click="paginate(currentPage - 1)"
+  <div class="page-width page-padding">
+    <p class="small-text">Page {{ currentPage }} of {{ totalPages }}</p>
+
+    <nav
+      role="navigation"
+      aria-label="Pagination navigation"
+      class="pagination-buttons"
     >
-      <span class="sr-only">Previous page</span>
-    </button>
+      <button
+        class="button button--prev"
+        :disabled="currentPage === 1"
+        title="Previous page"
+        @click="paginate(currentPage - 1)"
+      >
+        <span class="sr-only">Previous page</span>
+      </button>
 
-    <PaginationButtonComponent
-      :current-page="currentPage"
-      :page="1"
-      @clicked="paginate"
-    />
+      <PaginationButtonComponent
+        :current-page="currentPage"
+        :page="1"
+        @clicked="paginate"
+      />
 
-    <div
-      v-if="currentPage > 4 && totalPages > 7"
-      class="ellipsis"
-      aria-hidden="true"
-    >
-      <div />
-    </div>
-    <PaginationButtonComponent
-      v-else-if="totalPages > 2"
-      :current-page="currentPage"
-      :page="2"
-      @clicked="paginate"
-    />
+      <div
+        v-if="currentPage > 4 && totalPages > 7"
+        class="ellipsis"
+        aria-hidden="true"
+      >
+        <div />
+      </div>
+      <PaginationButtonComponent
+        v-else-if="totalPages > 2"
+        :current-page="currentPage"
+        :page="2"
+        @clicked="paginate"
+      />
 
-    <PaginationButtonComponent
-      v-for="index in middlePages"
-      :key="`Pagination button ${index}`"
-      :current-page="currentPage"
-      :page="index"
-      @clicked="paginate"
-    />
+      <template v-if="totalPages > 6">
+        <PaginationButtonComponent
+          v-for="index in middlePages"
+          :key="`Pagination button ${index}`"
+          :current-page="currentPage"
+          :page="index"
+          @clicked="paginate"
+        />
+      </template>
+      <template v-else>
+        <template v-for="index in totalPages">
+          <PaginationButtonComponent
+            v-if="index > 2 && index < totalPages"
+            :key="`Pagination button ${index}`"
+            :current-page="currentPage"
+            :page="index"
+            @clicked="paginate"
+          />
+        </template>
+      </template>
 
-    <div
-      v-if="currentPage < (totalPages - 3) && totalPages > 7"
-      class="ellipsis"
-      aria-hidden="true"
-    >
-      <div />
-    </div>
-    <PaginationButtonComponent
-      v-else-if="totalPages > 6"
-      :current-page="currentPage"
-      :page="totalPages - 1"
-      @clicked="paginate"
-    />
+      <div
+        v-if="currentPage < (totalPages - 3) && totalPages > 7"
+        class="ellipsis"
+        aria-hidden="true"
+      >
+        <div />
+      </div>
+      <PaginationButtonComponent
+        v-else-if="totalPages > 6"
+        :current-page="currentPage"
+        :page="totalPages - 1"
+        @clicked="paginate"
+      />
 
-    <PaginationButtonComponent
-      :current-page="currentPage"
-      :page="totalPages"
-      @clicked="paginate"
-    />
+      <PaginationButtonComponent
+        :current-page="currentPage"
+        :page="totalPages"
+        @clicked="paginate"
+      />
 
-    <button
-      class="button button--next"
-      :disabled="currentPage === totalPages"
-      title="Next page"
-      @click="paginate(currentPage + 1)"
-    >
-      <span class="sr-only">Next page</span>
-    </button>
-  </nav>
+      <button
+        class="button button--next"
+        :disabled="currentPage === totalPages"
+        title="Next page"
+        @click="paginate(currentPage + 1)"
+      >
+        <span class="sr-only">Next page</span>
+      </button>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -116,14 +133,20 @@ export default {
     background: $grey-500;
   }
   &, &:active, .dark-mode &:active {
-    color: $grey-1150;
+    color: $grey-1000;
+  }
+}
+
+.button.active {
+  &, &:hover, &:active {
+    background: $red-900;
   }
 }
 
 .pagination-buttons {
   display: inline-flex;
   flex-flow: row nowrap;
-  margin: $baseline-rem 0;
+  margin: ($baseline-rem * .5) 0 $baseline-rem 0;
   border-radius: 4px + ($p-line-px * .5);
   box-shadow: $button-shadow;
   .dark-mode & {
@@ -139,7 +162,7 @@ export default {
   &, .dark-mode & {
     box-shadow: none;
   }
-  &, &[disabled]:active {
+  &, &[disabled]:active, &.active:active {
     padding: 4px 0;
   }
   &:active {
