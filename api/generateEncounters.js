@@ -17,7 +17,8 @@ function randName () {
 
   for (let i = 0; i < nameLength; i++) {
     if (i % 7 === 6 && Math.random() > 0.5) {
-      name += ' '
+      name += ' ' + String.fromCharCode(65 + Math.floor(Math.random() * 26))
+      i += 2
       continue
     }
     name += String.fromCharCode(97 + Math.floor(Math.random() * 26))
