@@ -38,6 +38,21 @@ server.get('/user', async (req, res) => {
     return
   }
 
+  // Check if user has previously authenticated
+  if (req.cookies.userID && req.cookies.accountName && req.cookies.dpsToken) {
+    try {
+      const user = await database.getUser(Long(req.cookies.userID), res)
+
+      if (user === 0) { return }
+
+      res.send(user.cogs.GuildWars2.key.account_name)
+    } catch (error) {
+      console.error(error)
+      res.status(401).send({ message: 'Unauthorized' })
+    }
+    return
+  }
+
   const discordUser = await fetch('https://discord.com/api/users/@me', {
     headers: {
       authorization: discordToken
@@ -139,19 +154,33 @@ server.get('/encounters/test', async (req, res) => {
 
   if (encounters === 0) { return }
 
+  const count = Math.min(Math.max(req.query.count, 10), 150)
+
+  if (!count) {
+    console.error(`Invalid encounter count: "${count}"`)
+    res.status(400).send({
+      message: 'Bad Request',
+      cause: 'Invalid encounter count.\nSet "count" query parameter to integer'
+    })
+    return
+  }
+
   const documentCount = await encounters.countDocuments()
 
-  if (documentCount === 0) {
-    const generatedEncounters = generateEncounters(90, gw2AccountName)
+  if (documentCount !== count) {
+    await encounters.drop()
+
+    const generatedEncounters = generateEncounters(count, gw2AccountName)
 
     const result = await encounters.bulkWrite(generatedEncounters)
 
     if (result.ok) {
-      console.log(`Created ${result.nInserted} test encounters`)
+      console.log(`Generated ${result.nInserted} test encounters`)
     } else {
       res.status(500).send({
         message: 'Internal Server Error'
       })
+      return
     }
   }
 
