@@ -16,7 +16,7 @@ function randName () {
   const nameLength = randInt(7, 20)
 
   for (let i = 0; i < nameLength; i++) {
-    if (i === Math.round(nameLength * 0.5) && Math.random() > 0.5) {
+    if (i % 7 === 6 && Math.random() > 0.5) {
       name += ' '
       continue
     }
