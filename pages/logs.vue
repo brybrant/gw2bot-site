@@ -115,7 +115,10 @@
             <p v-if="selectedEncounter === null">
               Start browsing your encounter logs by selecting an instance, then selecting an encounter.
             </p>
-            <p v-else-if="filteredEncounters.length === 0">
+            <p v-else-if="filteredEncounters.length > 0">
+              Found {{ filteredEncounters.length }} <strong>{{ selectedEncounter.name | twoOrphans }}</strong> encounter logs associated with&nbsp;<strong>{{ user }}</strong>
+            </p>
+            <p v-else>
               Cannot find any <strong>{{ selectedEncounter.name | twoOrphans }}</strong> encounter logs associated with&nbsp;<strong>{{ user }}</strong>
             </p>
           </template>
@@ -134,13 +137,12 @@
       </p>
     </header>
 
-    <div v-if="totalPages > 1" class="page-width page-padding">
-      <PaginationComponent
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        @paginate="paginateEncounters"
-      />
-    </div>
+    <PaginationComponent
+      v-if="filteredEncounters.length > 10"
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      @paginate="paginateEncounters"
+    />
 
     <ol
       v-if="activeEncounters.length > 0"
@@ -154,13 +156,12 @@
       />
     </ol>
 
-    <div v-if="totalPages > 1" class="page-width page-padding">
-      <PaginationComponent
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        @paginate="paginateEncounters"
-      />
-    </div>
+    <PaginationComponent
+      v-if="filteredEncounters.length > 10"
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      @paginate="paginateEncounters"
+    />
   </main>
 </template>
 
@@ -206,7 +207,7 @@ export default {
       currentPage: 1,
       totalPages: 1,
       filterDebounce: null,
-      filteredEncounters: [null],
+      filteredEncounters: [],
       selectedInstance: null,
       selectedEncounter: null,
       encounters: null,
@@ -218,16 +219,6 @@ export default {
       }
     }
   },
-  // computed: {
-  //   middlePages () {
-  //     const middlePage = Math.min(Math.max(this.currentPage, 4), this.totalPages - 3)
-  //     return [
-  //       middlePage - 1,
-  //       middlePage,
-  //       middlePage + 1
-  //     ]
-  //   }
-  // },
   head () {
     return {
       title: 'Encounter Browser | GW2Bot'
@@ -238,7 +229,7 @@ export default {
 
     if (!this.user) { return }
 
-    this.encounters = await this.$axios.$get('api/encounters/test')
+    this.encounters = await this.$axios.$get('api/encounters')
   },
   methods: {
     selectInstance (instance) {
@@ -442,77 +433,4 @@ main {
   list-style: none;
   text-align: center;
 }
-
-// .button[disabled] {
-//   &, &:hover, &:active {
-//     background: $grey-500;
-//   }
-//   &, &:active, .dark-mode &:active {
-//     color: $grey-1150;
-//   }
-// }
-
-// .pagination-buttons {
-//   display: inline-flex;
-//   flex-flow: row nowrap;
-//   // margin-left: -($baseline-px * .5);
-//   padding: $baseline-rem 0;
-//   .button {
-//     // margin-left: $baseline-px * .5;
-//     border-radius: 0;
-//     width: 8px + $p-line-px;
-//     height: 8px + $p-line-px;
-//     font-size: $small-font-rem;
-//     &, .dark-mode & {
-//       box-shadow: none;
-//     }
-//     &, &[disabled]:active {
-//       padding: 4px 0;
-//     }
-//     &:active {
-//       padding: 5px 0 3px 0;
-//     }
-//   }
-// }
-
-// .pagination-ellipsis {
-//   position: relative;
-//   margin: (2px + ($p-line-px * .5)) 14px 0 (/*($baseline-px * .5) + */14px);
-//   &, &:before, &:after {
-//     width: 4px;
-//     height: 4px;
-//     background: currentColor;
-//     // border-radius: 2px;
-//   }
-//   &:before, &:after {
-//     @extend %Psuedo-element;
-//     position: absolute;
-//     top: 0;
-//     display: block;
-//   }
-//   &:before {
-//     left: -7px;
-//   }
-//   &:after {
-//     right: -7px;
-//   }
-// }
-
-// .button--prev:after, .button--next:after {
-//   @extend %Psuedo-element;
-//   position: relative;
-//   display: block;
-//   width: 0;
-//   height: 0;
-//   border-top: 6px solid transparent;
-//   border-bottom: 6px solid transparent;
-// }
-// .button--prev:after {
-//   left: 6px;
-//   border-right: 8px solid currentColor;
-// }
-// .button--next:after {
-//   left: 9px;
-//   border-left: 8px solid currentColor;
-// }
 </style>
