@@ -90,11 +90,9 @@ server.get('/user', async (req, res) => {
     }
 
     console.error(
-      `Received error ${response.status} from Discord API.\nToken: "${discordToken}"`
+      `Discord API Error ${response.status}.\n(Token: "${discordToken}")`
     )
-    res.status(response.status).send({
-      message: response.statusText
-    })
+    res.status(response.status).send({ message: response.statusText })
     return 0
   })
 
@@ -122,6 +120,8 @@ server.get('/user', async (req, res) => {
 
 server.get('/encounters', async (req, res) => {
   const encounters = await database.getCollection('gw2.encounters', res)
+
+  if (encounters === 0) { return }
 
   try {
     const userEncounterData = JSON.parse(JSON.stringify(encounterData))
@@ -163,6 +163,8 @@ server.get('/encounters/:name', async (req, res) => {
 
   const encounters = await database.getCollection('gw2.encounters', res)
 
+  if (encounters === 0) { return }
+
   try {
     const userEncounters = await encounters.find({
       players: req.cookies.accountName,
@@ -188,10 +190,6 @@ server.get('/encounters/:name', async (req, res) => {
 
 if (process.env.NODE_ENV === 'development') {
   server.get('/encounters_test', async (req, res) => {
-    const encounters = await database.getCollection('gw2.encounters_test', res)
-
-    if (encounters === 0) { return }
-
     const count = Math.min(Math.max(req.query.count, 1), 150)
 
     if (!count) {
@@ -202,6 +200,10 @@ if (process.env.NODE_ENV === 'development') {
       })
       return
     }
+
+    const encounters = await database.getCollection('gw2.encounters_test', res)
+
+    if (encounters === 0) { return }
 
     const documentCount = await encounters.countDocuments()
 
@@ -233,11 +235,6 @@ if (process.env.NODE_ENV === 'development') {
   })
 
   server.get('/encounters_test/:name', async (req, res) => {
-    if (process.env.NODE_ENV === 'production') {
-      res.status(403).send({ message: 'Forbidden' })
-      return
-    }
-
     const encounterIds = encounterLookup[req.params.name]
 
     if (encounterIds === undefined) {
@@ -249,6 +246,8 @@ if (process.env.NODE_ENV === 'development') {
     }
 
     const encounters = await database.getCollection('gw2.encounters_test', res)
+
+    if (encounters === 0) { return }
 
     try {
       const userEncounters = await encounters.find({}, {
@@ -269,6 +268,8 @@ server.post('/encounters/:id', express.json(), async (req, res) => {
   const encounterId = new ObjectID(req.params.id)
 
   const encounters = await database.getCollection('gw2.encounters', res)
+
+  if (encounters === 0) { return }
 
   try {
     await encounters.updateOne({ _id: encounterId }, {
