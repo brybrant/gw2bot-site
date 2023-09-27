@@ -17,6 +17,10 @@ export async function authenticate (req, res, next) {
     errors.push('Invalid user ID')
   }
 
+  if (!req.cookies.accountName) {
+    errors.push('Invalid account name')
+  }
+
   const dpsToken = req.cookies.dpsToken
 
   if (!dpsToken) {
@@ -45,10 +49,6 @@ export async function authenticate (req, res, next) {
     })
     return
   }
-
-  console.log(
-    `Authenication successful for user <@${userID}> (Token: "${dpsToken}")`
-  )
 
   next()
 }

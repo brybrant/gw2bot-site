@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser'
 import fetch from 'node-fetch'
 import { Long, ObjectID } from 'mongodb'
 
+import bosses from '../assets/js/bossesData'
+
 import * as database from './database'
 import { authenticate } from './authenticate'
 import { generateEncounters } from './generateEncounters'
@@ -30,6 +32,31 @@ const cookieOptions = {
   sameSite: 'strict'
 }
 
+const encounterData = {}
+const encounterLookup = {}
+const encounterTally = {
+  total: 0
+}
+
+for (const instances of Object.values(bosses)) {
+  for (const instance of instances) {
+    encounterTally[instance.name] = 0
+
+    for (const encounter of instance.encounters) {
+      encounterLookup[encounter.name] = encounter.ids
+      encounterTally[encounter.name] = 0
+
+      for (const id of encounter.ids) {
+        encounterData[id] = {
+          instance: instance.name,
+          name: encounter.name,
+          count: 0
+        }
+      }
+    }
+  }
+}
+
 server.get('/user', async (req, res) => {
   const discordToken = req.header('Authorization')
 
@@ -40,16 +67,16 @@ server.get('/user', async (req, res) => {
 
   // Check if user has previously authenticated
   if (req.cookies.userID && req.cookies.accountName && req.cookies.dpsToken) {
-    try {
-      const user = await database.getUser(Long(req.cookies.userID), res)
+    const user = await database.getUser(Long(req.cookies.userID), res)
 
-      if (user === 0) { return }
+    if (user === 0) { return }
 
-      res.send(user.cogs.GuildWars2.key.account_name)
-    } catch (error) {
-      console.error(error)
+    if (req.cookies.accountName !== user.cogs.GuildWars2.key.account_name) {
       res.status(401).send({ message: 'Unauthorized' })
+      return
     }
+
+    res.send(user.cogs.GuildWars2.key.account_name)
     return
   }
 
@@ -68,9 +95,6 @@ server.get('/user', async (req, res) => {
     res.status(response.status).send({
       message: response.statusText
     })
-    return 0
-  }).catch((error) => {
-    console.error(error)
     return 0
   })
 
@@ -97,23 +121,54 @@ server.get('/user', async (req, res) => {
 })
 
 server.get('/encounters', async (req, res) => {
-  const gw2AccountName = req.cookies.accountName
+  const encounters = await database.getCollection('gw2.encounters', res)
 
-  if (!gw2AccountName) {
+  try {
+    const userEncounterData = JSON.parse(JSON.stringify(encounterData))
+
+    await encounters.find({
+      players: req.cookies.accountName
+    }, {
+      projection: {
+        boss_id: 1
+      }
+    }).forEach(doc => userEncounterData[doc.boss_id].count++)
+
+    const userEncounterTally = JSON.parse(JSON.stringify(encounterTally))
+
+    for (const boss of Object.values(userEncounterData)) {
+      userEncounterTally.total += boss.count
+      userEncounterTally[boss.instance] += boss.count
+      if (boss.name === boss.instance) { continue }
+      userEncounterTally[boss.name] += boss.count
+    }
+
+    res.send(userEncounterTally)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({ message: 'Internal Server Error' })
+  }
+})
+
+server.get('/encounters/:name', async (req, res) => {
+  const encounterIds = encounterLookup[req.params.name]
+
+  if (encounterIds === undefined) {
     res.status(400).send({
       message: 'Bad Request',
-      cause: 'Invalid account name'
+      cause: 'Invalid encounter name'
     })
     return
   }
 
   const encounters = await database.getCollection('gw2.encounters', res)
 
-  if (encounters === 0) { return }
-
   try {
     const userEncounters = await encounters.find({
-      players: gw2AccountName
+      players: req.cookies.accountName,
+      boss_id: {
+        $in: encounterIds
+      }
     }, {
       projection: {
         start_date: 0,
@@ -127,101 +182,106 @@ server.get('/encounters', async (req, res) => {
     res.send(userEncounters)
   } catch (error) {
     console.error(error)
-    res.status(500).send({
-      message: 'Internal Server Error',
-      cause: error.message
-    })
+    res.status(500).send({ message: 'Internal Server Error' })
   }
 })
 
-server.get('/encounters/test', async (req, res) => {
-  if (process.env.NODE_ENV === 'production') {
-    res.send([])
-    return
-  }
+if (process.env.NODE_ENV === 'development') {
+  server.get('/encounters_test', async (req, res) => {
+    const encounters = await database.getCollection('gw2.encounters_test', res)
 
-  const gw2AccountName = req.cookies.accountName
+    if (encounters === 0) { return }
 
-  if (!gw2AccountName) {
-    res.status(400).send({
-      message: 'Bad Request',
-      cause: 'Invalid account name'
-    })
-    return
-  }
+    const count = Math.min(Math.max(req.query.count, 1), 150)
 
-  const encounters = await database.getCollection('gw2.encounters_test', res)
-
-  if (encounters === 0) { return }
-
-  const count = Math.min(Math.max(req.query.count, 10), 150)
-
-  if (!count) {
-    console.error(`Invalid encounter count: "${count}"`)
-    res.status(400).send({
-      message: 'Bad Request',
-      cause: 'Invalid encounter count.\nSet "count" query parameter to integer'
-    })
-    return
-  }
-
-  const documentCount = await encounters.countDocuments()
-
-  if (documentCount !== count) {
-    await encounters.drop()
-
-    const generatedEncounters = generateEncounters(count, gw2AccountName)
-
-    const result = await encounters.bulkWrite(generatedEncounters)
-
-    if (result.ok) {
-      console.log(`Generated ${result.nInserted} test encounters`)
-    } else {
-      res.status(500).send({
-        message: 'Internal Server Error'
+    if (!count) {
+      console.error(`Invalid encounter count: "${req.query.count}"`)
+      res.status(400).send({
+        message: 'Bad Request',
+        cause: 'Invalid encounter count.\nSet "count" query to integer'
       })
       return
     }
-  }
 
-  try {
-    const userEncounters = await encounters.find({}, {
-      sort: [
-        ['date', -1]
-      ]
-    }).toArray()
+    const documentCount = await encounters.countDocuments()
 
-    res.send(userEncounters)
-  } catch (error) {
-    console.error(error)
-    res.status(500).send({
-      message: 'Internal Server Error',
-      cause: error.message
-    })
-  }
-})
+    if (documentCount !== count) {
+      await encounters.drop()
+
+      const result = await encounters.bulkWrite(
+        generateEncounters(count, req.cookies.accountName)
+      )
+
+      if (result.ok) {
+        console.log(`Generated ${result.nInserted} test encounters`)
+      } else {
+        res.status(500).send({ message: 'Internal Server Error' })
+        return
+      }
+    }
+
+    try {
+      const userEncounterTally = JSON.parse(JSON.stringify(encounterTally))
+
+      userEncounterTally.total = userEncounterTally['World vs World'] = count
+
+      res.send(userEncounterTally)
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ message: 'Internal Server Error' })
+    }
+  })
+
+  server.get('/encounters_test/:name', async (req, res) => {
+    if (process.env.NODE_ENV === 'production') {
+      res.status(403).send({ message: 'Forbidden' })
+      return
+    }
+
+    const encounterIds = encounterLookup[req.params.name]
+
+    if (encounterIds === undefined) {
+      res.status(400).send({
+        message: 'Bad Request',
+        cause: 'Invalid encounter name'
+      })
+      return
+    }
+
+    const encounters = await database.getCollection('gw2.encounters_test', res)
+
+    try {
+      const userEncounters = await encounters.find({}, {
+        sort: [
+          ['date', -1]
+        ]
+      }).toArray()
+
+      res.send(userEncounters)
+    } catch (error) {
+      console.error(error)
+      res.status(500).send({ message: 'Internal Server Error' })
+    }
+  })
+}
 
 server.post('/encounters/:id', express.json(), async (req, res) => {
   const encounterId = new ObjectID(req.params.id)
 
   const encounters = await database.getCollection('gw2.encounters', res)
 
-  if (encounters === 0) { return }
+  try {
+    await encounters.updateOne({ _id: encounterId }, {
+      $set: {
+        details: req.body
+      }
+    })
 
-  const result = await encounters.updateOne({ _id: encounterId }, {
-    $set: {
-      details: req.body
-    }
-  })
-
-  if (result.modifiedCount === 1) {
-    console.log(`Added details to encounter "${req.params.id}"`)
     res.send('Success')
-    return
+  } catch (error) {
+    console.error(`Error adding details to encounter "${req.params.id}"`)
+    res.send('Failure')
   }
-
-  console.log(`Error adding details to encounter "${req.params.id}"`)
-  res.send('Failure')
 })
 
 export default {

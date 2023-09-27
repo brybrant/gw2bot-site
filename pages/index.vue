@@ -57,7 +57,7 @@
 import '@/node_modules/lazysizes/lazysizes.min.js'
 import Rellax from '@/node_modules/rellax/rellax.min.js'
 
-import featureImages from '@/static/featureImages'
+import featureImages from '@/assets/js/featureImages'
 
 import AboutComponent from '@/components/about'
 import SetupSection from '@/components/index-sections/setup'

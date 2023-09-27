@@ -86,7 +86,7 @@
 
 <script scoped>
 import CommandComponent from '@/components/command'
-import commands from '@/static/commandsData'
+import commands from '@/assets/js/commandsData'
 
 export default {
   name: 'CommandsPage',
