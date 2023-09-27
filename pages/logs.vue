@@ -1,127 +1,40 @@
 <template>
   <main>
-    <div class="encounter-menu">
-      <div v-if="encounterTally" class="filters">
-        <!-- ENCOUNTER SELECT -->
-        <div class="form__group">
-          <label for="encounter-instances" class="form__label">
-            Instance:
-          </label>
-          <select id="encounter-instances" class="form__control">
-            <option
-              selected
-              @click="selectInstance(null)"
-            />
-            <optgroup
-              v-for="(instances, category) in bosses"
-              :key="category"
-              :label="category"
-            >
-              <option
-                v-for="instance in instances"
-                :key="instance.name"
-                :disabled="encounterTally[instance.name] === 0"
-                @click="selectInstance(instance)"
-              >
-                {{ instance.name }} ({{ encounterTally[instance.name] }})
-              </option>
-            </optgroup>
-          </select>
-        </div>
-
-        <div v-if="selectedInstance" class="form__group">
-          <label for="encounter-bosses" class="form__label">
-            Encounter:
-          </label>
-          <select id="encounter-bosses" class="form__control">
-            <option
-              v-if="selectedInstance.encounters.length > 1"
-              selected
-              @click="selectEncounter(null)"
-            />
-            <option
-              v-for="encounter in selectedInstance.encounters"
-              :key="encounter.name"
-              :disabled="encounterTally[encounter.name] === 0"
-              :selected="selectedEncounter === encounter"
-              @click="encounterTally[encounter.name] && selectEncounter(encounter)"
-            >
-              {{ encounter.name }} ({{ encounterTally[encounter.name] }})
-            </option>
-          </select>
-        </div>
-
-        <!-- ENCOUNTER FILTERS -->
-        <template v-if="selectedEncounter !== null">
-          <hr>
-
-          <div
-            v-if="selectedEncounter.name !== 'World vs World'"
-            class="form__checkbox"
-          >
-            <label for="result" class="form__label">
-              Successful Only?
-            </label>
-            <input
-              id="result"
-              v-model="filters.success"
-              type="checkbox"
-              @change="filterEncounters"
-            >
-          </div>
-
-          <div class="form__group">
-            <label for="dateStart" class="form__label">
-              Date Start:
-            </label>
-            <input
-              id="dateStart"
-              class="form__control"
-              type="date"
-              @change="filterEncounters"
-            >
-          </div>
-
-          <div class="form__group">
-            <label for="dateEnd" class="form__label">
-              Date End:
-            </label>
-            <input
-              id="dateEnd"
-              class="form__control"
-              type="date"
-              @change="filterEncounters"
-            >
-          </div>
-        </template>
-      </div>
-    </div>
+    <EncounterSelectorComponent
+      v-if="encounters.tally"
+      :tally="encounters.tally"
+      :active-instance="activeInstance"
+      :active-encounter="activeEncounter"
+      @setInstance="setInstance"
+      @setEncounter="setEncounter"
+      @filterEncounters="filterEncounters"
+    />
 
     <header class="page-width page-padding">
-      <h1 v-if="selectedEncounter === null">
+      <h1 v-if="activeEncounter === null">
         Encounter Browser
       </h1>
       <p v-else class="h3">
         <img
-          :src="selectedEncounter.icon"
+          :src="activeEncounter.icon"
           alt=""
-        >{{ selectedEncounter.name | twoOrphans }}
+        >{{ activeEncounter.name | twoOrphans }}
       </p>
 
       <template v-if="user">
-        <template v-if="encounterTally">
-          <p v-if="encounterTally.total === 0">
+        <template v-if="encounters.tally">
+          <p v-if="encounters.tally.total === 0">
             No Encounter Logs Found for&nbsp;<strong>{{ user }}</strong><br>
             <br>
             Add your encounter logs to GW2Bot by using the <code>/evtc</code> command in Discord.
           </p>
           <template v-else>
-            <p v-if="selectedEncounter === null">
-              Found {{ encounterTally.total }} encounter logs for&nbsp;<strong>{{ user }}</strong><br>
+            <p v-if="activeEncounter === null">
+              Found {{ encounters.tally.total }} encounter logs for&nbsp;<strong>{{ user }}</strong><br>
               <br>
               Start browsing your encounter logs by selecting an instance, then selecting an encounter.
             </p>
-            <p v-else-if="filteredEncounters.length === 0">
+            <p v-else-if="encounters.filtered.length === 0">
               No encounters match the specified filters
             </p>
           </template>
@@ -136,7 +49,7 @@
     </header>
 
     <PaginationComponent
-      v-if="filteredEncounters.length > 10"
+      v-if="encounters.filtered.length > 10"
       :current-page="currentPage"
       :total-pages="totalPages"
       @paginate="paginateEncounters"
@@ -155,7 +68,7 @@
     </ol>
 
     <PaginationComponent
-      v-if="filteredEncounters.length > 10"
+      v-if="encounters.filtered.length > 10"
       :current-page="currentPage"
       :total-pages="totalPages"
       @paginate="paginateEncounters"
@@ -164,8 +77,8 @@
 </template>
 
 <script>
-import bosses from '@/assets/js/bossesData'
 import LoadingInlineSVG from '@/components/inline-svgs/loading'
+import EncounterSelectorComponent from '@/components/encounter-selector'
 import EncounterComponent from '@/components/encounter'
 import PaginationComponent from '@/components/pagination'
 
@@ -194,28 +107,28 @@ export default {
   name: 'LogsPage',
   components: {
     LoadingInlineSVG,
+    EncounterSelectorComponent,
     EncounterComponent,
     PaginationComponent
   },
   middleware: 'auth',
   data () {
     return {
-      user: null,
-      bosses,
+      activeInstance: null,
+      activeEncounter: null,
       currentPage: 1,
-      totalPages: 1,
+      encounters: {
+        array: [],
+        filtered: [],
+        tally: null
+      },
       filterDebounce: null,
-      selectedInstance: null,
-      selectedEncounter: null,
-      encounterTally: null,
-      userEncounters: [],
-      filteredEncounters: [],
-      activeEncounters: [],
       filters: {
         success: false,
         dateStart: -Infinity,
         dateEnd: Infinity
-      }
+      },
+      user: null
     }
   },
   head () {
@@ -223,41 +136,49 @@ export default {
       title: 'Encounter Browser | GW2Bot'
     }
   },
+  computed: {
+    activeEncounters () {
+      return this.encounters.filtered.slice(
+        (this.currentPage - 1) * 10, this.currentPage * 10
+      )
+    },
+    totalPages () {
+      return Math.ceil(this.encounters.filtered.length / 10) || 1
+    }
+  },
   async mounted () {
     this.user = await this.$axios.$get('api/user')
 
     if (!this.user) { return }
 
-    this.encounterTally = await this.$axios.$get('api/encounters')
+    this.encounters.tally = await this.$axios.$get('api/encounters')
   },
   methods: {
-    selectInstance (instance) {
-      if (this.selectedInstance === instance) { return }
+    setInstance (instance) {
+      if (this.activeInstance === instance) { return }
 
-      this.activeEncounters.splice(0)
-      this.filteredEncounters.splice(0)
+      this.encounters.filtered.splice(0)
 
-      this.selectedEncounter = null
+      this.activeEncounter = null
 
-      this.selectedInstance = instance
+      this.activeInstance = instance
 
       if (instance === null) { return }
 
       if (instance.encounters.length === 1) {
-        this.selectEncounter(instance.encounters[0])
+        this.setEncounter(instance.encounters[0])
       }
     },
-    async selectEncounter (encounter) {
-      if (this.selectedEncounter === encounter) { return }
+    async setEncounter (encounter) {
+      if (this.activeEncounter === encounter) { return }
 
-      this.activeEncounters.splice(0)
-      this.filteredEncounters.splice(0)
+      this.encounters.filtered.splice(0)
 
-      this.selectedEncounter = encounter
+      this.activeEncounter = encounter
 
       if (encounter === null) { return }
 
-      this.userEncounters = await this.$axios.$get(
+      this.encounters.array = await this.$axios.$get(
         `api/encounters/${encounter.name}`
       )
 
@@ -265,10 +186,6 @@ export default {
     },
     async paginateEncounters (page) {
       this.currentPage = Math.min(Math.max(page, 1), this.totalPages)
-
-      this.activeEncounters = this.filteredEncounters.slice(
-        (page - 1) * 10, page * 10
-      )
 
       // fetch encounter details
       const timeoutID = this.filterDebounce
@@ -339,10 +256,6 @@ export default {
       }
     },
     encounterFilter (encounter) {
-      if (!this.selectedEncounter.ids.includes(encounter.boss_id)) {
-        return false
-      }
-
       if (this.filters.success === true && encounter.success !== true) {
         return false
       }
@@ -360,20 +273,22 @@ export default {
     filterEncounters (event) {
       clearTimeout(this.filterDebounce)
 
-      if (event && event.target.type === 'date') {
-        this.filters[event.target.id] = event.target.valueAsDate || (
-          event.target.id === 'dateStart' ? -Infinity : Infinity
-        )
+      if (event) {
+        if (event.target.type === 'checkbox') {
+          this.filters.success = event.target.checked
+        } else if (event.target.type === 'date') {
+          this.filters[event.target.id] = event.target.valueAsDate || (
+            event.target.id === 'dateStart' ? -Infinity : Infinity
+          )
+        }
       }
 
       this.filterDebounce = setTimeout((nuxt) => {
-        nuxt.filteredEncounters = nuxt.userEncounters.filter(
+        nuxt.encounters.filtered = nuxt.encounters.array.filter(
           nuxt.encounterFilter
         )
 
-        nuxt.totalPages = Math.ceil(nuxt.filteredEncounters.length / 10)
-
-        nuxt.paginateEncounters(nuxt.currentPage = 1)
+        nuxt.paginateEncounters(1)
       }, 50, this)
     }
   }
@@ -381,8 +296,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~@/assets/scss/situational/forms';
-
 main {
   position: relative;
   border-bottom: 1px solid $grey-1000;
@@ -391,30 +304,6 @@ main {
   .dark-mode & {
     border-bottom-color: $grey-200;
   }
-}
-
-.encounter-menu {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  border-right: 1px solid $grey-1000;
-  padding: 0 ($baseline-px * .5);
-  width: $nav-mobile-width;
-  background: $white;
-  z-index: 1;
-  .dark-mode & {
-    border-right-color: $grey-200;
-    background: $grey-350;
-  }
-}
-
-.filters {
-  position: sticky;
-  top: $nav-height;
-  bottom: 0;
-  padding: $baseline-rem 0;
-  text-align: left;
 }
 
 .h3 {
