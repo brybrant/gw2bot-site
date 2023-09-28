@@ -1,5 +1,9 @@
 <template>
-  <div class="top-bar" @mouseover="topBarHover = true" @mouseleave="topBarHover = false">
+  <div
+    class="top-bar"
+    @mouseover="topBarHover = true"
+    @mouseleave="topBarHover = false"
+  >
     <div class="top-bar__shadow">
       <div
         v-if="$route.name === 'index' && topBarBackgroundOpacity < 1"
@@ -7,14 +11,14 @@
       />
       <div
         class="top-bar__background"
-        :class="{'top-bar__background--solid': $route.name !== 'index'}"
+        :class="{ 'top-bar__background--solid': $route.name !== 'index' }"
         :style="[ topBarHover || navActive || userMenuActive ? null : { 'opacity': topBarBackgroundOpacity } ]"
       />
       <div class="page-width page-padding">
         <NuxtLink class="top-bar__logo" to="/">
-          <GW2BotLogo /><!--
-            Remove whitespace between logo and wordmark (inline-block elements)
-          --><div class="top-bar__logo-wordmark">
+          <GW2BotLogo />
+
+          <div class="top-bar__logo-wordmark">
             <span class="top-bar__logo-wordmark-stroke" aria-hidden="true">
               G<span class="two-kern">W</span>2Bot
             </span>
@@ -29,17 +33,17 @@
           <div class="top-bar__toggle">
             <button
               class="dark-mode-button"
-              :class="$colorMode.value=='dark' ? 'active' : ''"
-              :title="$colorMode.value=='dark' ? 'Switch to light mode' : 'Switch to dark mode'"
-              @click="$colorMode.value=='dark' ? ($colorMode.preference='light') : ($colorMode.preference='dark')"
+              :class="darkMode ? 'active' : null"
+              :title="`Switch to ${darkMode ? 'light' : 'dark'} mode`"
+              @click="switchColorMode"
             />
           </div>
 
           <div class="top-bar__toggle top-bar__toggle--navigation">
             <button
               class="main-nav-button"
-              :class="{active: navActive}"
-              :title="navActive ? 'Hide navigation' : 'Show navigation'"
+              :class="{ active: navActive }"
+              :title="`${navActive ? 'Hide' : 'Show'} navigation`"
               @click="navActive = !navActive"
             >
               <div />
@@ -51,13 +55,18 @@
 
     <div
       class="mobile-navigation-cover"
-      :class="{active: navActive}"
+      :class="{ active: navActive }"
       @click="navActive = false"
     />
 
     <div class="page-width">
-      <div class="main-nav__container" :class="{active: navActive}">
-        <nav class="main-nav" aria-label="Navigation" itemscope itemtype="http://www.schema.org/SiteNavigationElement">
+      <div class="main-nav__container" :class="{ active: navActive }">
+        <nav
+          class="main-nav"
+          aria-label="Navigation"
+          itemscope
+          itemtype="http://www.schema.org/SiteNavigationElement"
+        >
           <NuxtLink
             to="/"
             class="main-nav__link"
@@ -107,9 +116,13 @@
           <div
             v-if="$auth.loggedIn"
             class="main-nav__group"
-            :class="{active: userMenuActive}"
+            :class="{ active: userMenuActive }"
           >
-            <button class="main-nav__link" :class="{active: userMenuActive}" @click="userMenuActive = !userMenuActive">
+            <button
+              class="main-nav__link"
+              :class="{ active: userMenuActive }"
+              @click="userMenuActive = !userMenuActive"
+            >
               <span class="main-nav__link-name">
                 <img
                   class="main-nav__user-image"
@@ -117,7 +130,11 @@
                 >User<DropdownInlineSVG />
               </span>
             </button>
-            <div v-if="$auth.loggedIn" class="main-nav__sub-menu" :class="{active: userMenuActive}">
+            <div
+              v-if="$auth.loggedIn"
+              class="main-nav__sub-menu"
+              :class="{ active: userMenuActive }"
+            >
               <div class="main-nav__user-info small-text">
                 <span class="main-nav__user-name">
                   {{ $auth.user.global_name }}
@@ -160,6 +177,11 @@ export default {
       userMenuActive: false
     }
   },
+  computed: {
+    darkMode () {
+      return this.$colorMode.value === 'dark'
+    }
+  },
   mounted () {
     window.removeEventListener('scroll', this.handleScroll)
     window.addEventListener('scroll', this.handleScroll, { passive: true })
@@ -174,6 +196,9 @@ export default {
         0.67 + (Math.round((window.scrollY / window.innerHeight) * 100) / 300),
         1
       )
+    },
+    switchColorMode () {
+      this.$colorMode.preference = this.darkMode ? 'light' : 'dark'
     }
   }
 }

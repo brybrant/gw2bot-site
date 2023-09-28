@@ -95,15 +95,26 @@ $top-bar-shadow--dark:
   0 (-5px) 10px 10px rgba($black,.24)
 ;
 
-$navigation-drawer-shadow:
+$right-drawer-shadow:
   6px 0 4px 8px rgba($black,.04),
   5px 0 6px 8px rgba($black,.08),
   4px 0 8px 8px rgba($black,.16)
 ;
-$navigation-drawer-shadow--dark:
+$right-drawer-shadow--dark:
   6px 0 4px 8px rgba($black,.06),
   5px 0 6px 8px rgba($black,.12),
   4px 0 8px 8px rgba($black,.24)
+;
+
+$left-drawer-shadow:
+  -6px 0 4px 8px rgba($black,.04),
+  -5px 0 6px 8px rgba($black,.08),
+  -4px 0 8px 8px rgba($black,.16)
+;
+$left-drawer-shadow--dark:
+  -6px 0 4px 8px rgba($black,.06),
+  -5px 0 6px 8px rgba($black,.12),
+  -4px 0 8px 8px rgba($black,.24)
 ;
 
 $navigation-submenu-shadow:

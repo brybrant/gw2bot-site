@@ -14,7 +14,7 @@
   z-index: 2;
   &.active {
     left: calc(100% - $nav-mobile-width);
-    box-shadow: $navigation-drawer-shadow;
+    box-shadow: $right-drawer-shadow;
     transition: left .3s ease-out;
   }
   @include media-query('gt-800') {
@@ -36,7 +36,7 @@
   .dark-mode & {
     background: $grey-350;
     &.active {
-      box-shadow: $navigation-drawer-shadow--dark;
+      box-shadow: $right-drawer-shadow--dark;
       @include media-query('gt-800') {
         box-shadow: none;
       }
