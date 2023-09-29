@@ -1,7 +1,7 @@
 <template>
   <div class="form form--inline">
     <!-- ENCOUNTER SELECTOR -->
-    <div class="flexbox">
+    <div class="flexbox flexbox--form">
       <div class="flexbox__item">
         <div class="form__group">
           <label for="encounter-instances" class="form__label">
@@ -24,7 +24,9 @@
                 :disabled="tally[instance] === 0"
                 :data-category="category"
                 :value="instance"
-              >{{ instance }} ({{ tally[instance] }})</option>
+              >
+                {{ instance }} ({{ tally[instance] }})
+              </option>
             </optgroup>
           </select>
         </div>
@@ -47,7 +49,9 @@
               :disabled="tally[encounter.name] === 0"
               :selected="currentEncounter === encounter"
               :value="tally[encounter.name] ? index : ''"
-            >{{ encounter.name }} ({{ tally[encounter.name] }})</option>
+            >
+              {{ encounter.name }} ({{ tally[encounter.name] }})
+            </option>
           </select>
         </div>
       </div>
@@ -57,7 +61,7 @@
     <template v-if="currentEncounter">
       <hr>
 
-      <div class="flexbox">
+      <div class="flexbox flexbox--form">
         <div
           v-if="currentEncounter.api_name !== 'wvw'"
           class="flexbox__item"
@@ -155,11 +159,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/assets/scss/situational/forms';
-
-// .flexbox--form {
-//   display: inline-flex;
-//   flex-flow: column nowrap;
-// }
 
 select.form__control {
   width: 200px;

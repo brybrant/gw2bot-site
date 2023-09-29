@@ -110,7 +110,7 @@ input[type="checkbox"] {
 \*---------------------------------------------------------------------------*/
 .form__group {
   position: relative;
-  display: flex;
+  display: inline-flex;
   flex-flow: column nowrap;
   .form &, & ~ .form__group {
     margin: $baseline-rem 0 0 0;
@@ -166,7 +166,7 @@ $form__height:        $p-line-rem + 0.75rem;/* 36px */
 // To be used instead of '.form__group' for radio and checkbox inputs
 .form__radio, .form__checkbox {
   position: relative;
-  display: flex;
+  display: inline-flex;
   flex-flow: row nowrap;
   align-items: center;
   margin: $baseline-rem 0 0 0;
@@ -232,10 +232,15 @@ input[type="radio"], input[type="checkbox"] {
 //
 // Requires wrapping inputs and labels with `.form__group`
 .form--inline {
-  @media (min-width: 300px) {
+  .flexbox--form .flexbox__item {
+    width: 100%;
+  }
+  @include media-query('gt-800') {
     flex-flow: row wrap;
+    .flexbox--form .flexbox__item {
+      width: auto;
+    }
     .form__group {
-      display: inline-flex;
       flex-flow: row nowrap;
     }
     .form__label {
