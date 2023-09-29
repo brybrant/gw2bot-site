@@ -34,22 +34,23 @@ const cookieOptions = {
 
 const encounterData = {}
 const encounterLookup = {}
-const encounterTally = {
-  total: 0
-}
+const encounterTally = { total: 0 }
 
-for (const instances of Object.values(bosses)) {
-  for (const instance of instances) {
-    encounterTally[instance.name] = 0
+for (const [category, instances] of Object.entries(bosses)) {
+  encounterTally[category] = 0
 
-    for (const encounter of instance.encounters) {
-      encounterLookup[encounter.name] = encounter.ids
+  for (const [instance, encounters] of Object.entries(instances)) {
+    encounterTally[instance] = 0
+
+    for (const encounter of encounters) {
+      encounterLookup[encounter.api_name] = encounter.ids
       encounterTally[encounter.name] = 0
 
       for (const id of encounter.ids) {
         encounterData[id] = {
-          instance: instance.name,
-          name: encounter.name,
+          category,
+          instance,
+          encounter: encounter.name,
           count: 0
         }
       }
@@ -132,15 +133,24 @@ server.get('/encounters', async (req, res) => {
       projection: {
         boss_id: 1
       }
-    }).forEach(doc => userEncounterData[doc.boss_id].count++)
+    }).forEach((doc) => {
+      if (userEncounterData[doc.boss_id]) {
+        userEncounterData[doc.boss_id].count++
+      } else {
+        console.error(
+          `Unknown boss ID: "${doc.boss_id}" (encounter ID: "${doc._id}")`
+        )
+      }
+    })
 
     const userEncounterTally = JSON.parse(JSON.stringify(encounterTally))
 
     for (const boss of Object.values(userEncounterData)) {
       userEncounterTally.total += boss.count
+      userEncounterTally[boss.category] += boss.count
       userEncounterTally[boss.instance] += boss.count
-      if (boss.name === boss.instance) { continue }
-      userEncounterTally[boss.name] += boss.count
+      if (boss.encounter === boss.instance) { continue }
+      userEncounterTally[boss.encounter] += boss.count
     }
 
     res.send(userEncounterTally)
@@ -153,7 +163,7 @@ server.get('/encounters', async (req, res) => {
 server.get('/encounters/:name', async (req, res) => {
   const encounterIds = encounterLookup[req.params.name]
 
-  if (encounterIds === undefined) {
+  if (!encounterIds) {
     res.status(400).send({
       message: 'Bad Request',
       cause: 'Invalid encounter name'
@@ -237,7 +247,7 @@ if (process.env.NODE_ENV === 'development') {
   server.get('/encounters_test/:name', async (req, res) => {
     const encounterIds = encounterLookup[req.params.name]
 
-    if (encounterIds === undefined) {
+    if (!encounterIds) {
       res.status(400).send({
         message: 'Bad Request',
         cause: 'Invalid encounter name'

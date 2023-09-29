@@ -1,24 +1,14 @@
 <template>
   <main>
-    <EncounterSelectorComponent
-      v-if="encounters.tally"
-      :tally="encounters.tally"
-      :active-instance="activeInstance"
-      :active-encounter="activeEncounter"
-      @setInstance="setInstance"
-      @setEncounter="setEncounter"
-      @filterEncounters="filterEncounters"
-    />
-
     <header class="page-width page-padding">
-      <h1 v-if="activeEncounter === null">
+      <h1 v-if="currentEncounter === null">
         Encounter Browser
       </h1>
       <p v-else class="h3">
         <img
-          :src="activeEncounter.icon"
+          :src="currentEncounter.icon"
           alt=""
-        >{{ activeEncounter.name | twoOrphans }}
+        >{{ currentEncounter.name | twoOrphans }}
       </p>
 
       <template v-if="user">
@@ -29,12 +19,21 @@
             Add your encounter logs to GW2Bot by using the <code>/evtc</code> command in Discord.
           </p>
           <template v-else>
-            <p v-if="activeEncounter === null">
-              Found {{ encounters.tally.total }} encounter logs for&nbsp;<strong>{{ user }}</strong><br>
-              <br>
-              Start browsing your encounter logs by selecting an instance, then selecting an encounter.
+            <p v-if="currentEncounter === null">
+              Found {{ encounters.tally.total }} encounter logs for&nbsp;<strong>{{ user }}</strong>
             </p>
-            <p v-else-if="encounters.filtered.length === 0">
+            <p v-else>
+              Browsing encounter logs for&nbsp;<strong>{{ user }}</strong>
+            </p>
+            <EncounterSelectorComponent
+              :tally="encounters.tally"
+              :current-instance="currentInstance"
+              :current-encounter="currentEncounter"
+              @setInstance="setInstance"
+              @setEncounter="setEncounter"
+              @filterEncounters="filterEncounters"
+            />
+            <p v-if="currentEncounter && encounters.filtered.length === 0">
               No encounters match the specified filters
             </p>
           </template>
@@ -114,8 +113,8 @@ export default {
   middleware: 'auth',
   data () {
     return {
-      activeInstance: null,
-      activeEncounter: null,
+      currentInstance: null,
+      currentEncounter: null,
       currentPage: 1,
       encounters: {
         array: [],
@@ -155,31 +154,31 @@ export default {
   },
   methods: {
     setInstance (instance) {
-      if (this.activeInstance === instance) { return }
+      if (instance === this.currentInstance) { return }
 
       this.encounters.filtered.splice(0)
 
-      this.activeEncounter = null
+      this.currentEncounter = null
 
-      this.activeInstance = instance
+      this.currentInstance = instance
 
       if (instance === null) { return }
 
-      if (instance.encounters.length === 1) {
-        this.setEncounter(instance.encounters[0])
+      if (instance.length === 1) {
+        this.setEncounter(instance[0])
       }
     },
     async setEncounter (encounter) {
-      if (this.activeEncounter === encounter) { return }
+      if (encounter === this.currentEncounter) { return }
 
       this.encounters.filtered.splice(0)
 
-      this.activeEncounter = encounter
+      this.currentEncounter = encounter
 
       if (encounter === null) { return }
 
       this.encounters.array = await this.$axios.$get(
-        `api/encounters/${encounter.name}`
+        `api/encounters/${encounter.api_name}`
       )
 
       this.filterEncounters()
@@ -270,20 +269,20 @@ export default {
 
       return true
     },
-    filterEncounters (event) {
+    filterEncounters (element) {
       clearTimeout(this.filterDebounce)
 
-      if (event) {
-        if (event.target.type === 'checkbox') {
-          this.filters.success = event.target.checked
-        } else if (event.target.type === 'date') {
-          this.filters[event.target.id] = event.target.valueAsDate || (
-            event.target.id === 'dateStart' ? -Infinity : Infinity
-          )
-        }
-      }
-
       this.filterDebounce = setTimeout((nuxt) => {
+        if (element) {
+          if (element.type === 'checkbox') {
+            nuxt.filters.success = element.checked
+          } else if (element.type === 'date') {
+            nuxt.filters[element.id] = element.value || (
+              element.id === 'dateStart' ? -Infinity : Infinity
+            )
+          }
+        }
+
         nuxt.encounters.filtered = nuxt.encounters.array.filter(
           nuxt.encounterFilter
         )
@@ -297,13 +296,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
-  position: relative;
-  border-bottom: 1px solid $grey-1000;
-  padding-left: $nav-mobile-width;
-  min-height: 480px;
-  .dark-mode & {
-    border-bottom-color: $grey-200;
-  }
+  min-height: 360px;
 }
 
 .h3 {
