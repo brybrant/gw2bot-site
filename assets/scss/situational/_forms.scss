@@ -87,6 +87,11 @@ input[type="checkbox"] {
     Form wrapper element
 \*---------------------------------------------------------------------------*/
 .form {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: flex-start;
+  margin: $baseline-rem 0 0 0;
   padding: 0 ($baseline-px * .5) $baseline-rem ($baseline-px * .5);
   border-radius: 6px;
   background: $white;
@@ -107,7 +112,7 @@ input[type="checkbox"] {
   position: relative;
   display: flex;
   flex-flow: column nowrap;
-  & ~ .form__group {
+  .form &, & ~ .form__group {
     margin: $baseline-rem 0 0 0;
   }
 }
@@ -126,7 +131,7 @@ input[type="checkbox"] {
 // select
 // textarea
 // input[type="text/password/date(time(-local))/month/week/time/number/email/url/search/tel/color"]
-$form__height:        $p-line-rem + 0.75rem;/*36px*/
+$form__height:        $p-line-rem + 0.75rem;/* 36px */
 
 .form__control {
   display: block;
@@ -140,7 +145,7 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
   background-color: $white;
   border-radius: 4px;
   border: 1px solid $grey-1000;
-  //box-shadow: $form-control-shadow;
+  // box-shadow: $form-control-shadow;
   &:hover {border-color: $grey-700}
   &:focus {@include form__control-focus($focus);}
   @include placeholder($grey-900);// Refer to '_functions.scss' partial
@@ -148,7 +153,7 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
     color: $grey-1200;
     border-color: $grey-700;
     background-color: $grey-350;
-    //box-shadow: $form-control-shadow--dark;
+    // box-shadow: $form-control-shadow--dark;
     &:hover {border-color: $grey-1000}
     &:focus {@include form__control-focus($focus-dark);}
     @include placeholder($grey-500);
@@ -163,6 +168,7 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
   position: relative;
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   margin: $baseline-rem 0 0 0;
   padding: 0;
   text-align: left;
@@ -177,8 +183,8 @@ $form__height:        $p-line-rem + 0.75rem;/*36px*/
   &:last-child {margin: (-$full-base) 0 0 0;}
 }*/
 
-.form__radio input[type="radio"], .form__checkbox input[type="checkbox"] {
-  margin: 0 0 0 6px;
+.form__radio input, .form__checkbox input {
+  margin: 0 0 0 4px;
 }
 
 /*---------------------------------------------------------------------------*\
@@ -220,27 +226,21 @@ input[type="radio"], input[type="checkbox"] {
 /*---------------------------------------------------------------------------*\
     Inline Forms
 \*---------------------------------------------------------------------------*/
-// Make .form appear inline(-block) by adding the `.form--inline` class.
+// Make .form controls display inline with labels by adding `.form--inline`
 // Inline forms begin stacked on small (mobile) screens, then go inline when
-// viewport width exceeds 200px.
+// viewport width exceeds 300px.
 //
-// Requires wrapping inputs and labels with `.form__group` for proper display of
-// default HTML form controls and our custom form controls (e.g., input groups).
+// Requires wrapping inputs and labels with `.form__group`
 .form--inline {
-  @media (min-width: 200px) {
+  @media (min-width: 300px) {
+    flex-flow: row wrap;
     .form__group {
-      display: inline-block;
-      margin-bottom: 0;
-    }
-    .form__control {
-      display: inline-block;
-      width: auto; // Prevent labels stacking above inputs in `.form__group`
-      vertical-align: middle;
+      display: inline-flex;
+      flex-flow: row nowrap;
     }
     .form__label {
-      display: inline-block;
-      padding-right: 4px;
-      vertical-align: middle;
+      padding: (($form__height - $p-line-rem) * .5) 4px (($form__height - $p-line-rem) * .5) 0;
+      white-space: nowrap;
     }
   }
 }
