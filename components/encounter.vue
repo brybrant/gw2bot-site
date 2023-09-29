@@ -96,7 +96,7 @@ export default {
   display: inline-flex;
   flex-flow: column nowrap;
   margin-left: -$baseline-px;
-  @include media-query('gt-1044') {
+  @include media-query('gt-800') {
     flex-flow: row nowrap;
   }
 }
@@ -111,20 +111,20 @@ export default {
   width: 90px;
   padding-right: 4px;
   text-align: right;
-  @include media-query('gt-1044') {
+  @include media-query('gt-800') {
     width: auto;
   }
 }
 .encounter__info-value {
-  width: 150px;
+  width: 180px;
   text-align: left;
-  @include media-query('gt-1044') {
+  @include media-query('gt-800') {
     width: auto;
   }
 }
 .boss-health {
   position: relative;
-  width: 150px;
+  width: 100px;
   height: $small-line-rem;
   background: $grey-1100;
   vertical-align: top;
@@ -158,8 +158,8 @@ export default {
   }
 }
 .encounter__link {
-  width: 240px;
-  @include media-query('gt-1044') {
+  width: 270px;
+  @include media-query('gt-800') {
     width: auto;
   }
 }
