@@ -27,7 +27,7 @@ export async function getUser (userID, res) {
 
   const user = await users.findOne({ _id: userID })
 
-  if (user === null) {
+  if (!user) {
     res.status(404).send({
       message: 'User Not Found',
       cause: 'Please add your Guild Wars 2 API key to GW2Bot first'
@@ -35,7 +35,7 @@ export async function getUser (userID, res) {
     return 0
   }
 
-  if (user.cogs.GuildWars2.dpsreport_token !== undefined) {
+  if (user.cogs.GuildWars2.dpsreport_token) {
     return user
   }
 
@@ -46,14 +46,10 @@ export async function getUser (userID, res) {
       }
 
       console.error(
-        `Received error ${response.status} generating dps.report token for user <@${userID.toString()}>`
+        `Error ${response.status} getting dps.report token for <@${userID}>`
       )
-      res.status(response.status).send({
-        message: response.statusText
-      })
-      return 0
-    }).catch((error) => {
-      console.error(error)
+
+      res.status(response.status).send({ message: response.statusText })
       return 0
     })
 
@@ -66,9 +62,9 @@ export async function getUser (userID, res) {
   })
 
   if (result.modifiedCount === 1) {
-    console.log(`Set token for user <@${userID.toString()}>`)
+    console.log(`Set dps.report token for user <@${userID}>`)
   } else {
-    console.error(`Failed to set token for user <@${userID.toString()}>`)
+    console.error(`Failed to set dps.report token for user <@${userID}>`)
   }
 
   user.cogs.GuildWars2.dpsreport_token = dpsToken.userToken
