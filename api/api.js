@@ -175,27 +175,22 @@ server.get('/encounters/:name', async (req, res) => {
 
   if (encounters === 0) { return }
 
-  try {
-    const userEncounters = await encounters.find({
-      players: req.cookies.accountName,
-      boss_id: {
-        $in: encounterIds
-      }
-    }, {
-      projection: {
-        start_date: 0,
-        players: 0
-      },
-      sort: [
-        ['date', -1]
-      ]
-    }).toArray()
+  const userEncounters = await encounters.find({
+    players: req.cookies.accountName,
+    boss_id: {
+      $in: encounterIds
+    }
+  }, {
+    projection: {
+      start_date: 0,
+      players: 0
+    },
+    sort: [
+      ['date', -1]
+    ]
+  }).toArray()
 
-    res.send(userEncounters)
-  } catch (error) {
-    console.error(error)
-    res.status(500).send({ message: 'Internal Server Error' })
-  }
+  res.send(userEncounters)
 })
 
 if (process.env.NODE_ENV === 'development') {
@@ -232,16 +227,11 @@ if (process.env.NODE_ENV === 'development') {
       }
     }
 
-    try {
-      const userEncounterTally = JSON.parse(JSON.stringify(encounterTally))
+    const userEncounterTally = JSON.parse(JSON.stringify(encounterTally))
 
-      userEncounterTally.total = userEncounterTally['World vs World'] = count
+    userEncounterTally.total = userEncounterTally['World vs World'] = count
 
-      res.send(userEncounterTally)
-    } catch (error) {
-      console.error(error)
-      res.status(500).send({ message: 'Internal Server Error' })
-    }
+    res.send(userEncounterTally)
   })
 
   server.get('/encounters_test/:name', async (req, res) => {
@@ -259,18 +249,13 @@ if (process.env.NODE_ENV === 'development') {
 
     if (encounters === 0) { return }
 
-    try {
-      const userEncounters = await encounters.find({}, {
-        sort: [
-          ['date', -1]
-        ]
-      }).toArray()
+    const userEncounters = await encounters.find({}, {
+      sort: [
+        ['date', -1]
+      ]
+    }).toArray()
 
-      res.send(userEncounters)
-    } catch (error) {
-      console.error(error)
-      res.status(500).send({ message: 'Internal Server Error' })
-    }
+    res.send(userEncounters)
   })
 }
 
