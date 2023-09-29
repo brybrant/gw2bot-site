@@ -127,7 +127,7 @@
                 <img
                   class="main-nav__user-image"
                   :src="`https://cdn.discordapp.com/avatars/${$auth.user.id}/${$auth.user.avatar}.webp?size=64`"
-                >User<DropdownInlineSVG />
+                ><DropdownInlineSVG />
               </span>
             </button>
             <div
