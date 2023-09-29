@@ -72,8 +72,18 @@ server.get('/user', async (req, res) => {
 
     if (user === 0) { return }
 
-    if (req.cookies.accountName !== user.cogs.GuildWars2.key.account_name) {
-      res.status(401).send({ message: 'Unauthorized' })
+    // Clear stale cookies
+    if (
+      req.cookies.accountName !== user.cogs.GuildWars2.key.account_name ||
+      req.cookies.dpsToken !== user.cogs.GuildWars2.dpsreport_token
+    ) {
+      res.clearCookie('userID', cookieOptions)
+        .clearCookie('accountName', cookieOptions)
+        .clearCookie('dpsToken', cookieOptions)
+        .status(409).send({
+          message: 'Conflict',
+          cause: 'Try refreshing the page or clearing your cookies'
+        })
       return
     }
 
