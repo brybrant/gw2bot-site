@@ -21,6 +21,11 @@ export default {
     return {
       title: 'Logging In...'
     }
+  },
+  mounted () {
+    if (!this.$auth.loggedIn) {
+      this.$auth.loginWith('discord')
+    }
   }
 }
 </script>
