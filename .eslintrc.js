@@ -19,7 +19,7 @@ module.exports = {
       keywords: true
     }],
     'vue/singleline-html-element-content-newline': ['warn', {
-      ignores: ['ExternalLink', 'NuxtLink', 'a', 'abbr', 'pre', 'span']
+      ignores: ['ExternalLink', 'NuxtLink', 'a', 'abbr', 'pre', 'span', 'td']
     }]
   }
 }
