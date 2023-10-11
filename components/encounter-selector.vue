@@ -161,6 +161,6 @@ export default {
 @import '~@/assets/scss/situational/forms';
 
 select.form__control {
-  width: 200px;
+  width: 250px;
 }
 </style>

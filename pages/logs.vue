@@ -1,5 +1,7 @@
 <template>
   <main>
+    <div id="tooltip-boundary" />
+
     <header class="page-width page-padding">
       <h1 v-if="currentEncounter === null">
         Encounter Browser
@@ -76,17 +78,26 @@
 </template>
 
 <script>
+import { options as VTooltipOptions } from 'floating-vue'
+
 import LoadingInlineSVG from '@/components/inline-svgs/loading'
 import EncounterSelectorComponent from '@/components/encounter-selector'
 import EncounterComponent from '@/components/encounter'
 import PaginationComponent from '@/components/pagination'
 
+VTooltipOptions.arrowPadding = 6
+VTooltipOptions.distance = 9
+VTooltipOptions.themes.tooltip.hideTriggers = ['hover', 'touch']
+VTooltipOptions.themes.tooltip.delay.show = 100
+
+// https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/GW2EIEvtcParser/ParserHelpers/SkillIDs.cs
 const boonIDs = {
   30328: 'alacrity',
   725: 'fury',
   740: 'might',
   717: 'protection',
   1187: 'quickness',
+  26980: 'resistance',
   873: 'resolution',
   726: 'vigor'
 }
@@ -151,6 +162,8 @@ export default {
     if (!this.user) { return }
 
     this.encounters.tally = await this.$axios.$get('api/encounters')
+
+    VTooltipOptions.boundary = document.getElementById('tooltip-boundary')
   },
   methods: {
     setInstance (instance) {
@@ -227,6 +240,7 @@ export default {
             might: 0,
             protection: 0,
             quickness: 0,
+            resistance: 0,
             resolution: 0,
             vigor: 0
           }
@@ -237,13 +251,41 @@ export default {
             boons[boonIDs[boon.id]] = boon.buffData[0].uptime
           }
 
+          const weapons = []
+
+          for (let i = 0; i < 4; i++) {
+            const weapon = player.weapons[i]
+
+            if (i >= 2 && (weapon === '2Hand' || weapon === 'Unknown')) {
+              continue
+            }
+
+            weapons.push(weapon)
+          }
+
           details.players.push({
             account: player.account,
-            boons,
+            attributes: {
+              condition: player.condition > 0,
+              concentration: player.concentration > 0,
+              healing: player.healing > 0,
+              toughness: player.toughness > 0
+            },
+            ...boons,
+            character: player.name,
+            commander: player.hasCommanderTag,
             dps: player.dpsTargets[0][0].dps,
             group: player.group,
-            character: player.name,
-            profession: player.profession
+            profession: player.profession,
+            ...{
+              absorbed: player.defenses[0].damageBarrier,
+              blocked: player.defenses[0].blockedCount,
+              cleanses: player.support[0].condiCleanse + player.support[0].condiCleanseSelf,
+              evades: player.defenses[0].evadedCount,
+              resurrects: player.support[0].resurrects,
+              strips: player.support[0].boonStrips
+            },
+            weapons
           })
 
           details.dps += player.dpsTargets[0][0].dps
@@ -297,6 +339,16 @@ export default {
 <style lang="scss" scoped>
 main {
   min-height: 360px;
+}
+
+#tooltip-boundary {
+  position: fixed;
+  top: $nav-height;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .h3 {

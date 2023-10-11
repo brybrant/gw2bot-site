@@ -2,88 +2,182 @@
   <table class="encounter__table">
     <tr>
       <th
-        v-for="heading in columnHeadings"
-        :key="heading.label"
-        :class="`${heading.column}-col${heading.img ? ' boon-col' : ''}`"
+        v-for="(column, columnName) in columns"
+        :key="column.label"
+        v-tooltip="column.img ? column.label : null"
+        :class="`${columnName}-col${column.img ? ' align-center' : ''}`"
+        :colspan="column.colspan || null"
       >
         <button
           class="sort-button"
-          :class="sortBy === heading.column ? sortOrder : null"
+          :class="sortBy === columnName ? sortOrder : null"
           title="Sort ascending"
-          @click="sortRows(
-            heading.column,
-            heading.img !== undefined,
-            $event
-          )"
+          @click="sortRows(columnName, $event)"
         >
-          <img
-            v-if="heading.img !== undefined"
-            class="boon-icon"
-            :alt="heading.label"
-            :src="heading.img"
-          >
+          <picture v-if="column.img" class="table-icon">
+            <source
+              :srcset="require(`@/assets/img/icons/${column.img}.webp`)"
+              type="image/webp"
+            >
+            <img
+              :alt="column.label"
+              :src="require(`@/assets/img/icons/${column.img}.png`)"
+            >
+          </picture>
           <template v-else>
-            {{ heading.label }}
+            {{ column.label }}
           </template>
         </button>
       </th>
     </tr>
     <tr
-      v-for="player in (sortedPlayers || details.players)"
+      v-for="player in players"
       :key="`${encounter._id}: ${player.account}`"
       :class="{ me: user === player.account }"
     >
-      <td class="group-col">
+      <td class="group-col align-right">
+        <CommanderInlineSVG
+          v-if="player.commander"
+          v-tooltip="`Commander`"
+          class="table-icon table-icon--small"
+        />
         {{ player.group }}
       </td>
-      <td class="account-col">
-        <span contenteditable>{{ player.account }}</span>
-      </td>
-      <td class="character-col">
-        <picture>
-          <source :srcset="require(`@/assets/img/professions/${player.profession}_icon.webp`)" type="image/webp">
-          <img
-            class="profession-icon"
-            :src="require(`@/assets/img/professions/${player.profession}_icon.png`)"
-            :title="player.profession"
-            :alt="player.profession"
+      <td>{{ player.account }}</td>
+      <td>
+        <picture v-tooltip="player.profession" class="table-icon">
+          <source
+            :srcset="require(`@/assets/img/professions/${player.profession}_icon.webp`)"
+            type="image/webp"
           >
-        </picture>{{ player.character }}
+          <img
+            :alt="player.profession"
+            :src="require(`@/assets/img/professions/${player.profession}_icon.png`)"
+          >
+        </picture>
+        {{ player.character }}
+        <ConcentrationInlineSVG
+          v-if="player.attributes.concentration"
+          v-tooltip="`Concentration`"
+          class="table-icon table-icon--small"
+        />
+        <ConditionInlineSVG
+          v-if="player.attributes.condition"
+          v-tooltip="`Condition Damage`"
+          class="table-icon table-icon--small"
+        />
+        <HealingInlineSVG
+          v-if="player.attributes.healing"
+          v-tooltip="`Healing Power`"
+          class="table-icon table-icon--small table-icon--narrow"
+        />
+        <ToughnessInlineSVG
+          v-if="player.attributes.toughness"
+          v-tooltip="`Toughness`"
+          class="table-icon table-icon--small"
+        />
       </td>
-      <td class="dps-col">
+      <td class="align-right">
+        <div class="weapons">
+          <template v-for="(weapon, index) in player.weapons">
+            <div
+              v-if="weapon !== '2Hand' && index < 2"
+              :key="`${encounter._id}: ${player.account}: weapon ${index}`"
+              class="table-icon weapon"
+            >
+              <WeaponsInlineSVGs v-tooltip="weapon" :weapon="weapon" />
+            </div>
+          </template>
+        </div>
+      </td>
+      <td>
+        <div class="weapons">
+          <template v-for="(weapon, index) in player.weapons">
+            <div
+              v-if="weapon !== '2Hand' && index >= 2"
+              :key="`${encounter._id}: ${player.account}: weapon ${index}`"
+              class="table-icon weapon"
+            >
+              <WeaponsInlineSVGs v-tooltip="weapon" :weapon="weapon" />
+            </div>
+          </template>
+        </div>
+      </td>
+      <td class="align-right">
         {{ player.dps.toLocaleString() }}
-        <span>({{
-          (player.dps / details.dps) * 100 | percentage
-        }}%)</span>
       </td>
-      <td class="alacrity-col boon-col">
-        {{ player.boons.alacrity | percentage }}%
+      <td class="align-right">
+        {{ (player.dps / details.dps) * 100 | percentage }}%
       </td>
-      <td class="fury-col boon-col">
-        {{ player.boons.fury | percentage }}%
+      <td class="alacrity-col align-right">
+        {{ player.alacrity | percentage }}%
       </td>
-      <td class="might-col boon-col">
-        {{ player.boons.might | mightStacks }}
+      <td class="fury-col align-right">
+        {{ player.fury | percentage }}%
       </td>
-      <td class="protection-col boon-col">
-        {{ player.boons.protection | percentage }}%
+      <td class="might-col align-right">
+        {{ player.might | mightStacks }}
       </td>
-      <td class="quickness-col boon-col">
-        {{ player.boons.quickness | percentage }}%
+      <td class="protection-col align-right">
+        {{ player.protection | percentage }}%
       </td>
-      <td class="resolution-col boon-col">
-        {{ player.boons.resolution | percentage }}%
+      <td class="quickness-col align-right">
+        {{ player.quickness | percentage }}%
       </td>
-      <td class="vigor-col boon-col">
-        {{ player.boons.vigor | percentage }}%
+      <td class="resistance-col align-right">
+        {{ player.resistance | percentage }}%
+      </td>
+      <td class="resolution-col align-right">
+        {{ player.resolution | percentage }}%
+      </td>
+      <td class="vigor-col align-right">
+        {{ player.vigor | percentage }}%
+      </td>
+      <td class="blocked-col align-right">
+        {{ player.blocked.toLocaleString() }}
+      </td>
+      <td class="absorbed-col align-right">
+        {{ player.absorbed.toLocaleString() }}
+      </td>
+      <td class="evades-col align-right">
+        {{ player.evades.toLocaleString() }}
+      </td>
+      <td class="cleanses-col align-right">
+        {{ player.cleanses.toLocaleString() }}
+      </td>
+      <td class="strips-col align-right">
+        {{ player.strips.toLocaleString() }}
+      </td>
+      <td class="resurrects-col align-right">
+        {{ player.resurrects.toLocaleString() }}
       </td>
     </tr>
   </table>
 </template>
 
 <script>
+import { VTooltip } from 'floating-vue'
+
+import CommanderInlineSVG from '@/components/inline-svgs/commander'
+import ConcentrationInlineSVG from '@/components/inline-svgs/concentration'
+import ConditionInlineSVG from '@/components/inline-svgs/condition'
+import HealingInlineSVG from '@/components/inline-svgs/healing'
+import ToughnessInlineSVG from '@/components/inline-svgs/toughness'
+import WeaponsInlineSVGs from '@/components/inline-svgs/weapons'
+
 export default {
   name: 'EncounterTableComponent',
+  components: {
+    CommanderInlineSVG,
+    ConcentrationInlineSVG,
+    ConditionInlineSVG,
+    HealingInlineSVG,
+    ToughnessInlineSVG,
+    WeaponsInlineSVGs
+  },
+  directives: {
+    tooltip: VTooltip
+  },
   props: {
     details: {
       type: Object,
@@ -100,94 +194,117 @@ export default {
   },
   data () {
     return {
-      columnHeadings: [
-        {
-          label: 'Group',
-          column: 'group'
+      columns: {
+        group: {
+          img: 'group',
+          label: 'Subgroup'
         },
-        {
-          label: 'Account',
-          column: 'account'
+        account: {
+          label: 'Account'
         },
-        {
+        character: {
           label: 'Character',
-          column: 'character'
+          colspan: 3
         },
-        {
+        dps: {
           label: 'DPS',
-          column: 'dps'
+          colspan: 2
         },
-        {
-          label: 'Alacrity uptime',
-          column: 'alacrity',
-          img: 'https://render.guildwars2.com/file/4FDAC2113B500104121753EF7E026E45C141E94D/1938787.png'
+        alacrity: {
+          img: 'alacrity',
+          label: 'Alacrity uptime'
         },
-        {
-          label: 'Fury uptime',
-          column: 'fury',
-          img: 'https://render.guildwars2.com/file/96D90DF84CAFE008233DD1C2606A12C1A0E68048/102842.png'
+        fury: {
+          img: 'fury',
+          label: 'Fury uptime'
         },
-        {
-          label: 'Might stacks',
-          column: 'might',
-          img: 'https://render.guildwars2.com/file/2FA9DF9D6BC17839BBEA14723F1C53D645DDB5E1/102852.png'
+        might: {
+          img: 'might',
+          label: 'Average Might stacks'
         },
-        {
-          label: 'Protection uptime',
-          column: 'protection',
-          img: 'https://render.guildwars2.com/file/CD77D1FAB7B270223538A8F8ECDA1CFB044D65F4/102834.png'
+        protection: {
+          img: 'protection',
+          label: 'Protection uptime'
         },
-        {
-          label: 'Quickness uptime',
-          column: 'quickness',
-          img: 'https://render.guildwars2.com/file/D4AB6401A6D6917C3D4F230764452BCCE1035B0D/1012835.png'
+        quickness: {
+          img: 'quickness',
+          label: 'Quickness uptime'
         },
-        {
-          label: 'Resolution uptime',
-          column: 'resolution',
-          img: 'https://render.guildwars2.com/file/D104A6B9344A2E2096424A3C300E46BC2926E4D7/2440718.png'
+        resistance: {
+          img: 'resistance',
+          label: 'Resistance uptime'
         },
-        {
-          label: 'Vigor uptime',
-          column: 'vigor',
-          img: 'https://render.guildwars2.com/file/58E92EBAF0DB4DA7C4AC04D9B22BCA5ECF0100DE/102843.png'
+        resolution: {
+          img: 'resolution',
+          label: 'Resolution uptime'
+        },
+        vigor: {
+          img: 'vigor',
+          label: 'Vigor uptime'
+        },
+        blocked: {
+          img: 'aegis',
+          label: 'Blocks'
+        },
+        absorbed: {
+          img: 'barrier',
+          label: 'Damage absorbed'
+        },
+        evades: {
+          img: 'evade',
+          label: 'Evades'
+        },
+        cleanses: {
+          img: 'cleanse',
+          label: 'Conditions cleansed'
+        },
+        strips: {
+          img: 'strip',
+          label: 'Boons stripped'
+        },
+        resurrects: {
+          img: 'resurrect',
+          label: 'Resurrects'
         }
-      ],
-      sortBy: null,
-      sortOrder: null,
-      sortedPlayers: null
+      },
+      sortBy: '',
+      sortOrder: ''
+    }
+  },
+  computed: {
+    players () {
+      if (!this.sortBy) { return this.details.players }
+
+      const sortedPlayers = this.details.players.toSorted(this.sort)
+
+      if (this.sortOrder === 'descending') {
+        sortedPlayers.reverse()
+      }
+
+      return sortedPlayers
     }
   },
   methods: {
-    sortRows (column, boon, event) {
-      if (this.sortBy === column) {
+    sortRows (columnName, event) {
+      if (this.sortBy === columnName) {
         if (this.sortOrder === 'descending') {
           event.target.title = 'Sort ascending'
-          this.sortBy = this.sortOrder = this.sortedPlayers = null
+          this.sortBy = this.sortOrder = ''
           return
         }
         event.target.title = 'Sort initial'
         this.sortOrder = 'descending'
-        this.sortedPlayers.reverse()
       } else {
         event.target.title = 'Sort descending'
         this.sortOrder = 'ascending'
-        if (boon) {
-          this.sortedPlayers = this.details.players.toSorted((a, b) => {
-            if (a.boons[column] < b.boons[column]) { return -1 }
-            if (a.boons[column] > b.boons[column]) { return 1 }
-            return 0
-          })
-        } else {
-          this.sortedPlayers = this.details.players.toSorted((a, b) => {
-            if (a[column] < b[column]) { return -1 }
-            if (a[column] > b[column]) { return 1 }
-            return 0
-          })
-        }
       }
 
-      this.sortBy = column
+      this.sortBy = columnName
+    },
+    sort (a, b) {
+      if (a[this.sortBy] < b[this.sortBy]) { return -1 }
+      if (a[this.sortBy] > b[this.sortBy]) { return 1 }
+      return 0
     }
   }
 }
@@ -197,7 +314,6 @@ export default {
 .encounter__table {
   margin: 0;
   white-space: nowrap;
-  min-width: 890px;
 }
 .me {
   background: $white;
@@ -217,52 +333,76 @@ td {
   padding: 2px 6px;
   font-size: $small-font-rem;
 }
+
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}
+
 .group-col {
   border-left: 0;
   padding-left: $baseline-px * .5;
-  width: 6%;
-  min-width: 75px;
+  width: 4%;
+  min-width: 46px + ($baseline-px * .25);
   .sort-button {
     padding-left: 0;
   }
 }
-td.group-col {
-  text-align: right;
-}
 .account-col {
-  width: 20%;
-  min-width: 130px;
+  width: 16%;
+  min-width: 100px;
 }
 .character-col {
-  width: 20%;
-  min-width: 160px;
+  width: 16%;
+  min-width: 200px;
 }
 .dps-col {
   width: 12%;
-  min-width: 125px;
-  span {
-    display: inline-block;
-    width: 57px;
-    vertical-align: top;
-  }
+  min-width: 100px;
 }
-td.dps-col {
-  text-align: right;
-}
-.boon-col {
-  width: 6%;
-  min-width: 61px;
-  text-align: right;
-}
-th.boon-col {
-  text-align: center;
-}
+.alacrity-col,
+.fury-col,
+.might-col,
+.protection-col,
+.quickness-col,
+.resistance-col,
+.resolution-col,
 .vigor-col {
+  width: 4%;
+  min-width: 46px;
+}
+.blocked-col {
+  width: 4%;
+  min-width: 46px;
+}
+.absorbed-col {
+  width: 4%;
+  min-width: 46px;
+}
+.evades-col {
+  width: 4%;
+  min-width: 46px;
+}
+.cleanses-col {
+  width: 4%;
+  min-width: 46px;
+}
+.strips-col {
+  width: 4%;
+  min-width: 46px;
+}
+.resurrects-col {
+  width: 4%;
+  min-width: 46px;
+}
+.resurrects-col {
   border-right: 0;
   padding-right: $baseline-px * .5;
-  min-width: 62px + ($baseline-px * .25);
+  min-width: 46px + ($baseline-px * .25);
   .sort-button {
-    padding-right: 0;
+    padding-right: 16px - ($baseline-px * .25);
     &:before, &:after {
       transform: none;
     }
@@ -274,7 +414,7 @@ th.boon-col {
   display: block;
   margin: 0;
   border: 0;
-  padding: 2px 6px;
+  padding: 2px 16px 2px 6px;
   width: 100%;
   height: 28px;
   background: none;
@@ -320,19 +460,57 @@ th.boon-col {
       opacity: 1;
     }
   }
+  .table-icon {
+    pointer-events: none;
+  }
 }
-.boon-icon {
+
+.weapons {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  margin-left: -1px;
+  vertical-align: top;
+}
+
+.weapon {
+  margin-left: 1px;
+  svg {
+    display: inline-block;
+    vertical-align: top;
+  }
+  &:after {
+    @extend %Psuedo-element;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 1px solid currentColor;
+    opacity: .25;
+  }
+}
+
+.table-icon {
+  position: relative;
   display: inline-block;
   width: $baseline-px;
   height: $baseline-px;
   vertical-align: top;
+  color: $grey-350;
+  fill: currentColor;
+  stroke: currentColor;
+  .dark-mode & {
+    color: $grey-1150;
+    fill: currentColor;
+    stroke: currentColor;
+  }
 }
-
-.profession-icon {
-  display: inline-block;
-  margin-right: 2px;
-  width: $p-line-rem;
-  height: $p-line-rem;
-  vertical-align: top;
+.table-icon--small {
+  margin: ($baseline-px * .125) 0;
+  width: $baseline-px * .75;
+  height: $baseline-px * .75;
+}
+.table-icon--narrow {
+  width: $baseline-px * .5
 }
 </style>

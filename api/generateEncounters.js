@@ -1,3 +1,47 @@
+const wvwMaps = [
+  'Armistice Bastion',
+  'Blue Alpine Borderlands',
+  'Edge of the Mists',
+  'Eternal Battlegrounds',
+  'Green Alpine Borderlands',
+  'Obsidian Sanctum',
+  'Red Desert Borderlands'
+]
+
+const professions = [
+  'Guardian', 'Dragonhunter', 'Firebrand', 'Willbender',
+  'Revenant', 'Herald', 'Renegade', 'Vindicator',
+  'Warrior', 'Berserker', 'Spellbreaker', 'Bladesworn',
+  'Engineer', 'Scrapper', 'Holosmith', 'Mechanist',
+  'Ranger', 'Druid', 'Soulbeast', 'Untamed',
+  'Thief', 'Daredevil', 'Deadeye', 'Specter',
+  'Elementalist', 'Tempest', 'Weaver', 'Catalyst',
+  'Mesmer', 'Chronomancer', 'Mirage', 'Virtuoso',
+  'Necromancer', 'Reaper', 'Scourge', 'Harbinger'
+]
+
+const oneHandWeapons = [
+  'Scepter',
+  'Axe',
+  'Dagger',
+  'Mace',
+  'Pistol',
+  'Sword',
+  'Focus',
+  'Shield',
+  'Torch',
+  'Warhorn'
+]
+
+const twoHandWeapons = [
+  'Greatsword',
+  'Hammer',
+  'Longbow',
+  'Rifle',
+  'Short bow',
+  'Staff'
+]
+
 function randInt (min, max) {
   min = Math.ceil(min)
   max = Math.floor(max)
@@ -27,73 +71,62 @@ function randName () {
   return name
 }
 
-const wvwMaps = [
-  'Armistice Bastion',
-  'Blue Alpine Borderlands',
-  'Edge of the Mists',
-  'Eternal Battlegrounds',
-  'Green Alpine Borderlands',
-  'Obsidian Sanctum',
-  'Red Desert Borderlands'
-]
-
-const professions = [
-  'Guardian', 'Dragonhunter', 'Firebrand', 'Willbender',
-  'Revenant', 'Herald', 'Renegade', 'Vindicator',
-  'Warrior', 'Berserker', 'Spellbreaker', 'Bladesworn',
-  'Engineer', 'Scrapper', 'Holosmith', 'Mechanist',
-  'Ranger', 'Druid', 'Soulbeast', 'Untamed',
-  'Thief', 'Daredevil', 'Deadeye', 'Specter',
-  'Elementalist', 'Tempest', 'Weaver', 'Catalyst',
-  'Mesmer', 'Chronomancer', 'Mirage', 'Virtuoso',
-  'Necromancer', 'Reaper', 'Scourge', 'Harbinger'
-]
+function getWeapon () {
+  if (Math.random() > 0.5) {
+    return [twoHandWeapons[randInt(0, 5)]]
+  } else {
+    return [oneHandWeapons[randInt(0, 5)], oneHandWeapons[randInt(1, 9)]]
+  }
+}
 
 export function generateEncounters (count, user) {
   const encounters = []
 
   for (let i = 0; i < count; i++) {
-    const userDps = randInt(100, 5000)
+    const duration = randInt(30, 300)
 
-    let encounterDps = userDps
+    let encounterDps = 0
 
-    const players = [{
-      account: user,
-      boons: {
-        alacrity: randFloat(20, 60),
-        fury: randFloat(45, 96),
-        might: randFloat(6, 23),
-        protection: randFloat(50, 100),
-        quickness: randFloat(20, 55),
-        resolution: randFloat(50, 100),
-        vigor: randFloat(33, 75)
-      },
-      character: randName(),
-      dps: userDps,
-      group: 1,
-      profession: professions[randInt(0, 35)]
-    }]
+    const players = []
 
-    for (let p = 0; p < 9; p++) {
+    for (let p = 0; p < 10; p++) {
       const playerDps = randInt(100, 5000)
 
       encounterDps += playerDps
 
       players.push({
-        account: `${randName()}.${randInt(1000, 9999)}`,
-        boons: {
+        account: p === 0 ? user : `${randName()}.${randInt(1000, 9999)}`,
+        attributes: {
+          condition: Math.random() > 0.7,
+          concentration: Math.random() > 0.8,
+          healing: Math.random() > 0.8,
+          toughness: Math.random() > 0.9
+        },
+        ...{
           alacrity: randFloat(20, 60),
           fury: randFloat(45, 96),
           might: randFloat(6, 23),
           protection: randFloat(50, 100),
           quickness: randFloat(20, 55),
-          resolution: randFloat(50, 100),
+          resolution: randFloat(50, 94),
           vigor: randFloat(33, 75)
         },
         character: randName(),
         dps: playerDps,
-        group: p < 4 ? 1 : 2,
-        profession: professions[randInt(0, 35)]
+        group: p < 5 ? 1 : 2,
+        profession: professions[randInt(0, 35)],
+        ...{
+          absorbed: randInt(100, 500) * duration,
+          blocked: Math.round(duration / randInt(1, 10)),
+          cleanses: Math.round(duration / randInt(1, 10)),
+          evades: Math.round(duration / randInt(10, 20)),
+          resurrects: Math.round(duration / randInt(30, 100)),
+          strips: Math.round(duration / randInt(1, 10))
+        },
+        weapons: [
+          ...getWeapon(),
+          ...getWeapon()
+        ]
       })
     }
 
@@ -111,7 +144,7 @@ export function generateEncounters (count, user) {
           ),
           permalink: `#test${i}`,
           success: true,
-          duration: randInt(30, 300),
+          duration,
           details: {
             dps: encounterDps,
             wvw_map: wvwMaps[randInt(0, 6)],
