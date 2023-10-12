@@ -38,7 +38,7 @@ const twoHandWeapons = [
   'Hammer',
   'Longbow',
   'Rifle',
-  'Short bow',
+  'Shortbow',
   'Staff'
 ]
 
@@ -71,9 +71,9 @@ function randName () {
   return name
 }
 
-function getWeapon () {
+function getWeapon (index) {
   if (Math.random() > 0.5) {
-    return [twoHandWeapons[randInt(0, 5)]]
+    return [twoHandWeapons[randInt(0, 5)], ...index === 1 ? ['2Hand'] : []]
   } else {
     return [oneHandWeapons[randInt(0, 5)], oneHandWeapons[randInt(1, 9)]]
   }
@@ -108,6 +108,7 @@ export function generateEncounters (count, user) {
           might: randFloat(6, 23),
           protection: randFloat(50, 100),
           quickness: randFloat(20, 55),
+          resistance: randFloat(10, 80),
           resolution: randFloat(50, 94),
           vigor: randFloat(33, 75)
         },
@@ -116,16 +117,16 @@ export function generateEncounters (count, user) {
         group: p < 5 ? 1 : 2,
         profession: professions[randInt(0, 35)],
         ...{
-          absorbed: randInt(100, 500) * duration,
-          blocked: Math.round(duration / randInt(1, 10)),
-          cleanses: Math.round(duration / randInt(1, 10)),
-          evades: Math.round(duration / randInt(10, 20)),
-          resurrects: Math.round(duration / randInt(30, 100)),
-          strips: Math.round(duration / randInt(1, 10))
+          absorbed: Math.round(randFloat(50, 250) * duration),
+          blocked: Math.round(duration / randFloat(2, 8)),
+          cleanses: Math.round(duration / randFloat(0.5, 10)),
+          evades: Math.round(duration / randFloat(10, 20)),
+          resurrects: Math.round(duration / randFloat(50, 300)),
+          strips: Math.round(duration / randFloat(0.5, 10))
         },
         weapons: [
-          ...getWeapon(),
-          ...getWeapon()
+          ...getWeapon(1),
+          ...getWeapon(2)
         ]
       })
     }
