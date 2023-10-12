@@ -81,7 +81,7 @@
         <div class="weapons">
           <template v-for="(weapon, index) in player.weapons">
             <div
-              v-if="weapon !== '2Hand' && index < 2"
+              v-if="index < 2 && weapon !== '2Hand'"
               :key="`${encounter._id}: ${player.account}: weapon ${index}`"
               class="table-icon weapon"
             >
@@ -94,7 +94,7 @@
         <div class="weapons">
           <template v-for="(weapon, index) in player.weapons">
             <div
-              v-if="weapon !== '2Hand' && index >= 2"
+              v-if="index >= 2"
               :key="`${encounter._id}: ${player.account}: weapon ${index}`"
               class="table-icon weapon"
             >
