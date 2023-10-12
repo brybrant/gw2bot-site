@@ -223,7 +223,11 @@ if (process.env.NODE_ENV === 'development') {
     const documentCount = await encounters.countDocuments()
 
     if (documentCount !== count) {
-      await encounters.drop()
+      try {
+        await encounters.drop()
+      } catch (error) {
+        console.error(error)
+      }
 
       const result = await encounters.bulkWrite(
         generateEncounters(count, req.cookies.accountName)
