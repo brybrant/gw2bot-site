@@ -35,7 +35,10 @@
               @setEncounter="setEncounter"
               @filterEncounters="filterEncounters"
             />
-            <p v-if="currentEncounter && encounters.filtered.length === 0">
+            <p v-if="encounters.loading">
+              Loading Encounters... <LoadingInlineSVG />
+            </p>
+            <p v-else-if="currentEncounter && encounters.filtered.length === 0">
               No encounters match the specified filters
             </p>
           </template>
@@ -130,7 +133,8 @@ export default {
       encounters: {
         array: [],
         filtered: [],
-        tally: null
+        tally: null,
+        loading: false
       },
       filterDebounce: null,
       filters: {
@@ -189,6 +193,8 @@ export default {
       this.currentEncounter = encounter
 
       if (encounter === null) { return }
+
+      this.encounters.loading = true
 
       this.encounters.array = await this.$axios.$get(
         `api/encounters/${encounter.api_name}`
@@ -295,6 +301,8 @@ export default {
 
         this.$set(encounter, 'details', details)
       }
+
+      this.encounters.loading = false
     },
     encounterFilter (encounter) {
       if (this.filters.success === true && encounter.success !== true) {
