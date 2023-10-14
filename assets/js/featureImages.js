@@ -23,7 +23,7 @@ const featureImages = [
   /* may @ 120 */
   'fractals-of-the-mists', // (17) 120-126
   'echovald-skiffs', // (18) 127-133
-  'bramble-walls', // (19) 134-140
+  'mabons-fate', // (19) 134-140
   'flower-of-death', // (20) 141-147
   /* june @ 151 */
   'lions-arch', // (21) 148-154
