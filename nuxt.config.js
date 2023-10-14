@@ -59,6 +59,9 @@ export default {
     '@nuxtjs/color-mode',
     '@nuxtjs/style-resources'
   ],
+  /*
+  ** Settings for '@nuxtjs/style-resources' module
+  */
   styleResources: {
     scss: [
       '~/assets/scss/_functions.scss',
@@ -73,8 +76,26 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    // Doc: https://v0.image.nuxtjs.org/
+    '@nuxt/image'
   ],
+  /*
+  ** Settings for '@nuxt/image' module
+  */
+  image: {
+    screens: {
+      '480': 480,
+      '600': 600,
+      '720': 720,
+      '960': 960,
+      '1200': 1200,
+      '1440': 1440,
+      '1680': 1680,
+      '1920': 1920
+    },
+    staticFilename: '[publicPath]/img/[name]-[hash][ext]'
+  },
 
   serverMiddleware: [
     '~/api/api'

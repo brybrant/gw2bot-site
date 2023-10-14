@@ -14,16 +14,17 @@
           title="Sort ascending"
           @click="sortRows(columnName, $event)"
         >
-          <picture v-if="column.img" class="table-icon">
-            <source
-              :srcset="require(`@/assets/img/icons/${column.img}.webp`)"
-              type="image/webp"
-            >
-            <img
-              :alt="column.label"
-              :src="require(`@/assets/img/icons/${column.img}.png`)"
-            >
-          </picture>
+          <nuxt-img
+            v-if="column.img"
+            loading="lazy"
+            class="table-icon"
+            format="webp"
+            quality="75"
+            width="48"
+            height="48"
+            :src="`/img/icons/${column.img}.png`"
+            :alt="column.label"
+          />
           <template v-else>
             {{ column.label }}
           </template>
@@ -45,16 +46,19 @@
       </td>
       <td>{{ player.account }}</td>
       <td>
-        <picture v-tooltip="player.profession" class="table-icon">
-          <source
-            :srcset="require(`@/assets/img/professions/${player.profession}_icon.webp`)"
-            type="image/webp"
-          >
-          <img
+        <div class="table-icon">
+          <nuxt-img
+            v-tooltip="player.profession"
+            loading="lazy"
+            class="table-icon"
+            format="webp"
+            quality="75"
+            width="48"
+            height="48"
+            :src="`/img/professions/${player.profession}_icon.png`"
             :alt="player.profession"
-            :src="require(`@/assets/img/professions/${player.profession}_icon.png`)"
-          >
-        </picture>
+          />
+        </div>
         {{ player.character }}
         <ConcentrationInlineSVG
           v-if="player.attributes.concentration"

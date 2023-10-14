@@ -9,23 +9,17 @@
         <pre v-if="error.cause">{{ error.cause }}.</pre>
       </header>
 
-      <picture>
-        <source
-          :srcset="error.statusCode===404 ?
-            require('@/assets/img/404-quaggan.webp') :
-            require('@/assets/img/error-quaggan.webp')"
-          type="image/webp"
-        >
-        <img
-          :class="error.statusCode===404 ? 'notfound-quaggan' : 'error-quaggan'"
-          :src="error.statusCode===404 ?
-            require('@/assets/img/404-quaggan.png') :
-            require('@/assets/img/error-quaggan.png')"
-          alt=""
-        >
-      </picture>
+      <nuxt-img
+        :class="`${error.statusCode === 404 ? 'notfound' : 'error'}-quaggan`"
+        format="webp"
+        quality="75"
+        :width="error.statusCode === 404 ? '356' : '308'"
+        :height="error.statusCode === 404 ? '370' : '313'"
+        :src="`/img/${error.statusCode === 404 ? '404' : 'error'}-quaggan.png`"
+        alt=""
+      />
 
-      <p v-if="error.statusCode!=404">
+      <p v-if="error.statusCode !== 404">
         If this problem persists, please <ExternalLink href="https://github.com/brybrant/gw2bot-site/issues">submit an issue on GitHub</ExternalLink> or report it in the <ExternalLink :href="$supportServerLink">GW2Bot Discord&nbsp;Server</ExternalLink>.
       </p>
 

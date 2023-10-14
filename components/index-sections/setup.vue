@@ -5,18 +5,15 @@
     <div class="page-width page-padding">
       <h2>Quick and Easy Setup</h2>
 
-      <picture>
-        <source
-          :data-srcset="require('@/assets/img/lost-quaggan.webp')"
-          type="image/webp"
-        >
-        <img
-          data-sizes="auto"
-          class="lazyload"
-          :data-src="require('@/assets/img/lost-quaggan.png')"
-          alt=""
-        >
-      </picture>
+      <nuxt-img
+        loading="lazy"
+        format="webp"
+        quality="75"
+        width="308"
+        height="289"
+        src="/img/lost-quaggan.png"
+        alt=""
+      />
 
       <p class="h5">
         Get started with GW2Bot in no time
@@ -66,6 +63,6 @@ export default {
 }
 img {
   width: 308px;
-  height: 290px;
+  height: 289px;
 }
 </style>

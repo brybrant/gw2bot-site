@@ -1,33 +1,31 @@
 <template>
   <main>
     <div class="feature-media">
-      <picture>
-        <source
-          media="(max-width: 800px)"
-          :data-srcset="require(`@/assets/${featureMedia}.webp`)"
-          type="image/webp"
-        >
-        <source
-          :data-srcset="require(`@/assets/${featureMedia}--high.webp`)"
-          type="image/webp"
-        >
-        <img
-          data-sizes="auto"
-          class="feature-media__media lazyload"
-          :src="require(`@/assets/${featureMedia}--low.jpg`)"
-          :data-src="require(`@/assets/${featureMedia}.jpg`)"
-          :data-srcset="`${require(`@/assets/${featureMedia}.jpg`)} 960w, ${require(`@/assets/${featureMedia}--high.jpg`)} 1920w`"
-          alt=""
-        >
-      </picture>
+      <nuxt-img
+        preload
+        class="feature-media__media"
+        format="webp"
+        quality="75"
+        width="1920"
+        height="1080"
+        sizes="480:480px 600:600px 720:720px 960:960px 1200:1200px 1440:1440px 1680:1680px 1920:1920px"
+        :src="`/img/feature-images/${featureMedia}.jpg`"
+        alt=""
+        :placeholder="[384, 216, 1]"
+      />
       <!--<video class="feature-media__media" autoplay loop muted playsinline>
         <source src="@/assets/img/feature-images/Sea_Dragon.mp4" type="video/mp4">
       </video>-->
       <div class="feature-media__content page-width page-padding">
-        <picture v-if="anniversary">
-          <source srcset="@/assets/img/party-quaggan.webp" type="image/webp">
-          <img class="party-quaggan" src="@/assets/img/party-quaggan.png" alt="">
-        </picture>
+        <nuxt-img
+          v-if="anniversary"
+          class="party-quaggan"
+          format="webp"
+          quality="75"
+          src="/img/party-quaggan.png"
+          alt=""
+          :placeholder="[160, 197, 1]"
+        />
         <h1 class="feature-title">
           {{ anniversary ? `Celebrate ${botAge} Years of&nbsp;GW2Bot!` : 'Bring The World&nbsp;of Tyria Into&nbsp;Discord' }}
         </h1>
@@ -54,7 +52,6 @@
 </template>
 
 <script>
-import '@/node_modules/lazysizes/lazysizes.min.js'
 import Rellax from '@/node_modules/rellax/rellax.min.js'
 
 import featureImages from '@/assets/js/featureImages'
@@ -91,7 +88,7 @@ export default {
     return {
       anniversary: currentMonth === 8 && currentDay > 8 && currentDay < 24,
       botAge: currentYear - botBirthday.getFullYear(),
-      featureMedia: `img/feature-images/${featureImages[currentWeek]}`
+      featureMedia: featureImages[currentWeek]
     }
   },
   mounted () {
@@ -147,6 +144,7 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  width: 100%;
   &:before {
     @extend %Psuedo-element;
     position: absolute;
@@ -182,7 +180,7 @@ export default {
 
 .party-quaggan {
   position: relative;
-  display: inline-block;
+  margin: auto;
   width: 100%;
   max-width: 320px;
   max-height: 394px;
