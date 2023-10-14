@@ -55,7 +55,7 @@
             quality="75"
             width="48"
             height="48"
-            :src="`/img/professions/${player.profession}_icon.png`"
+            :src="`/img/professions/${player.profession}.png`"
             :alt="player.profession"
           />
         </div>
