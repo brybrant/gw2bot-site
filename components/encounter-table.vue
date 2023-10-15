@@ -3,7 +3,7 @@
     <tr>
       <th
         v-for="(column, columnName) in columns"
-        :key="column.label"
+        :key="`${encounter._id}: ${column.label}`"
         v-tooltip="column.img ? column.label : null"
         :class="`${columnName}-col${column.img ? ' align-center' : ''}`"
         :colspan="column.colspan || null"
