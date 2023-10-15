@@ -49,11 +49,11 @@ const featureImages = [
   /* october @ 273 */
   'autumn', // (38) 267-273
   'victory-or-death', // (39) 274-280
-  'halloween', // (40) 281-287
-  'halloween2', // (41) 288-294
-  'riel-candles', // (42) 295-301
+  'battle-of-kyhlo', // (40) 281-287
+  'halloween', // (41) 288-294
+  'halloween2', // (42) 295-301
   /* november @ 304 */
-  'battle-of-kyhlo', // (43) 302-308
+  'riel-candles', // (43) 302-308
   'heart-of-the-mists', // (44) 309-315
   'night-garden', // (45) 316-322
   'sunqua-peak', // (46) 323-329
