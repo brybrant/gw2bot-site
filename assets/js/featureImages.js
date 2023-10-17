@@ -10,7 +10,7 @@ const featureImages = [
   'darkrime-delves', // (6) 43-49
   'aurenes-sanctuary', // (7) 50-56
   /* march @ 59 */
-  'wall-ascalon', // (8) 57-63
+  'jade-tide', // (8) 57-63
   'yong-reactor', // (9) 64-70
   'spring', // (10) 71-77
   'pegodas', // (11) 78-84
