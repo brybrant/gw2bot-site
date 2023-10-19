@@ -74,6 +74,7 @@
 
 <script>
 import BotDescription from '@/components/bot-description'
+import metadata from '@/assets/js/metadata'
 
 export default {
   name: 'PrivacyPolicyPage',
@@ -81,9 +82,13 @@ export default {
     BotDescription
   },
   head () {
-    return {
-      title: 'Privacy Policy | GW2Bot'
-    }
+    return metadata({
+      title: 'Privacy Policy | GW2Bot',
+      description: 'GW2Bot privacy policy'
+    })
+  },
+  mounted () {
+    sessionStorage.setItem('lastRoute', this.$route.name)
   }
 }
 </script>
@@ -93,6 +98,7 @@ h2.anchor {
   margin-top: -$nav-height;
   padding-top: $nav-height + $h2-margin-px;
 }
+
 p, li {
   position: relative;
   z-index: 1;

@@ -15,10 +15,12 @@ export default {
 svg {
   fill: currentColor;
 }
+
 .inline-svg {
   margin-left: 2px;
   width: $p-line-rem * 0.5;
 }
+
 small, .small-text {
   .inline-svg {
     width: $small-line-rem * 0.5;

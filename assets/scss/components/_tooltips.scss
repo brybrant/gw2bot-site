@@ -52,6 +52,7 @@
     }
   }
 }
+
 .tooltip__close {
   position: absolute;
   top: 2px;
@@ -102,18 +103,10 @@
 /*---------------------------------------------------------------------------*\
     @floating-vue
 \*---------------------------------------------------------------------------*/
-.v-popper__popper {
-  @extend %Body-font-family;
-  top: 0;
-  left: 0;
-  font-size: $small-font-rem;
-  line-height: $small-line-rem;
-  outline: none;
-  z-index: 1;
-}
 .v-popper__wrapper {
   position: relative;
 }
+
 .v-popper__popper--hidden {
   visibility: hidden;
   opacity: 0;
@@ -124,6 +117,7 @@
     transition: bottom .15s ease-in;
   }
 }
+
 .v-popper__popper--shown {
   visibility: visible;
   opacity: 1;
@@ -138,10 +132,6 @@
   display: none;
 }
 
-.v-popper__inner {
-  overflow-y: auto;
-}
-
 .v-popper__inner > div {
   position: relative;
   max-width: inherit;
@@ -153,11 +143,13 @@
   width: 16px;
   height: 8px;
 }
+
 .v-popper__popper--arrow-overflow, .v-popper__popper--no-positioning {
   .v-popper__arrow-container {
     display: none;
   }
 }
+
 .v-popper__arrow-inner,
 .v-popper__arrow-outer {
   position: absolute;
@@ -166,6 +158,7 @@
   width: 0;
   height: 0;
 }
+
 .v-popper__arrow-inner {
   left: 2px;
   border-top: 6px solid $white;
@@ -176,6 +169,7 @@
     border-top-color: $grey-350;
   }
 }
+
 .v-popper__arrow-outer {
   border-top: 8px solid $grey-1000;
   border-right: 8px solid transparent;
@@ -187,6 +181,13 @@
 }
 
 .v-popper__popper {
+  @extend %Body-font-family;
+  top: 0;
+  left: 0;
+  font-size: $small-font-rem;
+  line-height: $small-line-rem;
+  outline: none;
+  z-index: 1;
   &[data-popper-placement="top"] {
     .v-popper__arrow-container {
       bottom: -8px;
@@ -218,6 +219,7 @@
   box-shadow: $tooltip-shadow;
   border-radius: 6px;
   padding: 3px 8px;
+  overflow-y: auto;
   .dark-mode & {
     border-color: $grey-200;
     background: $grey-350;

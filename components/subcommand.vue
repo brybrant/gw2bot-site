@@ -91,6 +91,7 @@ export default {
     border-top-color: $grey-200;
   }
 }
+
 .subcommand__name {
   @extend %Code-font-family;
   line-height: $baseline-px;
@@ -105,6 +106,7 @@ export default {
     }
   }
 }
+
 .subcommand__desc {
   padding: 0 4px;
 }

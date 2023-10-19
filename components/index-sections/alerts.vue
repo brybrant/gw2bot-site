@@ -1,7 +1,5 @@
 <template>
   <section class="feature-section">
-    <div class="feature-background" aria-hidden="true" />
-
     <div class="page-width page-padding">
       <h2>Stay Connected and&nbsp;Informed</h2>
 
@@ -47,24 +45,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.feature-background:after {
+.feature-section:after {
   background-image: conic-gradient(
-    hsl(300, 100%, 76%) 182deg,
-    hsl(270, 100%, 78%) 226deg,
-    hsl(230, 100%, 92%) 270deg,
-    hsl(195, 100%, 74%) 314deg,
-    hsl(160, 100%, 70%) 358deg
+    hsl(300deg, 100%, 76%) 182deg,
+    hsl(270deg, 100%, 78%) 226deg,
+    hsl(230deg, 100%, 92%) 270deg,
+    hsl(195deg, 100%, 74%) 314deg,
+    hsl(160deg, 100%, 70%) 358deg
   );
   .dark-mode & {
     background-image: conic-gradient(
-      hsl(300, 16%, 48%) 182deg,
-      hsl(270, 25%, 50%) 226deg,
-      hsl(230, 30%, 54%) 270deg,
-      hsl(190, 24%, 41%) 314deg,
-      hsl(160, 24%, 38%) 358deg
+      hsl(300deg, 16%, 48%) 182deg,
+      hsl(270deg, 25%, 50%) 226deg,
+      hsl(230deg, 30%, 54%) 270deg,
+      hsl(190deg, 24%, 41%) 314deg,
+      hsl(160deg, 24%, 38%) 358deg
     );
   }
 }
+
 img {
   width: 303px;
   height: 340px;

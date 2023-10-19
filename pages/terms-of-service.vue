@@ -40,6 +40,7 @@
 
 <script>
 import BotDescription from '@/components/bot-description'
+import metadata from '@/assets/js/metadata'
 
 export default {
   name: 'TermsOfServicePage',
@@ -47,9 +48,13 @@ export default {
     BotDescription
   },
   head () {
-    return {
-      title: 'Terms of Service | GW2Bot'
-    }
+    return metadata({
+      title: 'Terms of Service | GW2Bot',
+      description: 'GW2Bot terms of service'
+    })
+  },
+  mounted () {
+    sessionStorage.setItem('lastRoute', this.$route.name)
   }
 }
 </script>

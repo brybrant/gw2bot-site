@@ -1,7 +1,5 @@
 <template>
   <section class="feature-section">
-    <div class="feature-background" aria-hidden="true" />
-
     <div class="page-width page-padding">
       <h2>Quick and Easy Setup</h2>
 
@@ -47,20 +45,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.feature-background:after {
+.feature-section:after {
   background-image: conic-gradient(
-    hsl(220, 100%, 66%) 182deg,
-    hsl(200, 100%, 90%) 270deg,
-    hsl(190, 100%, 56%) 358deg
+    hsl(220deg, 100%, 66%) 182deg,
+    hsl(200deg, 100%, 90%) 270deg,
+    hsl(190deg, 100%, 56%) 358deg
   );
   .dark-mode & {
     background-image: conic-gradient(
-      hsl(220, 38%, 52%) 182deg,
-      hsl(200, 44%, 42%) 270deg,
-      hsl(190, 100%, 29%) 358deg
+      hsl(220deg, 38%, 52%) 182deg,
+      hsl(200deg, 44%, 42%) 270deg,
+      hsl(190deg, 100%, 29%) 358deg
     );
   }
 }
+
 img {
   width: 308px;
   height: 289px;

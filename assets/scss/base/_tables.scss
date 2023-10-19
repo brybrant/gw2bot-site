@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*\
-    Table (Default)
+  Table
 \*---------------------------------------------------------------------------*/
 table {
   @extend %Body-font-family;
@@ -10,24 +10,16 @@ table {
   font-size: $p-font-rem;
   line-height: $p-line-rem;
   text-align: left;
-  th {
-    @extend %Header-font-family;
-  }
-  th, td {
-    padding: 4px 8px;
-    border: 1px solid $grey-1000;
-    .dark-mode & {
-      border-color: $grey-200;
-    }
-  }
-  thead {
-    th, td {
-      font-weight: 700;
-    }
-  }
-  tbody, tfoot {
-    th {
-      font-weight: 700;
-    }
+}
+
+th {
+  @extend %Header-font-family;
+}
+
+th, td {
+  padding: 4px 8px;
+  border: 1px solid $grey-1000;
+  .dark-mode & {
+    border-color: $grey-200;
   }
 }

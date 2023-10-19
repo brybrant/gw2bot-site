@@ -1,7 +1,5 @@
 <template>
   <section class="feature-section">
-    <div class="feature-background" aria-hidden="true" />
-
     <div class="page-width page-padding">
       <h2>Seamless Discord Integration</h2>
 
@@ -45,20 +43,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.feature-background:after {
+.feature-section:after {
   background-image: conic-gradient(
-    hsl(118, 100%, 44%) 182deg,
-    hsl(90, 100%, 84%) 270deg,
-    hsl(62, 100%, 36%) 358deg
+    hsl(118deg, 100%, 44%) 182deg,
+    hsl(90deg, 100%, 84%) 270deg,
+    hsl(62deg, 100%, 36%) 358deg
   );
   .dark-mode & {
     background-image: conic-gradient(
-      hsl(118, 26%, 39%) 182deg,
-      hsl(90, 18%, 41%) 270deg,
-      hsl(62, 42%, 33%) 358deg
+      hsl(118deg, 26%, 39%) 182deg,
+      hsl(90deg, 18%, 41%) 270deg,
+      hsl(62deg, 42%, 33%) 358deg
     );
   }
 }
+
 img {
   width: 308px;
   height: 320px;

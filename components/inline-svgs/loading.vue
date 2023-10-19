@@ -25,6 +25,7 @@ export default {
     stroke-dashoffset: 188.5;
   }
 }
+
 circle {
   transform: rotate(270deg);
   transform-origin: 50% 50%;

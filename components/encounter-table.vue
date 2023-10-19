@@ -319,6 +319,7 @@ export default {
   margin: 0;
   white-space: nowrap;
 }
+
 .me {
   background: $white;
   font-weight: 700;
@@ -326,6 +327,7 @@ export default {
     background: $grey-350;
   }
 }
+
 th {
   padding: 0;
   background: $grey-1100;
@@ -333,6 +335,7 @@ th {
     background: $grey-250;
   }
 }
+
 td {
   padding: 2px 6px;
   font-size: $small-font-rem;
@@ -341,76 +344,35 @@ td {
 .align-center {
   text-align: center;
 }
+
 .align-right {
   text-align: right;
 }
 
-.group-col {
-  border-left: 0;
-  padding-left: $baseline-px * .5;
-  width: 4%;
-  min-width: 46px + ($baseline-px * .25);
-  .sort-button {
-    padding-left: 0;
+.table-icon {
+  position: relative;
+  display: inline-block;
+  width: $baseline-px;
+  height: $baseline-px;
+  vertical-align: top;
+  color: $grey-350;
+  fill: currentColor;
+  stroke: currentColor;
+  .dark-mode & {
+    color: $grey-1150;
+    fill: currentColor;
+    stroke: currentColor;
   }
 }
-.account-col {
-  width: 16%;
-  min-width: 100px;
+
+.table-icon--small {
+  margin: ($baseline-px * .125) 0;
+  width: $baseline-px * .75;
+  height: $baseline-px * .75;
 }
-.character-col {
-  width: 16%;
-  min-width: 200px;
-}
-.dps-col {
-  width: 12%;
-  min-width: 100px;
-}
-.alacrity-col,
-.fury-col,
-.might-col,
-.protection-col,
-.quickness-col,
-.resistance-col,
-.resolution-col,
-.vigor-col {
-  width: 4%;
-  min-width: 46px;
-}
-.blocked-col {
-  width: 4%;
-  min-width: 46px;
-}
-.absorbed-col {
-  width: 4%;
-  min-width: 46px;
-}
-.evades-col {
-  width: 4%;
-  min-width: 46px;
-}
-.cleanses-col {
-  width: 4%;
-  min-width: 46px;
-}
-.strips-col {
-  width: 4%;
-  min-width: 46px;
-}
-.resurrects-col {
-  width: 4%;
-  min-width: 46px;
-}
-.resurrects-col {
-  border-right: 0;
-  padding-right: $baseline-px * .5;
-  min-width: 46px + ($baseline-px * .25);
-  .sort-button {
-    padding-right: 16px - ($baseline-px * .25);
-    &:before, &:after {
-      transform: none;
-    }
-  }
+
+.table-icon--narrow {
+  width: $baseline-px * .5
 }
 
 .sort-button {
@@ -469,6 +431,61 @@ td {
   }
 }
 
+.group-col {
+  border-left: 0;
+  padding-left: $baseline-px * .5;
+  width: 4%;
+  min-width: 46px + ($baseline-px * .25);
+  .sort-button {
+    padding-left: 0;
+  }
+}
+
+.account-col {
+  width: 16%;
+  min-width: 100px;
+}
+
+.character-col {
+  width: 16%;
+  min-width: 200px;
+}
+
+.dps-col {
+  width: 12%;
+  min-width: 100px;
+}
+
+.alacrity-col,
+.fury-col,
+.might-col,
+.protection-col,
+.quickness-col,
+.resistance-col,
+.resolution-col,
+.vigor-col,
+.blocked-col,
+.absorbed-col,
+.evades-col,
+.cleanses-col,
+.strips-col,
+.resurrects-col {
+  width: 4%;
+  min-width: 46px;
+}
+
+.resurrects-col {
+  border-right: 0;
+  padding-right: $baseline-px * .5;
+  min-width: 46px + ($baseline-px * .25);
+  .sort-button {
+    padding-right: 16px - ($baseline-px * .25);
+    &:before, &:after {
+      transform: none;
+    }
+  }
+}
+
 .weapons {
   display: inline-flex;
   flex-flow: row nowrap;
@@ -492,29 +509,5 @@ td {
     border: 1px solid currentColor;
     opacity: .25;
   }
-}
-
-.table-icon {
-  position: relative;
-  display: inline-block;
-  width: $baseline-px;
-  height: $baseline-px;
-  vertical-align: top;
-  color: $grey-350;
-  fill: currentColor;
-  stroke: currentColor;
-  .dark-mode & {
-    color: $grey-1150;
-    fill: currentColor;
-    stroke: currentColor;
-  }
-}
-.table-icon--small {
-  margin: ($baseline-px * .125) 0;
-  width: $baseline-px * .75;
-  height: $baseline-px * .75;
-}
-.table-icon--narrow {
-  width: $baseline-px * .5
 }
 </style>

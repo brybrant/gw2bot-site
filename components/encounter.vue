@@ -100,12 +100,14 @@ export default {
     flex-flow: row nowrap;
   }
 }
+
 .encounter__info-cell {
   display: flex;
   flex-flow: row nowrap;
   margin-top: $baseline-rem * .25;
   padding-left: $baseline-px;
 }
+
 .encounter__info-label {
   font-weight: 700;
   width: 90px;
@@ -115,6 +117,7 @@ export default {
     width: auto;
   }
 }
+
 .encounter__info-value {
   width: 180px;
   text-align: left;
@@ -122,6 +125,7 @@ export default {
     width: auto;
   }
 }
+
 .boss-health {
   position: relative;
   width: 100px;
@@ -157,6 +161,7 @@ export default {
     }
   }
 }
+
 .encounter__link {
   width: 270px;
   @include media-query('gt-800') {

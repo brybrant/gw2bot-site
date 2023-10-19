@@ -1,21 +1,17 @@
-/*---------------------------------------------------------------------------*\
-    Font Families
-\*---------------------------------------------------------------------------*/
+// Font Families
 %Header-font-family {
-  font-family: 'Trebuchet MS',Lucida Sans Unicode,Tahoma,Arial,sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', Tahoma, Arial, sans-serif;
 }
 
 %Body-font-family {
-  font-family: 'Roboto',Franklin Gothic Medium,Franklin Gothic,Helvetica,sans-serif;
+  font-family: Roboto, 'Franklin Gothic Medium', 'Franklin Gothic', Helvetica, sans-serif;
 }
 
 %Code-font-family {
-  font-family: 'Consolas',Lucida Console,Lucida Sans Typewriter,Monaco,monospace;
+  font-family: Consolas, 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
 }
 
-/*---------------------------------------------------------------------------*\
-    Initialize psuedo-elements
-\*---------------------------------------------------------------------------*/
+// Initialize psuedo-elements
 %Psuedo-element {
   content: '';
   pointer-events: none;

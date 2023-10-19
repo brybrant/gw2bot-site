@@ -29,15 +29,16 @@ export default {
   fill: url('#gradient--light');
   stroke: #000;
   stroke-linejoin: round;
-  stroke-width: 16px;
+  stroke-width: 16;
   .dark-mode & {
     fill: url('#gradient--dark');
   }
 }
+
 .eye {
   fill: #fff;
   stroke: #000;
   stroke-linejoin: round;
-  stroke-width: 12px;
+  stroke-width: 12;
 }
 </style>

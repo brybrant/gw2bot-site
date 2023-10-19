@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import metadata from '@/assets/js/metadata'
+
 export default {
   name: 'ErrorPage',
   layout: 'default',
@@ -43,9 +45,11 @@ export default {
     }
   },
   head () {
-    return {
-      title: `${this.error.statusCode} | GW2Bot`
-    }
+    return metadata({
+      title: `${this.error.statusCode} | GW2Bot`,
+      description: 'Error',
+      robots: this.error.statusCode === 404 ? 'noindex, noarchive' : 'all'
+    })
   }
 }
 </script>
@@ -56,15 +60,18 @@ img {
   width: 100%;
   vertical-align: top;
 }
+
 .notfound-quaggan {
   margin: 0 0 $baseline-rem 48px;
   width: 356px;
   height: 370px;
 }
+
 .error-quaggan {
   width: 308px;
   height: 313px;
 }
+
 pre {
   display: inline-block;
   vertical-align: top;

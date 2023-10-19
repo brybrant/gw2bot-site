@@ -1,0 +1,37 @@
+// 1. Ensure the page always fills at least the entire height of the viewport.
+// 2. Set the global `box-sizing` state to `border-box`.
+// 3. Prevent adjustments of font size after orientation changes in iOS.
+html {
+  @extend %Body-font-family;
+  min-height: 100%; /* [1] */
+  box-sizing: border-box; /* [2] */
+  text-size-adjust: 100%; /* [3] */
+  font-size: 100%;
+  line-height: $p-line-rem;
+  color: $grey-200;
+  background: $white;
+  &.dark-mode {
+    color: $grey-1200;
+    background: $black;
+  }
+}
+
+*, *:before, *:after {
+  box-sizing: inherit; /* [2] */
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  overflow-x: hidden;
+  background: $grey-1200;
+  .dark-mode & {
+    background-color: $grey-300;
+  }
+}
+
+main {
+  display: block;// Render the `main` element consistently in IE.
+}

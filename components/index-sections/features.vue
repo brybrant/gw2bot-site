@@ -1,7 +1,5 @@
 <template>
   <section class="feature-section">
-    <div class="feature-background" aria-hidden="true" />
-
     <div class="page-width page-padding">
       <h2>The Versatile Guild&nbsp;Wars&nbsp;2 Companion</h2>
 
@@ -43,20 +41,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.feature-background:after {
+.feature-section:after {
   background-image: conic-gradient(
-    hsl(10, 100%, 63%) 2deg,
-    hsl(20, 100%, 89%) 90deg,
-    hsl(30, 100%, 45%) 178deg
+    hsl(10deg, 100%, 63%) 2deg,
+    hsl(20deg, 100%, 89%) 90deg,
+    hsl(30deg, 100%, 45%) 178deg
   );
   .dark-mode & {
     background-image: conic-gradient(
-      hsl(10, 38%, 51%) 2deg,
-      hsl(20, 26%, 43%) 90deg,
-      hsl(30, 50%, 39%) 178deg
+      hsl(10deg, 38%, 51%) 2deg,
+      hsl(20deg, 26%, 43%) 90deg,
+      hsl(30deg, 50%, 39%) 178deg
     );
   }
 }
+
 img {
   width: 308px;
   height: 320px;

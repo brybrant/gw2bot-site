@@ -1,7 +1,5 @@
 <template>
   <section class="feature-section">
-    <div class="feature-background" aria-hidden="true" />
-
     <div class="page-width page-padding">
       <h2>Powerful Tools for Server&nbsp;Admins</h2>
 
@@ -43,20 +41,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.feature-background:after {
+.feature-section:after {
   background-image: conic-gradient(
-    hsl(245, 100%, 74%) 2deg,
-    hsl(240, 20%, 86%) 90deg,
-    hsl(235, 100%, 76%) 178deg
+    hsl(245deg, 100%, 74%) 2deg,
+    hsl(240deg, 20%, 86%) 90deg,
+    hsl(235deg, 100%, 76%) 178deg
   );
   .dark-mode & {
     background-image: conic-gradient(
-      hsl(245, 22%, 49%) 2deg,
-      hsl(240, 4%, 42%) 90deg,
-      hsl(235, 12%, 44%) 178deg
+      hsl(245deg, 22%, 49%) 2deg,
+      hsl(240deg, 4%, 42%) 90deg,
+      hsl(235deg, 12%, 44%) 178deg
     );
   }
 }
+
 img {
   width: 308px;
   height: 305px;

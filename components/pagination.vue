@@ -166,7 +166,7 @@ export default {
     padding: 4px 0;
   }
   &:active {
-    padding: 5px 0 3px 0;
+    padding: 5px 0 3px;
   }
   & ~ .button {
     margin-left: 1px;
@@ -217,12 +217,14 @@ export default {
     border-bottom: 5px solid transparent;
   }
 }
+
 .button--prev {
   border-radius: (4px + ($p-line-px * .5)) 0 0 (4px + ($p-line-px * .5));
   &:after {
     border-right: 7px solid currentColor;
   }
 }
+
 .button--next {
   border-radius: 0 (4px + ($p-line-px * .5)) (4px + ($p-line-px * .5)) 0;
   &:after {

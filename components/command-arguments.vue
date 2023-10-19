@@ -43,6 +43,7 @@ export default {
   list-style: none;
   text-align: center;
 }
+
 .arg {
   margin: 0;
   padding: 12px 0;
@@ -53,6 +54,7 @@ export default {
     border-top-color: $grey-200;
   }
 }
+
 .arg__name {
   @extend %Code-font-family;
   line-height: $baseline-px;
@@ -64,6 +66,7 @@ export default {
     font-weight: 400;
   }
 }
+
 .arg__desc {
   padding: 0 4px;
 }
@@ -71,7 +74,7 @@ export default {
 .option-list {
   display: inline-block;
   padding: 0;
-  margin: 6px 8px 0 8px;
+  margin: 6px 8px 0;
   border: 1px solid $grey-1000;
   border-radius: 8px;
   list-style: none;
@@ -79,6 +82,7 @@ export default {
     border-color: $grey-200;
   }
 }
+
 .option {
   position: relative;
   margin: 0;

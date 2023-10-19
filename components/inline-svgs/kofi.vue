@@ -15,6 +15,7 @@ export default {
 path {
   fill: currentColor;
 }
+
 .heart {
   fill: #ff5e5b;
 }

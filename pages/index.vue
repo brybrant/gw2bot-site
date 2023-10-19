@@ -22,6 +22,8 @@
           class="party-quaggan"
           format="webp"
           quality="75"
+          width="320"
+          height="394"
           src="/img/party-quaggan.png"
           alt=""
           :placeholder="[160, 197, 1]"
@@ -92,6 +94,8 @@ export default {
     }
   },
   mounted () {
+    sessionStorage.setItem('lastRoute', this.$route.name)
+
     if (this.rellax === undefined) {
       this.rellax = new Rellax('.feature-media__media', { speed: -4 })
     }
@@ -155,27 +159,29 @@ export default {
     height: 480px;
     transform: translate(-50%, -50%);
     backdrop-filter: blur(3px) brightness(0.85) saturate(0.6);
-    mask: radial-gradient($black, rgba($black,0.8) 36%, rgba($black,0) 70.71%) 0 0/100% 100%;
+    mask: radial-gradient($black, rgba($black, 0.8) 36%, rgba($black, 0) 70.71%) 0 0 / 100% 100%;
   }
 }
+
 .feature-title {
   margin: 0;
   color: $white;
   text-shadow: 0 4px  16px $black,
-               0 8px  32px rgba($black,.5),
-               0 16px 64px rgba($black,.25),
-               0 32px 128px rgba($black,.125);
+               0 8px  32px rgba($black, .5),
+               0 16px 64px rgba($black, .25),
+               0 32px 128px rgba($black, .125);
   @include media-query('gt-600') {
     font-size: $xl-font-rem;
     line-height: $xl-line-rem;
   }
 }
+
 .feature-button {
   margin-top: $baseline-rem * 2;
   box-shadow: 0 4px  16px $black,
-              0 8px  32px rgba($black,.5),
-              0 16px 64px rgba($black,.25),
-              0 32px 128px rgba($black,.125);
+              0 8px  32px rgba($black, .5),
+              0 16px 64px rgba($black, .25),
+              0 32px 128px rgba($black, .125);
 }
 
 .party-quaggan {
@@ -186,12 +192,55 @@ export default {
   max-height: 394px;
   vertical-align: top;
 }
-</style>
 
-<style lang="scss">
 .feature-section {
   position: relative;
   padding: ($baseline-rem * 1.5) 0 ($baseline-rem * 2) 0;
+  background: $grey-1200;
+  .dark-mode & {
+    background: $grey-300;
+  }
+  &:before, &:after {
+    @extend %Psuedo-element;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    @supports (mix-blend-mode: overlay) {
+      display: block;
+    }
+  }
+  &:before {
+    background: url-encode("<svg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'><filter id='f'><feFlood flood-color='#808080' result='a'/><feTurbulence type='fractalNoise' baseFrequency='100' numOctaves='3' stitchTiles='stitch' result='b'/><feComposite in='a' in2='b' operator='in'/></filter><rect width='1' height='1' filter='url(#f)'/></svg>") 50% 50% / 200px 200px;
+    opacity: 0.5;
+    .dark-mode & {
+      opacity: 0.25;
+    }
+  }
+  &:after {
+    background-position: 100% 50%;
+    background-size: calc(200% + 200px) 200%;
+    background-repeat: no-repeat;
+    mix-blend-mode: overlay;
+  }
+  &:nth-child(odd) {
+    background: $white;
+    .dark-mode & {
+      background: $grey-350;
+    }
+    &:after {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+:deep(.feature-section) {
+  & > div {
+    position: relative;
+    z-index: 1;
+  }
   h2 {
     margin: 0;
   }
@@ -213,54 +262,10 @@ export default {
     }
   }
   &:nth-child(odd) {
-    background: $white;
-    .dark-mode & {
-      background: $grey-350;
-    }
-    .feature-background:after {
-      background-position: 0% 50%;
-    }
     img {
       margin: $baseline-rem 0 0 $baseline-rem;
       float: right;
     }
-  }
-}
-
-.feature-background {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: none;
-  background: $white;
-  .dark-mode & {
-    background: $grey-300;
-  }
-  @supports (mix-blend-mode: overlay) {
-    display: block;
-  }
-  &:before, &:after {
-    @extend %Psuedo-element;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-  &:before {
-    background: url-encode("<svg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'><filter id='f'><feFlood flood-color='#808080' result='a'/><feTurbulence type='fractalNoise' baseFrequency='100' numOctaves='3' stitchTiles='stitch' result='b'/><feComposite in='a' in2='b' operator='in'/></filter><rect width='1' height='1' filter='url(#f)'/></svg>") 50% 50%/200px 200px;
-    opacity: 0.5;
-    .dark-mode & {
-      opacity: 0.25;
-    }
-  }
-  &:after {
-    background-position: 100% 50%;
-    background-size: calc(200% + 200px) 200%;
-    background-repeat: no-repeat;
-    mix-blend-mode: overlay;
   }
 }
 </style>

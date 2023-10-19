@@ -75,12 +75,18 @@
 </template>
 
 <script>
+import metadata from '@/assets/js/metadata'
+
 export default {
   name: 'FaqPage',
   head () {
-    return {
-      title: 'F.A.Q | GW2Bot'
-    }
+    return metadata({
+      title: 'F.A.Q | GW2Bot',
+      description: 'Frequently asked questions about GW2Bot'
+    })
+  },
+  mounted () {
+    sessionStorage.setItem('lastRoute', this.$route.name)
   }
 }
 </script>

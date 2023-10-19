@@ -87,6 +87,7 @@
 <script scoped>
 import CommandComponent from '@/components/command'
 import commands from '@/assets/js/commandsData'
+import metadata from '@/assets/js/metadata'
 
 export default {
   name: 'CommandsPage',
@@ -104,9 +105,13 @@ export default {
     }
   },
   head () {
-    return {
-      title: 'Commands | GW2Bot'
-    }
+    return metadata({
+      title: 'Commands | GW2Bot',
+      description: 'GW2Bot commands'
+    })
+  },
+  mounted () {
+    sessionStorage.setItem('lastRoute', this.$route.name)
   }
 }
 </script>
@@ -118,6 +123,7 @@ export default {
     width: 50%;
   }
 }
+
 .commands-list {
   padding: 0;
   list-style: none;

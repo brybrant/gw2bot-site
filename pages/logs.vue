@@ -87,6 +87,7 @@ import LoadingInlineSVG from '@/components/inline-svgs/loading'
 import EncounterSelectorComponent from '@/components/encounter-selector'
 import EncounterComponent from '@/components/encounter'
 import PaginationComponent from '@/components/pagination'
+import metadata from '@/assets/js/metadata'
 
 VTooltipOptions.arrowPadding = 6
 VTooltipOptions.distance = 9
@@ -146,9 +147,10 @@ export default {
     }
   },
   head () {
-    return {
-      title: 'Encounter Browser | GW2Bot'
-    }
+    return metadata({
+      title: 'Encounter Browser | GW2Bot',
+      description: 'Browse your arcdps encounter logs uploaded via GW2Bot'
+    })
   },
   computed: {
     activeEncounters () {
@@ -161,6 +163,8 @@ export default {
     }
   },
   async mounted () {
+    sessionStorage.setItem('lastRoute', this.$route.name)
+
     this.user = await this.$axios.$get('api/user')
 
     if (!this.user) { return }
