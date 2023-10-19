@@ -7,7 +7,7 @@ Visit [gw2bot.info](https://gw2bot.info/) to see the live website.
 
 This website is built using [Nuxt.js](https://v2.nuxt.com/) and takes advantage of an embedded [Express.js](https://expressjs.com/) API.
 
-It showcases some features of the bot, lists the available commands and hosts a couple of FAQ's.
+It showcases some features of the bot, lists the available commands, and hosts a couple of FAQs.
 
 It also has Discord authentication for viewing encounter logs that are uploaded via the bot.
 
@@ -24,17 +24,33 @@ npm run dev
 npm run build
 ```
 
+### Nuxt configuration
+
 You must replace `YOUR_BOT_ID` in the file `./nuxt.config.js` with your Discord bot's Client ID for authentication.
 
-You must configure the redirect URI for your bot to allow Discord authentication. Go to your [Discord Developer Portal](https://discord.com/developers/applications/) and select your bot. Go to OAuth2 General settings and enter the following URIs:
+``` js
+// ./nuxt.config.js
 
-```yaml
-# development
-http://localhost:3000/login
-
-# production
-https://gw2bot.info/login
+export default {
+  auth: {
+    strategies: {
+      discord: {
+        client_id: 'YOUR_BOT_ID'
+      }
+    }
+  }
+}
 ```
+
+### Discord bot configuration
+
+You must configure the OAuth2 redirect URIs for your bot to allow Discord authentication. Go to your [Discord Developer Portal](https://discord.com/developers/applications/) and select your bot. Go to OAuth2 General settings and enter the following URIs:
+
+Development: `http://localhost:3000/login`
+
+Production: `https://gw2bot.info/login`
+
+### MongoDB configuration
 
 In development, make sure your local mongodb service is running when you try to view the logs page. The website connects to the same database used by GW2Bot.
 
@@ -42,6 +58,7 @@ If your connection to the database times out, you may need to edit your [mongod 
 
 ``` yaml
 # path/to/mongod.cfg
+
 net:
   port: 27017
   bindIp: localhost,127.0.0.1
@@ -50,6 +67,6 @@ net:
 
 ## Contribution
 
-Feel free to create an issue or directly create a PR for any improvement you'd like to add.
+Feel free to create an issue or pull request for any improvement you would like to add.
 
-For PR's, please explain the issue, your solution/improvement and make sure ESLint is happy.
+For pull requests, please explain the issue, your solution/improvement, and make sure ESLint is happy.
