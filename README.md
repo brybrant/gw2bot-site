@@ -26,6 +26,16 @@ npm run build
 
 You must replace `YOUR_BOT_ID` in the file `./nuxt.config.js` with your Discord bot's Client ID for authentication.
 
+You must configure the redirect URI for your bot to allow Discord authentication. Go to your [Discord Developer Portal](https://discord.com/developers/applications/) and select your bot. Go to OAuth2 General settings and enter the following URIs:
+
+```yaml
+# development
+http://localhost:3000/login
+
+# production
+https://gw2bot.info/login
+```
+
 In development, make sure your local mongodb service is running when you try to view the logs page. The website connects to the same database used by GW2Bot.
 
 If your connection to the database times out, you may need to edit your [mongod configuration file](https://www.mongodb.com/docs/manual/reference/configuration-options/#configuration-file-options) to enable IPV6 connection to localhost:
