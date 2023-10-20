@@ -105,7 +105,7 @@ export default {
 
     this.responsiveRellax()
   },
-  beforeUnmount () {
+  beforeDestroy () {
     window.removeEventListener('resize', this.resizeRellax)
   },
   methods: {
