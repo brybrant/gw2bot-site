@@ -17,35 +17,12 @@
   right: 0;
   bottom: 0;
   left: 0;
+  background: $white;
   box-shadow: $top-bar-shadow;
   z-index: 3;
   .dark-mode & {
-    box-shadow: $top-bar-shadow--dark;
-  }
-}
-
-.top-bar__filter {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  backdrop-filter: blur(4px) contrast(0.5) saturate(0);
-}
-
-.top-bar__background {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: $white;
-  transition: opacity .15s;
-  .dark-mode & {
     background: $grey-350;
-  }
-  &.top-bar__background--solid {
-    opacity: 1 !important;
+    box-shadow: $top-bar-shadow--dark;
   }
 }
 

@@ -1,19 +1,6 @@
 <template>
-  <div
-    class="top-bar"
-    @mouseover="topBarHover = true"
-    @mouseleave="topBarHover = false"
-  >
+  <div class="top-bar">
     <div class="top-bar__shadow">
-      <div
-        v-if="$route.name === 'index' && topBarBackgroundOpacity < 1"
-        class="top-bar__filter"
-      />
-      <div
-        class="top-bar__background"
-        :class="{ 'top-bar__background--solid': $route.name !== 'index' }"
-        :style="[ topBarHover || navActive || userMenuActive ? null : { 'opacity': topBarBackgroundOpacity } ]"
-      />
       <div class="page-width page-padding">
         <NuxtLink class="top-bar__logo" to="/">
           <GW2BotLogo />
@@ -172,8 +159,6 @@ export default {
   data () {
     return {
       navActive: false,
-      topBarBackgroundOpacity: 1,
-      topBarHover: false,
       userMenuActive: false
     }
   },
@@ -182,21 +167,7 @@ export default {
       return this.$colorMode.value === 'dark'
     }
   },
-  mounted () {
-    window.removeEventListener('scroll', this.handleScroll)
-    window.addEventListener('scroll', this.handleScroll, { passive: true })
-    this.handleScroll()
-  },
-  beforeUnmount () {
-    window.removeEventListener('scroll', this.handleScroll)
-  },
   methods: {
-    handleScroll () {
-      this.topBarBackgroundOpacity = Math.min(
-        0.67 + (Math.round((window.scrollY / window.innerHeight) * 100) / 300),
-        1
-      )
-    },
     switchColorMode () {
       this.$colorMode.preference = this.darkMode ? 'light' : 'dark'
     }

@@ -177,10 +177,11 @@
 .main-nav__user-image {
   display: inline-block;
   border-radius: 50%;
+  border: 1px solid currentColor;
   margin: (($nav-logo-height - $gutter-px) * .5) 6px (($nav-logo-height - $gutter-px) * .5) 0;
   width: $gutter-px;
   height: $gutter-px;
-  background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' fill='gray'><circle cx='300' cy='250' r='175'/><circle cx='300' cy='750' r='350'/><circle cx='300' cy='300' r='300' fill='none' stroke='gray' stroke-width='40'/></svg>") 50% 50% / 100% 100%;
+  background: url-encode("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600' fill='gray'><circle cx='300' cy='250' r='175'/><circle cx='300' cy='750' r='350'/></svg>") 50% 50% / 100% 100%;
   vertical-align: top;
   @include media-query('gt-800') {
     margin: (($nav-height - $gutter-px) * .5) 6px (($nav-height - $gutter-px) * .5) 0;
