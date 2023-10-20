@@ -92,14 +92,6 @@
           >
             <span class="main-nav__link-name">Support</span>
           </a>
-          <a
-            v-if="!$auth.loggedIn"
-            href="#"
-            class="main-nav__link"
-            @click="$auth.loginWith('discord')"
-          >
-            <span class="main-nav__link-name">Login</span>
-          </a>
           <div
             v-if="$auth.loggedIn"
             class="main-nav__group"
@@ -118,7 +110,6 @@
               </span>
             </button>
             <div
-              v-if="$auth.loggedIn"
               class="main-nav__sub-menu"
               :class="{ active: userMenuActive }"
             >
@@ -135,11 +126,18 @@
               >
                 <span class="main-nav__link-name">Encounter Logs</span>
               </NuxtLink>
-              <a href="#" class="main-nav__link" @click="$auth.logout()">
+              <a class="main-nav__link" @click="$auth.logout()">
                 <span class="main-nav__link-name">Logout</span>
               </a>
             </div>
           </div>
+          <a
+            v-else
+            class="main-nav__link"
+            @click="$auth.loginWith('discord')"
+          >
+            <span class="main-nav__link-name">Login</span>
+          </a>
         </nav>
       </div>
     </div>
