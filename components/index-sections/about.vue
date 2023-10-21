@@ -52,7 +52,7 @@ import DiscordInlineSVG from '@/components/inline-svgs/discord'
 import GitHubInlineSVG from '@/components/inline-svgs/github'
 
 export default {
-  name: 'AboutComponent',
+  name: 'AboutSection',
   components: {
     CommandInlineSVG,
     DiscordInlineSVG,

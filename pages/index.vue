@@ -19,14 +19,14 @@
       <div class="feature-media__content page-width page-padding">
         <nuxt-img
           v-if="anniversary"
-          class="party-quaggan"
+          class="birthday-quaggan"
           format="webp"
           quality="75"
-          width="320"
-          height="394"
-          src="/img/party-quaggan.png"
+          width="308"
+          height="338"
+          src="/img/cake-quaggan.png"
           alt=""
-          :placeholder="[160, 197, 1]"
+          :placeholder="[154, 169, 1]"
         />
         <h1 class="feature-title">
           {{ anniversary ? `Celebrate ${botAge} Years of&nbsp;GW2Bot!` : 'Bring The World&nbsp;of Tyria Into&nbsp;Discord' }}
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <AboutComponent />
+    <AboutSection />
 
     <SetupSection />
 
@@ -58,7 +58,7 @@ import Rellax from '@/node_modules/rellax/rellax.min.js'
 
 import featureImages from '@/assets/js/featureImages'
 
-import AboutComponent from '@/components/about'
+import AboutSection from '@/components/index-sections/about'
 import SetupSection from '@/components/index-sections/setup'
 import FeaturesSection from '@/components/index-sections/features'
 import AlertsSection from '@/components/index-sections/alerts'
@@ -79,7 +79,7 @@ const currentWeek = Math.ceil(daysSinceYearStart / 7) - 1
 export default {
   name: 'IndexPage',
   components: {
-    AboutComponent,
+    AboutSection,
     SetupSection,
     FeaturesSection,
     AlertsSection,
@@ -127,10 +127,8 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  margin-top: -$nav-height;
-  padding-top: $nav-height * 0.5;
-  height: 100vh;
-  min-height: 480px;
+  height: calc(100vh - $nav-height);
+  min-height: 630px;
   overflow: hidden;
 }
 
@@ -156,7 +154,8 @@ export default {
     left: 50%;
     display: block;
     width: 100%;
-    height: 480px;
+    height: 100%;
+    min-height: 480px;
     transform: translate(-50%, -50%);
     backdrop-filter: blur(3px) brightness(0.85) saturate(0.6);
     mask: radial-gradient($black, rgba($black, 0.8) 36%, rgba($black, 0) 70.71%) 0 0 / 100% 100%;
@@ -184,13 +183,12 @@ export default {
               0 32px 128px rgba($black, .125);
 }
 
-.party-quaggan {
+.birthday-quaggan {
   position: relative;
   margin: auto;
   width: 100%;
-  max-width: 320px;
-  max-height: 394px;
-  vertical-align: top;
+  max-width: 308px;
+  max-height: 338px;
 }
 
 .feature-section {
