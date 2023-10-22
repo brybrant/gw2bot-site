@@ -4,7 +4,7 @@
       v-if="command.args"
       :id="`${command.name}-tooltip`"
       class="tooltip"
-      :class="{active: commandActive}"
+      :class="{ active: commandActive }"
     >
       <button
         class="tooltip__close"
@@ -16,49 +16,40 @@
     </div>
 
     <h3 class="command__name">
-      <template v-if="!command.subcommands">
+      <CommandButton
+        v-if="command.subcommands"
+        class="command__button--subcommands"
+        :class="{ active: commandActive }"
+        :aria-controls="`${command.name}-subcommands`"
+        :aria-expanded="commandActive ? 'true' : 'false'"
+        :title="commandActive ? 'Hide subcommands' : 'Show subcommands'"
+        @click.native="commandActive = !commandActive"
+      >
         <span>{{ command.name }}</span>
-        <button
+      </CommandButton>
+      <template v-else>
+        <span>{{ command.name }}</span>
+        <CommandButton
           v-if="command.args"
-          class="command__button command__button--args"
-          :class="{active: commandActive}"
+          class="command__button--args"
+          :class="{ active: commandActive }"
           :aria-controls="`${command.name}-tooltip`"
           :aria-expanded="commandActive ? 'true' : 'false'"
           :title="commandActive ? 'Hide command arguments' : 'Show command arguments'"
-          @click="commandActive = !commandActive"
+          @click.native="commandActive = !commandActive"
         >
           {{ `+${command.args.length}` }}
-        </button>
-      </template>
-      <template v-else-if="command.subcommands">
-        <button
-          class="command__button command__button--subcommands"
-          :class="{active: commandActive}"
-          :aria-controls="`${command.name}-subcommands`"
-          :aria-expanded="commandActive ? 'true' : 'false'"
-          :title="commandActive ? 'Hide subcommands' : 'Show subcommands'"
-          @click="commandActive = !commandActive"
-        >
-          <span>{{ command.name }}</span>
-        </button>
+        </CommandButton>
       </template>
     </h3>
     <p class="command__desc">
       {{ command.desc | twoOrphans }}
     </p>
 
-    <div v-if="command.permissions" class="permissions">
-      <p class="small-text">
-        {{ `Required API key permission${command.permissions.length>1 ? 's:' : ':'}` }}<br>
-        <code
-          v-for="(permission, index) in command.permissions"
-          :key="`permission-${index}`"
-          class="smaller"
-        >
-          {{ permission }}
-        </code>
-      </p>
-    </div>
+    <CommandPermissions
+      v-if="command.permissions"
+      :permissions="command.permissions"
+    />
 
     <ul
       v-if="command.subcommands"
@@ -77,14 +68,18 @@
 </template>
 
 <script>
-import SubcommandComponent from '@/components/subcommand'
-import CommandArgumentsComponent from '@/components/command-arguments'
+import CommandArgumentsComponent from '@/components/command/command-arguments'
+import CommandButton from '@/components/command/command-button'
+import CommandPermissions from '@/components/command/command-permissions'
+import SubcommandComponent from '@/components/command/subcommand'
 
 export default {
   name: 'CommandComponent',
   components: {
-    SubcommandComponent,
-    CommandArgumentsComponent
+    CommandArgumentsComponent,
+    CommandButton,
+    CommandPermissions,
+    SubcommandComponent
   },
   props: {
     command: {
@@ -107,6 +102,9 @@ export default {
   border-radius: 6px;
   background: $white;
   box-shadow: $card-shadow;
+  &:deep(p) {
+    margin: 0;
+  }
   & ~ .command {
     margin-top: $baseline-rem;
   }
@@ -167,59 +165,7 @@ export default {
   }
 }
 
-.subcommand-list {
-  margin: 12px 0 (-12px) 0;
-  padding: 0;
-  list-style: none;
-  text-align: center;
-}
-</style>
-
-<style lang="scss">
-.command p {
-  margin: 0;
-}
-
-.command__button {
-  display: inline-block;
-  border: 1px solid $grey-1000;
-  background: $white;
-  box-shadow: $button-shadow;
-  vertical-align: top;
-  &:hover {
-    background: $grey-1150;
-  }
-  &:active {
-    background: $grey-1100;
-  }
-  &.active {
-    color: $grey-1200;
-    background: $grey-250;
-    &:active {
-      background: $grey-100;
-    }
-  }
-  .dark-mode & {
-    border-color: $grey-200;
-    background: $grey-350;
-    box-shadow: $button-shadow--dark;
-    &:hover {
-      background: $grey-300;
-    }
-    &:active {
-      background: $grey-250;
-    }
-    &.active {
-      color: $grey-200;
-      background: $grey-1200;
-      &:active {
-        background: $grey-1100;
-      }
-    }
-  }
-}
-
-.command__button--args {
+:deep(.command__button--args) {
   border-radius: 8px;
   padding: 1px 6px;
   &:active {
@@ -227,16 +173,10 @@ export default {
   }
 }
 
-.permissions {
-  display: inline-block;
-  margin: 4px 0 0;
-  padding: 4px 8px 0;
-  border-top: 1px solid $grey-1100;
-  .dark-mode & {
-    border-color: $grey-250;
-  }
-  code ~ code {
-    margin-left: 6px;
-  }
+.subcommand-list {
+  margin: 12px 0 (-12px) 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
 }
 </style>

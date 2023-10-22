@@ -85,7 +85,7 @@
 </template>
 
 <script scoped>
-import CommandComponent from '@/components/command'
+import CommandComponent from '@/components/command/command'
 import commands from '@/assets/js/commandsData'
 import metadata from '@/assets/js/metadata'
 

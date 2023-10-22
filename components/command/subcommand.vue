@@ -4,7 +4,7 @@
       v-if="subcommand.args"
       :id="`${command.name}-${subcommand.name}-tooltip`"
       class="tooltip"
-      :class="{active: subcommandActive}"
+      :class="{ active: subcommandActive }"
     >
       <button
         class="tooltip__close"
@@ -17,44 +17,40 @@
 
     <p class="subcommand__name">
       <span>{{ command.name }}</span> {{ subcommand.name }}
-      <button
+      <CommandButton
         v-if="subcommand.args"
-        class="command__button command__button--args"
-        :class="{active: subcommandActive}"
+        class="command__button--args"
+        :class="{ active: subcommandActive }"
         :aria-controls="`${command.name}-${subcommand.name}-tooltip`"
         :aria-expanded="subcommandActive ? 'true' : 'false'"
         :title="subcommandActive ? 'Hide command arguments' : 'Show command arguments'"
-        @click="subcommandActive = !subcommandActive"
+        @click.native="subcommandActive = !subcommandActive"
       >
         {{ `+${subcommand.args.length}` }}
-      </button>
+      </CommandButton>
     </p>
     <p class="subcommand__desc small-text">
       {{ subcommand.desc | twoOrphans }}
     </p>
 
-    <div v-if="subcommand.permissions" class="permissions">
-      <p class="small-text">
-        {{ `Required API key permission${subcommand.permissions.length>1 ? 's:' : ':'}` }}<br>
-        <code
-          v-for="(permission, index) in subcommand.permissions"
-          :key="`permission-${index}`"
-          class="smaller"
-        >
-          {{ permission }}
-        </code>
-      </p>
-    </div>
+    <CommandPermissions
+      v-if="subcommand.permissions"
+      :permissions="subcommand.permissions"
+    />
   </li>
 </template>
 
 <script>
-import CommandArgumentsComponent from '@/components/command-arguments'
+import CommandArgumentsComponent from '@/components/command/command-arguments'
+import CommandButton from '@/components/command/command-button'
+import CommandPermissions from '@/components/command/command-permissions'
 
 export default {
   name: 'SubcommandComponent',
   components: {
-    CommandArgumentsComponent
+    CommandArgumentsComponent,
+    CommandButton,
+    CommandPermissions
   },
   props: {
     command: {
