@@ -1,7 +1,5 @@
 <template>
   <main>
-    <div id="tooltip-boundary" />
-
     <header class="page-width page-padding">
       <h1 v-if="currentEncounter === null">
         Encounter Browser
@@ -81,18 +79,11 @@
 </template>
 
 <script>
-import { options as VTooltipOptions } from 'floating-vue'
-
 import LoadingInlineSVG from '@/components/inline-svgs/loading'
 import EncounterSelectorComponent from '@/components/encounter-selector'
 import EncounterComponent from '@/components/encounter'
 import PaginationComponent from '@/components/pagination'
 import metadata from '@/assets/js/metadata'
-
-VTooltipOptions.arrowPadding = 6
-VTooltipOptions.distance = 9
-VTooltipOptions.themes.tooltip.hideTriggers = ['hover', 'touch']
-VTooltipOptions.themes.tooltip.delay.show = 100
 
 // https://github.com/baaron4/GW2-Elite-Insights-Parser/blob/master/GW2EIEvtcParser/ParserHelpers/SkillIDs.cs
 const boonIDs = {
@@ -170,8 +161,6 @@ export default {
     if (!this.user) { return }
 
     this.encounters.tally = await this.$axios.$get('api/encounters')
-
-    VTooltipOptions.boundary = document.getElementById('tooltip-boundary')
   },
   methods: {
     setInstance (instance) {
@@ -351,16 +340,6 @@ export default {
 <style lang="scss" scoped>
 main {
   min-height: 360px;
-}
-
-#tooltip-boundary {
-  position: fixed;
-  top: $nav-height;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  pointer-events: none;
 }
 
 .h3 {

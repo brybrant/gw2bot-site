@@ -49,10 +49,11 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/axios',
-    '~/plugins/filters',
-    '~/plugins/globalComponents',
-    '~/plugins/globalVariables'
+    { src: '~/plugins/axios' },
+    { src: '~/plugins/filters' },
+    { src: '~/plugins/globalComponents' },
+    { src: '~/plugins/globalVariables' },
+    { src: '~/plugins/tooltips', mode: 'client' }
   ],
   /*
   ** Nuxt.js dev-modules

@@ -23,20 +23,19 @@
         :class="{ active: subcommandActive }"
         :aria-controls="`${command.name}-${subcommand.name}-tooltip`"
         :aria-expanded="subcommandActive ? 'true' : 'false'"
-        :title="subcommandActive ? 'Hide command arguments' : 'Show command arguments'"
+        :title='`${subcommandActive ? "Hide" : "Show"} "${command.name} ${subcommand.name}" arguments`'
         @click.native="subcommandActive = !subcommandActive"
       >
         {{ `+${subcommand.args.length}` }}
       </CommandButton>
+      <CommandPermissions
+        v-if="subcommand.permissions"
+        :permissions="subcommand.permissions"
+      />
     </p>
     <p class="subcommand__desc small-text">
       {{ subcommand.desc | twoOrphans }}
     </p>
-
-    <CommandPermissions
-      v-if="subcommand.permissions"
-      :permissions="subcommand.permissions"
-    />
   </li>
 </template>
 

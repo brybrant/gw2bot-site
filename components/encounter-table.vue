@@ -160,8 +160,6 @@
 </template>
 
 <script>
-import { VTooltip } from 'floating-vue'
-
 import CommanderInlineSVG from '@/components/inline-svgs/commander'
 import ConcentrationInlineSVG from '@/components/inline-svgs/concentration'
 import ConditionInlineSVG from '@/components/inline-svgs/condition'
@@ -178,9 +176,6 @@ export default {
     HealingInlineSVG,
     ToughnessInlineSVG,
     WeaponsInlineSVGs
-  },
-  directives: {
-    tooltip: VTooltip
   },
   props: {
     details: {
@@ -495,6 +490,10 @@ td {
 
 .weapon {
   margin-left: 1px;
+  background: $white;
+  .dark-mode & {
+    background: $grey-350;
+  }
   svg {
     display: inline-block;
     vertical-align: top;

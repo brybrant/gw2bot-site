@@ -19,9 +19,17 @@
         <div class="top-bar__toggles">
           <div class="top-bar__toggle">
             <button
+              v-tooltip="{
+                boundary: void 0,
+                content: `Switch to ${darkMode ? 'light' : 'dark'} mode`,
+                distance: 8,
+                flip: false,
+                placement: 'bottom',
+                popperClass: 'v-popper--front',
+                strategy: 'fixed'
+              }"
               class="dark-mode-button"
               :class="darkMode ? 'active' : null"
-              :title="`Switch to ${darkMode ? 'light' : 'dark'} mode`"
               @click="switchColorMode"
             />
           </div>

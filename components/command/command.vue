@@ -22,7 +22,7 @@
         :class="{ active: commandActive }"
         :aria-controls="`${command.name}-subcommands`"
         :aria-expanded="commandActive ? 'true' : 'false'"
-        :title="commandActive ? 'Hide subcommands' : 'Show subcommands'"
+        :title="`${commandActive ? 'Hide' : 'Show'} ${command.name} subcommand${command.subcommands.length > 1 ? 's' : ''} (${command.subcommands.length})`"
         @click.native="commandActive = !commandActive"
       >
         <span>{{ command.name }}</span>
@@ -35,21 +35,20 @@
           :class="{ active: commandActive }"
           :aria-controls="`${command.name}-tooltip`"
           :aria-expanded="commandActive ? 'true' : 'false'"
-          :title="commandActive ? 'Hide command arguments' : 'Show command arguments'"
+          :title="`${commandActive ? 'Hide' : 'Show'} ${command.name} arguments`"
           @click.native="commandActive = !commandActive"
         >
           {{ `+${command.args.length}` }}
         </CommandButton>
       </template>
+      <CommandPermissions
+        v-if="command.permissions"
+        :permissions="command.permissions"
+      />
     </h3>
     <p class="command__desc">
       {{ command.desc | twoOrphans }}
     </p>
-
-    <CommandPermissions
-      v-if="command.permissions"
-      :permissions="command.permissions"
-    />
 
     <ul
       v-if="command.subcommands"
@@ -120,6 +119,7 @@ export default {
 
 .command__name {
   @extend %Code-font-family;
+  position: relative;
   margin: 0;
   color: $grey-200;
   font-size: $h4-font-rem;
