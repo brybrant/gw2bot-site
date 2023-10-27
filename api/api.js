@@ -10,6 +10,8 @@ import bosses from '../assets/js/bossesData'
 import * as database from './database'
 import { authenticate } from './authenticate'
 import { generateEncounters } from './generateEncounters'
+import { encounterSchema } from './encounterSchema'
+import { validateSchema } from './validateSchema'
 
 const server = express()
 
@@ -275,6 +277,13 @@ if (process.env.NODE_ENV === 'development') {
 
 server.post('/encounters/:id', express.json(), async (req, res) => {
   const encounterId = new ObjectID(req.params.id)
+
+  const validationResult = validateSchema(req.body, encounterSchema)
+
+  if (validationResult === 0) {
+    res.status(400).send({ message: 'Bad Request' })
+    return
+  }
 
   const encounters = await database.getCollection('gw2.encounters', res)
 

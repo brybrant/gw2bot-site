@@ -1,46 +1,4 @@
-const wvwMaps = [
-  'Armistice Bastion',
-  'Blue Alpine Borderlands',
-  'Edge of the Mists',
-  'Eternal Battlegrounds',
-  'Green Alpine Borderlands',
-  'Obsidian Sanctum',
-  'Red Desert Borderlands'
-]
-
-const professions = [
-  'Guardian', 'Dragonhunter', 'Firebrand', 'Willbender',
-  'Revenant', 'Herald', 'Renegade', 'Vindicator',
-  'Warrior', 'Berserker', 'Spellbreaker', 'Bladesworn',
-  'Engineer', 'Scrapper', 'Holosmith', 'Mechanist',
-  'Ranger', 'Druid', 'Soulbeast', 'Untamed',
-  'Thief', 'Daredevil', 'Deadeye', 'Specter',
-  'Elementalist', 'Tempest', 'Weaver', 'Catalyst',
-  'Mesmer', 'Chronomancer', 'Mirage', 'Virtuoso',
-  'Necromancer', 'Reaper', 'Scourge', 'Harbinger'
-]
-
-const oneHandWeapons = [
-  'Scepter',
-  'Axe',
-  'Dagger',
-  'Mace',
-  'Pistol',
-  'Sword',
-  'Focus',
-  'Shield',
-  'Torch',
-  'Warhorn'
-]
-
-const twoHandWeapons = [
-  'Greatsword',
-  'Hammer',
-  'Longbow',
-  'Rifle',
-  'Shortbow',
-  'Staff'
-]
+import { professions, weapons, wvwMaps } from './encounterSchema'
 
 function randInt (min, max) {
   min = Math.ceil(min)
@@ -73,9 +31,15 @@ function randName () {
 
 function getWeapon (index) {
   if (Math.random() > 0.5) {
-    return [twoHandWeapons[randInt(0, 5)], ...index === 1 ? ['2Hand'] : []]
+    return [
+      weapons.twoHand[randInt(0, weapons.twoHand.length - 1)],
+      ...index === 1 ? ['2Hand'] : []
+    ]
   } else {
-    return [oneHandWeapons[randInt(0, 5)], oneHandWeapons[randInt(1, 9)]]
+    return [
+      weapons.oneHand[randInt(0, 5)],
+      weapons.oneHand[randInt(1, weapons.oneHand.length - 1)]
+    ]
   }
 }
 
@@ -115,7 +79,7 @@ export function generateEncounters (count, user) {
         character: randName(),
         dps: playerDps,
         group: p < 5 ? 1 : 2,
-        profession: professions[randInt(0, 35)],
+        profession: professions[randInt(0, professions.length - 1)],
         ...{
           absorbed: Math.round(randFloat(50, 250) * duration),
           blocked: Math.round(duration / randFloat(2, 8)),
@@ -148,7 +112,7 @@ export function generateEncounters (count, user) {
           duration,
           details: {
             dps: encounterDps,
-            wvw_map: wvwMaps[randInt(0, 6)],
+            wvw_map: wvwMaps[randInt(0, wvwMaps.length - 1)],
             players
           }
         }
