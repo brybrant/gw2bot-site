@@ -55,17 +55,11 @@ export async function getUser (userID, res) {
 
   if (dpsToken === 0) { return 0 }
 
-  const result = await users.updateOne({ _id: userID }, {
+  await users.updateOne({ _id: userID }, {
     $set: {
       'cogs.GuildWars2.dpsreport_token': dpsToken.userToken
     }
   })
-
-  if (result.modifiedCount === 1) {
-    console.log(`Set dps.report token for user <@${userID}>`)
-  } else {
-    console.error(`Failed to set dps.report token for user <@${userID}>`)
-  }
 
   user.cogs.GuildWars2.dpsreport_token = dpsToken.userToken
 
