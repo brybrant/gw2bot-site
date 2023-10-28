@@ -23,7 +23,7 @@ module.exports = {
     'declaration-block-no-redundant-longhand-properties': [
       true,
       {
-        ignoreShorthands: ['inset']
+        ignoreShorthands: ['inset', 'place-content']
       }
     ],
     'declaration-empty-line-before': 'never',
