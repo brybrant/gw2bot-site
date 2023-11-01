@@ -22,6 +22,8 @@ npm run dev
 
 # Build for production
 npm run build
+# Start production server
+npm run start
 ```
 
 ### Nuxt configuration
@@ -63,6 +65,23 @@ net:
   port: 27017
   bindIp: localhost,127.0.0.1
   ipv6: true
+```
+
+#### Encounter Details
+
+The website will set a `details` field for each database entry in the `gw2.encounters` collection of the `toothy` database when a user visits the `/logs` page to view their encounter logs. The `details` object contains extra data about each encounter and is fetched from `dps.report` on the client-side, then sent to the server via POST request. The data is validated before being saved to the database.
+
+In the event that you need to reset the details field of every encounter in the database, use the [updateMany](https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/) method via [mongosh](https://www.mongodb.com/try/download/shell):
+
+``` shell
+# Connect to the database via mongosh
+mongosh "mongodb://localhost:27017"
+
+# Switch to the toothy database
+use toothy
+
+# Delete the "details" field of every encounter in the database
+db.getCollection("gw2.encounters").updateMany({}, { $unset: { details: true }})
 ```
 
 ## Contribution
