@@ -3,7 +3,7 @@
     <tr>
       <th
         v-for="(column, columnName) in columns"
-        :key="`Column ${column.label}`"
+        :key="`column-${columnName}`"
         :class="`${columnName}-col${column.img ? ' align-center' : ''}`"
         :colspan="column.colspan || null"
       >
@@ -34,16 +34,18 @@
     </tr>
     <tr
       v-for="(player, index) in players"
-      :key="`Player ${index}`"
+      :key="`player-${index}`"
       :class="{ me: user === player.account }"
     >
       <keep-alive>
         <td class="group-col align-right">
-          <CommanderInlineSVG
+          <div
             v-if="player.commander"
-            v-tooltip="'Commander'"
             class="table-icon table-icon--small"
-          />
+            title="Commander"
+          >
+            <CommanderInlineSVG />
+          </div>
           {{ player.group }}
         </td>
       </keep-alive>
@@ -65,7 +67,7 @@
         {{ player.character }}
         <template v-for="attribute in player.attributes">
           <AttributesInlineSVGs
-            :key="`Attribute ${attribute}`"
+            :key="`attribute-${attribute}`"
             v-tooltip="attribute"
             class="table-icon table-icon--small"
             :class="{
@@ -80,7 +82,7 @@
           <template v-for="(weapon, index2) in player.weapons">
             <div
               v-if="index2 < 2 && weapon !== '2Hand'"
-              :key="`Weapon ${index2}`"
+              :key="`weapon-${index2}`"
               class="table-icon weapon"
               :title="weapon"
             >
@@ -94,7 +96,7 @@
           <template v-for="(weapon, index2) in player.weapons">
             <div
               v-if="index2 >= 2"
-              :key="`Weapon ${index2}`"
+              :key="`weapon-${index2}`"
               class="table-icon weapon"
               :title="weapon"
             >
