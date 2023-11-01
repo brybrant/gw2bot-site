@@ -3,12 +3,12 @@
     <tr>
       <th
         v-for="(column, columnName) in columns"
-        :key="`${encounter._id}: ${column.label}`"
-        v-tooltip="column.img ? column.label : null"
+        :key="`Column ${column.label}`"
         :class="`${columnName}-col${column.img ? ' align-center' : ''}`"
         :colspan="column.colspan || null"
       >
         <button
+          v-tooltip="column.img ? column.label : null"
           class="sort-button"
           :class="sortBy === columnName ? sortOrder : null"
           title="Sort ascending"
@@ -24,6 +24,7 @@
             height="48"
             :src="`/img/icons/${column.img}.png`"
             :alt="column.label"
+            :title="column.label"
           />
           <template v-else>
             {{ column.label }}
@@ -32,23 +33,24 @@
       </th>
     </tr>
     <tr
-      v-for="player in players"
-      :key="`${encounter._id}: ${player.account}`"
+      v-for="(player, index) in players"
+      :key="`Player ${index}`"
       :class="{ me: user === player.account }"
     >
-      <td class="group-col align-right">
-        <CommanderInlineSVG
-          v-if="player.commander"
-          v-tooltip="`Commander`"
-          class="table-icon table-icon--small"
-        />
-        {{ player.group }}
-      </td>
+      <keep-alive>
+        <td class="group-col align-right">
+          <CommanderInlineSVG
+            v-if="player.commander"
+            v-tooltip="'Commander'"
+            class="table-icon table-icon--small"
+          />
+          {{ player.group }}
+        </td>
+      </keep-alive>
       <td>{{ player.account }}</td>
       <td>
         <div class="table-icon">
           <nuxt-img
-            v-tooltip="player.profession"
             loading="lazy"
             class="table-icon"
             format="webp"
@@ -57,52 +59,46 @@
             height="48"
             :src="`/img/professions/${player.profession}.png`"
             :alt="player.profession"
+            :title="player.profession"
           />
         </div>
         {{ player.character }}
-        <ConcentrationInlineSVG
-          v-if="player.attributes.concentration"
-          v-tooltip="`Concentration`"
-          class="table-icon table-icon--small"
-        />
-        <ConditionInlineSVG
-          v-if="player.attributes.condition"
-          v-tooltip="`Condition Damage`"
-          class="table-icon table-icon--small"
-        />
-        <HealingInlineSVG
-          v-if="player.attributes.healing"
-          v-tooltip="`Healing Power`"
-          class="table-icon table-icon--small table-icon--narrow"
-        />
-        <ToughnessInlineSVG
-          v-if="player.attributes.toughness"
-          v-tooltip="`Toughness`"
-          class="table-icon table-icon--small"
-        />
+        <template v-for="attribute in player.attributes">
+          <AttributesInlineSVGs
+            :key="`Attribute ${attribute}`"
+            v-tooltip="attribute"
+            class="table-icon table-icon--small"
+            :class="{
+              'table-icon--narrow': attribute === 'Healing Power'
+            }"
+            :attribute="attribute"
+          />
+        </template>
       </td>
       <td class="align-right">
         <div class="weapons">
-          <template v-for="(weapon, index) in player.weapons">
+          <template v-for="(weapon, index2) in player.weapons">
             <div
-              v-if="index < 2 && weapon !== '2Hand'"
-              :key="`${encounter._id}: ${player.account}: weapon ${index}`"
+              v-if="index2 < 2 && weapon !== '2Hand'"
+              :key="`Weapon ${index2}`"
               class="table-icon weapon"
+              :title="weapon"
             >
-              <WeaponsInlineSVGs v-tooltip="weapon" :weapon="weapon" />
+              <WeaponsInlineSVGs :weapon="weapon" />
             </div>
           </template>
         </div>
       </td>
       <td>
         <div class="weapons">
-          <template v-for="(weapon, index) in player.weapons">
+          <template v-for="(weapon, index2) in player.weapons">
             <div
-              v-if="index >= 2"
-              :key="`${encounter._id}: ${player.account}: weapon ${index}`"
+              v-if="index2 >= 2"
+              :key="`Weapon ${index2}`"
               class="table-icon weapon"
+              :title="weapon"
             >
-              <WeaponsInlineSVGs v-tooltip="weapon" :weapon="weapon" />
+              <WeaponsInlineSVGs :weapon="weapon" />
             </div>
           </template>
         </div>
@@ -161,20 +157,14 @@
 
 <script>
 import CommanderInlineSVG from '@/components/inline-svgs/commander'
-import ConcentrationInlineSVG from '@/components/inline-svgs/concentration'
-import ConditionInlineSVG from '@/components/inline-svgs/condition'
-import HealingInlineSVG from '@/components/inline-svgs/healing'
-import ToughnessInlineSVG from '@/components/inline-svgs/toughness'
+import AttributesInlineSVGs from '@/components/inline-svgs/attributes'
 import WeaponsInlineSVGs from '@/components/inline-svgs/weapons'
 
 export default {
   name: 'EncounterTableComponent',
   components: {
     CommanderInlineSVG,
-    ConcentrationInlineSVG,
-    ConditionInlineSVG,
-    HealingInlineSVG,
-    ToughnessInlineSVG,
+    AttributesInlineSVGs,
     WeaponsInlineSVGs
   },
   props: {

@@ -62,8 +62,8 @@
       class="encounter-list"
     >
       <EncounterComponent
-        v-for="encounter in activeEncounters"
-        :key="encounter._id"
+        v-for="(encounter, index) in activeEncounters"
+        :key="`encounter-${index}`"
         :encounter="encounter"
         :user="user"
       />
@@ -80,8 +80,8 @@
 
 <script>
 import LoadingInlineSVG from '@/components/inline-svgs/loading'
-import EncounterSelectorComponent from '@/components/encounter-selector'
-import EncounterComponent from '@/components/encounter'
+import EncounterSelectorComponent from '@/components/encounter/encounter-selector'
+import EncounterComponent from '@/components/encounter/encounter'
 import PaginationComponent from '@/components/pagination'
 import metadata from '@/assets/js/metadata'
 
@@ -264,12 +264,12 @@ export default {
 
           details.players.push({
             account: player.account,
-            attributes: {
-              condition: player.condition > 0,
-              concentration: player.concentration > 0,
-              healing: player.healing > 0,
-              toughness: player.toughness > 0
-            },
+            attributes: [
+              ...player.concentration > 0 ? ['Concentration'] : [],
+              ...player.condition > 0 ? ['Condition Damage'] : [],
+              ...player.healing > 0 ? ['Healing Power'] : [],
+              ...player.toughness > 0 ? ['Toughness'] : []
+            ],
             ...boons,
             character: player.name,
             commander: player.hasCommanderTag,

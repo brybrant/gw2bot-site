@@ -48,6 +48,11 @@ const weaponSchema = {
   options: [...weapons.oneHand, ...weapons.twoHand, '2Hand', 'Unknown']
 }
 
+const attributeSchema = {
+  type: String,
+  options: ['Concentration', 'Condition Damage', 'Healing Power', 'Toughness']
+}
+
 const playerSchema = {
   type: Object,
   schema: {
@@ -55,21 +60,12 @@ const playerSchema = {
       type: String
     },
     attributes: {
-      type: Object,
-      schema: {
-        condition: {
-          type: Boolean
-        },
-        concentration: {
-          type: Boolean
-        },
-        healing: {
-          type: Boolean
-        },
-        toughness: {
-          type: Boolean
-        }
-      }
+      type: Array,
+      length: {
+        min: 0,
+        max: 4
+      },
+      schema: attributeSchema
     },
     alacrity: {
       type: Number,
@@ -154,6 +150,7 @@ export const encounterSchema = {
   },
   boss_health: {
     type: Number,
+    float: true,
     optional: true
   },
   wvw_map: {

@@ -1,6 +1,8 @@
 <template>
   <div class="page-width page-padding">
-    <p class="small-text">Page {{ currentPage }} of {{ totalPages }}</p>
+    <p class="small-text">
+      Page {{ currentPage }} of {{ totalPages }}
+    </p>
 
     <nav
       role="navigation"
@@ -39,7 +41,7 @@
       <template v-if="totalPages > 7">
         <PaginationButtonComponent
           v-for="index in middlePages"
-          :key="`Pagination button ${index}`"
+          :key="`pagination-button-${index}`"
           :current-page="currentPage"
           :page="index"
           @clicked="paginate"
@@ -49,7 +51,7 @@
         <template v-for="index in totalPages">
           <PaginationButtonComponent
             v-if="index > 2 && index < totalPages"
-            :key="`Pagination button ${index}`"
+            :key="`pagination-button-${index}`"
             :current-page="currentPage"
             :page="index"
             @clicked="paginate"

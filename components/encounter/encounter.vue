@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import EncounterTableComponent from '@/components/encounter-table'
+import EncounterTableComponent from '@/components/encounter/encounter-table'
 import LoadingInlineSVG from '@/components/inline-svgs/loading'
 
 export default {
