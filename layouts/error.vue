@@ -9,17 +9,21 @@
         <pre v-if="error.cause">{{ error.cause }}.</pre>
       </header>
 
-      <nuxt-img
-        :class="`${error.statusCode === 404 ? 'notfound' : 'error'}-quaggan`"
-        format="webp"
-        quality="75"
-        :width="error.statusCode === 404 ? '356' : '308'"
-        :height="error.statusCode === 404 ? '370' : '313'"
-        :src="`/img/${error.statusCode === 404 ? '404' : 'error'}-quaggan.png`"
-        alt=""
-      />
+      <picture>
+        <source
+          :data-srcset="require(`~/assets/img/${notFound ? '404' : 'error'}-quaggan.png?format=webp`)"
+          type="image/webp"
+        >
+        <img
+          alt=""
+          :class="`${notFound ? 'notfound' : 'error'}-quaggan lazyload`"
+          :width="notFound ? '356' : '308'"
+          :height="notFound ? '370' : '313'"
+          :data-src="require(`~/assets/img/${notFound ? '404' : 'error'}-quaggan.png`)"
+        >
+      </picture>
 
-      <p v-if="error.statusCode !== 404">
+      <p v-if="!notFound">
         If this problem persists, please <ExternalLink href="https://github.com/brybrant/gw2bot-site/issues">submit an issue on GitHub</ExternalLink> or report it in the <ExternalLink :href="$supportServerLink">GW2Bot Discord&nbsp;Server</ExternalLink>.
       </p>
 
@@ -48,8 +52,13 @@ export default {
     return metadata({
       title: `${this.error.statusCode} | GW2Bot`,
       description: 'Error',
-      robots: this.error.statusCode === 404 ? 'noindex, noarchive' : 'all'
+      robots: this.notFound ? 'noindex, noarchive' : 'all'
     })
+  },
+  computed: {
+    notFound () {
+      return this.error.statusCode === 404
+    }
   }
 }
 </script>

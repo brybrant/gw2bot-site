@@ -5,7 +5,7 @@ const meta = {
 
 export default {
   /*
-  ** Headers of the page
+  ** Global <head> elements
   */
   head: {
     htmlAttrs: {
@@ -56,10 +56,9 @@ export default {
     { src: '~/plugins/tooltips', mode: 'client' }
   ],
   /*
-  ** Nuxt.js dev-modules
+  ** Nuxt.js build modules
   */
   buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     '@nuxtjs/color-mode',
     '@nuxtjs/style-resources'
@@ -79,42 +78,21 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/stylelint-module',
-    // Doc: https://v0.image.nuxtjs.org/
-    '@nuxt/image'
+    '@nuxtjs/stylelint-module'
   ],
   /*
-  ** Settings for '@nuxt/image' module
-  */
-  image: {
-    screens: {
-      '480': 480,
-      '600': 600,
-      '720': 720,
-      '960': 960,
-      '1200': 1200,
-      '1440': 1440,
-      '1680': 1680,
-      '1920': 1920
-    },
-    staticFilename: '[publicPath]/img/[name]-[hash][ext]'
-  },
-
-  serverMiddleware: [
-    '~/api/api'
-  ],
-  /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
+  ** Settings for '@nuxtjs/axios' module
   */
   axios: {
+    // https://axios.nuxtjs.org/options
     credentials: true,
     debug: process.env.NODE_ENV === 'development'
   },
-
+  serverMiddleware: [
+    '~/api/api'
+  ],
   auth: {
     redirect: {
       login: '/login',
@@ -135,13 +113,30 @@ export default {
     }
   },
   /*
-  ** Build configuration
+  ** Build configuration (webpack)
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
     extend (config, ctx) {
+      config.module.rules.unshift({
+        test: /\.(jpe?g|png|webp)$/,
+        use: [
+          {
+            loader: 'responsive-loader',
+            options: {
+              adapter: require('responsive-loader/sharp'),
+              quality: 50
+            }
+          }
+        ]
+      })
+    },
+    loaders: {
+      vue: {
+        transformAssetUrls: {
+          img: ['src', 'data-src', 'data-srcset'],
+          source: ['src', 'data-srcset']
+        }
+      }
     }
   }
 }

@@ -16,6 +16,7 @@
 
 <script>
 import { options as VTooltipOptions } from 'floating-vue'
+import 'lazysizes'
 
 import HeaderComponent from '@/components/header'
 import DonateComponent from '@/components/donate'

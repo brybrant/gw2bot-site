@@ -1,16 +1,20 @@
 <template>
   <section>
     <div class="page-width page-padding">
-      <nuxt-img
-        loading="lazy"
-        format="webp"
-        quality="75"
-        width="180"
-        height="260"
-        src="/img/logo.png"
-        alt="GW2Bot Logo"
-        :placeholder="[36, 52, 1]"
-      />
+      <picture>
+        <source
+          data-srcset="~/assets/img/logo.png?format=webp"
+          type="image/webp"
+        >
+        <img
+          alt="GW2Bot Logo"
+          class="lazyload"
+          width="180"
+          height="260"
+          src="~/assets/img/logo.png?size=36"
+          data-src="~/assets/img/logo.png"
+        >
+      </picture>
 
       <h2 class="h3">
         About GW2Bot

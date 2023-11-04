@@ -5,15 +5,19 @@
         <h1>Redirecting... <LoadingInlineSVG /></h1>
       </header>
 
-      <nuxt-img
-        format="webp"
-        quality="75"
-        width="320"
-        height="262"
-        src="/img/sleep-quaggan.png"
-        alt=""
-        :placeholder="[160, 131, 1]"
-      />
+      <picture>
+        <source
+          data-srcset="~/assets/img/sleep-quaggan.png?format=webp"
+          type="image/webp"
+        >
+        <img
+          alt=""
+          class="lazyload"
+          width="320"
+          height="262"
+          data-src="~/assets/img/sleep-quaggan.png"
+        >
+      </picture>
     </div>
   </main>
 </template>

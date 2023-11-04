@@ -3,15 +3,19 @@
     <div class="page-width page-padding">
       <h2>Seamless Discord Integration</h2>
 
-      <nuxt-img
-        loading="lazy"
-        format="webp"
-        quality="75"
-        width="308"
-        height="320"
-        src="/img/bear-quaggan.png"
-        alt=""
-      />
+      <picture>
+        <source
+          data-srcset="~/assets/img/bear-quaggan.png?format=webp"
+          type="image/webp"
+        >
+        <img
+          alt=""
+          class="lazyload"
+          width="308"
+          height="320"
+          data-src="~/assets/img/bear-quaggan.png"
+        >
+      </picture>
 
       <p class="h5">
         GW2Bot can be configured to automatically process specific data on your Discord&nbsp;server*

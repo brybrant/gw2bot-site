@@ -1,33 +1,39 @@
 <template>
   <main>
     <div class="feature-media">
-      <nuxt-img
-        preload
-        class="feature-media__media"
-        format="webp"
-        quality="75"
-        width="1920"
-        height="1080"
-        sizes="480:480px 600:600px 720:720px 960:960px 1200:1200px 1440:1440px 1680:1680px 1920:1920px"
-        :src="`/img/feature-images/${featureMedia}.jpg`"
-        alt=""
-        :placeholder="[384, 216, 1]"
-      />
+      <picture class="feature-media__media">
+        <source
+          :data-srcset="require(`~/assets/${featureMedia}.jpg?{sizes:[640,960,1280,1920],format:'webp'}`).srcSet"
+          type="image/webp"
+        >
+        <img
+          alt=""
+          class="lazyload"
+          data-sizes="auto"
+          width="1920"
+          height="1080"
+          :src="require(`~/assets/${featureMedia}.jpg?quality=10&size=384`)"
+          :data-src="require(`~/assets/${featureMedia}.jpg?size=640`)"
+          :data-srcset="require(`~/assets/${featureMedia}.jpg?{sizes:[640,960,1280,1920]}`).srcSet"
+        >
+      </picture>
       <!--<video class="feature-media__media" autoplay loop muted playsinline>
         <source src="@/assets/img/feature-images/Sea_Dragon.mp4" type="video/mp4">
       </video>-->
       <div class="feature-media__content page-width page-padding">
-        <nuxt-img
-          v-if="anniversary"
-          class="birthday-quaggan"
-          format="webp"
-          quality="75"
-          width="308"
-          height="338"
-          src="/img/cake-quaggan.png"
-          alt=""
-          :placeholder="[154, 169, 1]"
-        />
+        <picture v-if="anniversary">
+          <source
+            data-srcset="~/assets/img/cake-quaggan.png?format=webp"
+            type="image/webp"
+          >
+          <img
+            alt=""
+            class="birthday-quaggan lazyload"
+            width="308"
+            height="338"
+            data-src="~/assets/img/cake-quaggan.png"
+          >
+        </picture>
         <h1 class="feature-title">
           {{ anniversary ? `Celebrate ${botAge} Years of&nbsp;GW2Bot!` : 'Bring The World&nbsp;of Tyria Into&nbsp;Discord' }}
         </h1>
@@ -90,7 +96,7 @@ export default {
     return {
       anniversary: currentMonth === 8 && currentDay > 8 && currentDay < 24,
       botAge: currentYear - botBirthday.getFullYear(),
-      featureMedia: featureImages[currentWeek]
+      featureMedia: `img/feature-images/${featureImages[currentWeek]}`
     }
   },
   mounted () {
@@ -135,11 +141,16 @@ export default {
 .feature-media__media {
   position: absolute;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: block;
   filter: brightness(0.666) contrast(0.9);
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .feature-media__content {

@@ -3,15 +3,19 @@
     <div class="page-width page-padding">
       <h2>Stay Connected and&nbsp;Informed</h2>
 
-      <nuxt-img
-        loading="lazy"
-        format="webp"
-        quality="75"
-        width="303"
-        height="340"
-        src="/img/bubble-quaggan.png"
-        alt=""
-      />
+      <picture>
+        <source
+          data-srcset="~/assets/img/bubble-quaggan.png?format=webp"
+          type="image/webp"
+        >
+        <img
+          alt=""
+          class="lazyload"
+          width="303"
+          height="340"
+          data-src="~/assets/img/bubble-quaggan.png"
+        >
+      </picture>
 
       <p class="h5">
         Subscribe to automatic reminders &amp; notifications&nbsp;for effortless&nbsp;engagement

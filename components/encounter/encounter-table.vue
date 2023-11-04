@@ -14,18 +14,20 @@
           title="Sort ascending"
           @click="sortRows(columnName, $event)"
         >
-          <nuxt-img
-            v-if="column.img"
-            loading="lazy"
-            class="table-icon"
-            format="webp"
-            quality="75"
-            width="48"
-            height="48"
-            :src="`/img/icons/${column.img}.png`"
-            :alt="column.label"
-            :title="column.label"
-          />
+          <picture v-if="column.img" class="table-icon">
+            <source
+              :data-srcset="`${require(`~/assets/img/icons/${column.img}.png?size=24&format=webp`)} 1x, ${require(`~/assets/img/icons/${column.img}.png?format=webp`)} 2x`"
+              type="image/webp"
+            >
+            <img
+              :alt="column.label"
+              class="lazyload"
+              width="48"
+              height="48"
+              :data-src="require(`~/assets/img/icons/${column.img}.png?size=24`)"
+              :data-srcset="`${require(`~/assets/img/icons/${column.img}.png`)} 2x`"
+            >
+          </picture>
           <template v-else>
             {{ column.label }}
           </template>
@@ -51,31 +53,33 @@
       </keep-alive>
       <td>{{ player.account }}</td>
       <td>
-        <div class="table-icon">
-          <nuxt-img
-            loading="lazy"
-            class="table-icon"
-            format="webp"
-            quality="75"
+        <picture class="table-icon">
+          <source
+            :data-srcset="`${require(`~/assets/img/professions/${player.profession}.png?size=24&format=webp`)} 1x, ${require(`~/assets/img/professions/${player.profession}.png?format=webp`)} 2x`"
+            type="image/webp"
+          >
+          <img
+            :alt="player.profession"
+            class="lazyload"
             width="48"
             height="48"
-            :src="`/img/professions/${player.profession}.png`"
-            :alt="player.profession"
+            :data-src="require(`~/assets/img/professions/${player.profession}.png?size=24`)"
+            :data-srcset="`${require(`~/assets/img/professions/${player.profession}.png`)} 2x`"
             :title="player.profession"
-          />
-        </div>
+          >
+        </picture>
         {{ player.character }}
-        <template v-for="attribute in player.attributes">
-          <AttributesInlineSVGs
-            :key="`attribute-${attribute}`"
-            v-tooltip="attribute"
-            class="table-icon table-icon--small"
-            :class="{
-              'table-icon--narrow': attribute === 'Healing Power'
-            }"
-            :attribute="attribute"
-          />
-        </template>
+        <div
+          v-for="attribute in player.attributes"
+          :key="`attribute-${attribute}`"
+          class="table-icon table-icon--small"
+          :class="{
+            'table-icon--narrow': attribute === 'Healing Power'
+          }"
+          :title="attribute"
+        >
+          <AttributesInlineSVGs :attribute="attribute" />
+        </div>
       </td>
       <td class="align-right">
         <div class="weapons">
@@ -349,6 +353,14 @@ td {
     color: $grey-1150;
     fill: currentColor;
     stroke: currentColor;
+  }
+  img {
+    width: $baseline-px;
+    height: $baseline-px;
+  }
+  svg {
+    display: inline-block;
+    vertical-align: top;
   }
 }
 

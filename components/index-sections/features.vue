@@ -3,15 +3,19 @@
     <div class="page-width page-padding">
       <h2>The Versatile Guild&nbsp;Wars&nbsp;2 Companion</h2>
 
-      <nuxt-img
-        loading="lazy"
-        format="webp"
-        quality="75"
-        width="308"
-        height="320"
-        src="/img/knight-quaggan.png"
-        alt=""
-      />
+      <picture>
+        <source
+          data-srcset="~/assets/img/knight-quaggan.png?format=webp"
+          type="image/webp"
+        >
+        <img
+          alt=""
+          class="lazyload"
+          width="308"
+          height="320"
+          data-src="~/assets/img/knight-quaggan.png"
+        >
+      </picture>
 
       <p class="h5">
         GW2Bot includes many convenient ways to interact with your account from within&nbsp;Discord

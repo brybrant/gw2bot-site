@@ -100,52 +100,54 @@
           >
             <span class="main-nav__link-name">Support</span>
           </a>
-          <div
-            v-if="$auth.loggedIn"
-            class="main-nav__group"
-            :class="{ active: userMenuActive }"
-          >
-            <button
-              class="main-nav__link"
-              :class="{ active: userMenuActive }"
-              @click="userMenuActive = !userMenuActive"
-            >
-              <span class="main-nav__link-name">
-                <img
-                  class="main-nav__user-image"
-                  :src="`https://cdn.discordapp.com/avatars/${$auth.user.id}/${$auth.user.avatar}.webp?size=64`"
-                ><DropdownInlineSVG />
-              </span>
-            </button>
+          <template v-if="$route.name !== 'login'">
             <div
-              class="main-nav__sub-menu"
+              v-if="$auth.loggedIn"
+              class="main-nav__group"
               :class="{ active: userMenuActive }"
             >
-              <div class="main-nav__user-info small-text">
-                <span class="main-nav__user-name">
-                  {{ $auth.user.global_name }}
-                </span>
-              </div>
-              <NuxtLink
-                to="/logs"
+              <button
                 class="main-nav__link"
-                active-class="active"
-                @click.native="navActive = userMenuActive = false"
+                :class="{ active: userMenuActive }"
+                @click="userMenuActive = !userMenuActive"
               >
-                <span class="main-nav__link-name">Encounter Logs</span>
-              </NuxtLink>
-              <a class="main-nav__link" @click="$auth.logout()">
-                <span class="main-nav__link-name">Logout</span>
-              </a>
+                <span class="main-nav__link-name">
+                  <img
+                    class="main-nav__user-image"
+                    :src="`https://cdn.discordapp.com/avatars/${$auth.user.id}/${$auth.user.avatar}.webp?size=64`"
+                  ><DropdownInlineSVG />
+                </span>
+              </button>
+              <div
+                class="main-nav__sub-menu"
+                :class="{ active: userMenuActive }"
+              >
+                <div class="main-nav__user-info small-text">
+                  <span class="main-nav__user-name">
+                    {{ $auth.user.global_name }}
+                  </span>
+                </div>
+                <NuxtLink
+                  to="/logs"
+                  class="main-nav__link"
+                  active-class="active"
+                  @click.native="navActive = userMenuActive = false"
+                >
+                  <span class="main-nav__link-name">Encounter Logs</span>
+                </NuxtLink>
+                <a class="main-nav__link" @click="$auth.logout()">
+                  <span class="main-nav__link-name">Logout</span>
+                </a>
+              </div>
             </div>
-          </div>
-          <a
-            v-else
-            class="main-nav__link"
-            @click="$auth.loginWith('discord')"
-          >
-            <span class="main-nav__link-name">Login</span>
-          </a>
+            <a
+              v-else
+              class="main-nav__link"
+              @click="$auth.loginWith('discord')"
+            >
+              <span class="main-nav__link-name">Login</span>
+            </a>
+          </template>
         </nav>
       </div>
     </div>
