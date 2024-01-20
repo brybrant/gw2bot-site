@@ -3,7 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import fetch from 'node-fetch'
-import { Long, ObjectID } from 'mongodb'
+import { Long, ObjectId } from 'mongodb'
 
 import bosses from '../assets/js/bossesData'
 
@@ -70,7 +70,7 @@ server.get('/user', async (req, res) => {
 
   // Check if user has previously authenticated
   if (req.cookies.userID && req.cookies.accountName && req.cookies.dpsToken) {
-    const user = await database.getUser(Long(req.cookies.userID), res)
+    const user = await database.getUser(new Long(req.cookies.userID), res)
 
     if (user === 0) { return }
 
@@ -111,7 +111,7 @@ server.get('/user', async (req, res) => {
 
   if (discordUser === 0) { return }
 
-  const userID = Long(discordUser.id)
+  const userID = new Long(discordUser.id)
   const user = await database.getUser(userID, res)
 
   if (user === 0) { return }
@@ -276,7 +276,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 server.post('/encounters/:id', express.json(), async (req, res) => {
-  const encounterId = new ObjectID(req.params.id)
+  const encounterId = new ObjectId(req.params.id)
 
   const validationResult = validateSchema(req.body, encounterSchema)
 

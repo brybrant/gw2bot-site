@@ -38,7 +38,7 @@ export async function authenticate (req, res, next) {
     return
   }
 
-  const user = await database.getUser(Long(userID), res)
+  const user = await database.getUser(new Long(userID), res)
 
   if (user === 0) { return }
 
