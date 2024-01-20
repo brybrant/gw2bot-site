@@ -2,7 +2,11 @@
 import { MongoClient } from 'mongodb'
 
 export const client = new MongoClient(
-  process.env.MONGO_URL || 'mongodb://localhost:27017'
+  `mongodb://${
+    process.env.MONGO_HOST || 'localhost'
+  }:${
+    process.env.MONGO_PORT || '27017'
+  }`
 )
 
 export async function getCollection (collection, res) {
